@@ -1,0 +1,1331 @@
+<div class="wm-main-wrapper" style="min-width:1200px">
+   <!-- ***********************************************   Header   ******************************************* -->
+   <header id="wm-header" class="wm-header-one">
+      <div class="wm-main-header">
+         <div class="container" style="min-width:1140px">
+            <div class="row">
+               <div class="col-md-2">
+                  <a href="#" class="wm-logo" style="margin: 10px 0px 10px 0px;">
+                     <img style="height: 110px;" src="assets/images/logos/SNS-TECH.png" alt="">
+                  </a>
+               </div>
+               <div class="col-sm-8">
+                  <div class="wm-fancy-title" style="margin-bottom:0px;height:150px;line-height:200px;">
+                     <h2 style="font-size:28px"> SNS College of Technology
+                        <br>
+                        <span style="font-size:19px"> Online Application </span>
+                        <br>
+                     </h2>
+                  </div>
+               </div>
+               <div class="col-md-2">
+                  <a href="#" class="wm-logo" style="line-height: 100px; margin: 10px 0px;">
+                     <img src="assets/images/logos/SNS.png" alt="">
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </header>
+   <!-- ***********************************************   Body   ******************************************* -->
+   <div class="wm-main-banner">
+      <div class="container">
+         <div class="row">
+            <div class="col-sm-12">
+               <!--  Mat Steps   -->
+                  <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
+                     <!-- ***********************************************   Basic Info   ******************************************* -->
+                        <mat-step [stepControl]="FormGroup">
+                           <form [formGroup]="FormGroup">
+                              <ng-template matStepLabel> Basic Info </ng-template>
+                              <!--  Row  -->
+                                 <br><br>
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Post_Applied" type="text" size="30" pInputText>
+                                          <label for="float-input"> Post Applied </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Department" type="text" size="30" pInputText>
+                                          <label for="float-input"> Department </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Preferred Subject Header   -->
+                                 <br><br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Preferred Subject </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!--  Preferred Subject Input   -->
+                                 <div class="row" style="margin-left: 0px;">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Preferred_Subject_1" type="text" size="30" pInputText>
+                                          <label for="float-input"> Subject 1 </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Preferred_Subject_2" type="text" size="30" pInputText>
+                                          <label for="float-input"> Subject 2 </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Preferred_Subject_3" type="text" size="30" pInputText>
+                                          <label for="float-input"> Subject 3 </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Preferred Lab Header   -->
+                                 <br><br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Preferred Lab </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!--  Preferred Lab Input   -->
+                                 <div class="row" style="margin-left: 0px;">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Preferred_Lab_1" type="text" size="30" pInputText>
+                                          <label for="float-input"> Lab 1 </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Preferred_Lab_2" type="text" size="30" pInputText>
+                                          <label for="float-input"> Lab 2 </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Next Button  -->
+                                 <br><hr>
+                                 <div>
+                                    <button (click)="Submit_1()" style="float: right;" mat-raised-button color="primary" matStepperNext> Next </button>
+                                 </div>
+                           </form>
+                        </mat-step>
+                     <!-- ***********************************************   Personal Info   ******************************************* -->
+                        <mat-step [stepControl]="firstFormGroup">
+                           <form [formGroup]="firstFormGroup">
+                              <ng-template matStepLabel>personal Info</ng-template>
+                              <!--  Personal Info Row One   -->
+                                 <div class="row" style="padding: 15px 10px 10px 10px;">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Name" type="text" size="30" pInputText>
+                                          <label for="float-input"> Name </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="DOB" (ngModelChange)="CalculateAge($event)" [bsConfig]="bsConfig" bsDatepicker type="text"
+                                             size="30" pInputText>
+                                          <label for="float-input"> Date of Birth</label>
+                                          <mat-datepicker #myDatepicker></mat-datepicker>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Age" type="text" size="30" pInputText>
+                                          <label for="float-input"> Age </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Personal Info Row Two   -->
+                                 <div class="row" style="padding: 15px 10px 10px 10px;">
+                                    <div class="col-sm-4">
+                                       <div class="radio_group">
+                                          <span> Gender : </span>
+                                          <p-radioButton class="radio_button" formControlName="Gender" name="group" value="Male" label="Male" [(ngModel)]="gender"></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="Gender" name="group" value="Female" label="Female" [(ngModel)]="gender"></p-radioButton>
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Blace_of_Birth" type="text" size="30" pInputText>
+                                          <label for="float-input"> Place of birth</label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Nationality" type="text" size="30" pInputText>
+                                          <label for="float-input"> Nationality </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Personal Info Row Three   -->
+                                 <div class="row" style="padding: 15px 10px 10px 10px;">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Religion" type="text" size="30" pInputText>
+                                          <label for="float-input"> Religion </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Community" type="text" size="30" pInputText>
+                                          <label for="float-input"> Community </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Caste" type="text" size="30" pInputText>
+                                          <label for="float-input"> Caste </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Personal Info Row Four   -->
+                                 <div class="row" style="padding: 15px 10px 10px 10px;">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Aadhar_No" type="text" size="30" pInputText>
+                                          <label for="float-input"> Aadhar card number </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PAN_No" type="text" size="30" pInputText>
+                                          <label for="float-input"> PAN Number </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Contact_No" type="text" size="30" pInputText>
+                                          <label for="float-input"> Contact Number </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Personal Info Row Five   -->
+                                 <div class="row" style="padding: 15px 10px 10px 10px;">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Email" type="text" size="30" pInputText>
+                                          <label for="float-input"> Email Id </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Permanent Address Header   -->
+                                 <p style="font-weight: 600; margin-top: 30px;"> Permanent Address : </p>
+                              <!--  Permanent Address Input   -->
+                                 <div class="row" style="padding: 5px 10px 10px 10px; display: inline-flex">
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Permanent_Door_No" type="text" size="30" pInputText>
+                                          <label for="float-input"> Door No </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Permanent_Street" type="text" size="30" pInputText>
+                                          <label for="float-input"> Street </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Permanent_City" type="text" size="30" pInputText>
+                                          <label for="float-input"> City </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Permanent_Pin_Code" type="text" size="30" pInputText>
+                                          <label for="float-input"> Pin Code </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Address Same   -->
+                                 <div class="address_checkBox">
+                                    <p-checkbox binary="true" formControlName="Address_Same" (ngModelChange)="checkAddress($event)" value="Technology" label="Tick if both are same"></p-checkbox>
+                                 </div>
+                              <!--  Present Address Header   -->
+                                 <p style="font-weight: 600; margin-top: 0px;"> Present Address : </p>
+                              <!--  Present Address Input   -->
+                                 <div class="row" style="padding: 5px 10px 10px 10px; display: inline-flex">
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Present_Door_No" type="text" size="30" pInputText>
+                                          <label for="float-input"> Door No </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Present_Street" type="text" size="30" pInputText>
+                                          <label for="float-input"> Street </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Present_City" type="text" size="30" pInputText>
+                                          <label for="float-input"> City </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Present_Pin_Code" type="text" size="30" pInputText>
+                                          <label for="float-input"> Pin Code </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Marital Status   -->
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <div class="radio_group">
+                                          <span> Marital Status : </span>
+                                          <p-radioButton class="radio_button" (click)="Marital_Status_Change()" formControlName="Marital_Status" name="group_1" value="Single" label="Single" [(ngModel)]="mar_status"></p-radioButton>
+                                          <p-radioButton class="radio_button" (click)="Marital_Status_Change()" formControlName="Marital_Status" name="group_1" value="Married" label="Married" [(ngModel)]="mar_status"></p-radioButton>
+                                       </div>
+                                    </div>
+                                 </div>
+                              <!--  Family Details Header   -->
+                                 <div class="row" style="margin-left:30px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Details of family members : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Single Family Details  -->
+                                 <ng-container *ngIf="firstFormGroup.controls['Marital_Status'].value === 'Single'">
+                                    <!-- Single Family Details Table Header  -->
+                                       <div class="row">
+                                          <div class="col-sm-4"></div>
+                                          <div class="col-sm-4">
+                                             <p style="text-align:center;width:100%"> Father </p>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <p style="text-align:center;width:100%"> Mother </p>
+                                          </div>
+                                       </div>
+                                    <!-- Single Family Details Table Name  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-4">
+                                             <p style="text-align:right;width:100%"> Name </p>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Name" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Name" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Single Family Details Table Designation  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-4">
+                                             <p style="text-align:right;width:100%"> Designation </p>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Designation" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Designation" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Single Family Details Table Organization  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-4">
+                                             <p style="text-align:right;width:100%"> Organization </p>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Organization" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Organization" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Single Family Details Table Locality  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-4">
+                                             <p style="text-align:right;width:100%"> Locality </p>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Locality" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Locality" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Single Family Details Table Contact  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-4">
+                                             <p style="text-align:right;width:100%"> Contact Number </p>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Contact_Number" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Contact_Number" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Single Family Details Number of Siblings  -->
+                                       <div class="row" style="margin-left:30px;">
+                                          <div class="col-sm-4" style="margin-bottom: 25px">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="No_Of_Siblings" type="number" max="10" pInputText>
+                                                <label for="float-input"> Number of siblings </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                 </ng-container>
+                              <!-- Married Family Details  -->
+                                 <ng-container *ngIf="firstFormGroup.controls['Marital_Status'].value === 'Married'">
+                                    <!-- Married Family Details Table Header  -->
+                                       <div class="row">
+                                          <div class="col-sm-3"></div>
+                                          <div class="col-sm-3">
+                                             <p style="text-align:center;width:100%"> Father </p>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <p style="text-align:center;width:100%"> Mother </p>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <p style="text-align:center;width:100%"> Spouse </p>
+                                          </div>
+                                       </div>
+                                    <!-- Married Family Details Table Name  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-3">
+                                             <p style="text-align:right;width:100%"> Name </p>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Name" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Name" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Spouse_Name" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Married Family Details Table Designation  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-3">
+                                             <p style="text-align:right;width:100%"> Designation </p>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Designation" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Designation" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Spouse_Designation" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Married Family Details Table Organization  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-3">
+                                             <p style="text-align:right;width:100%"> Organization </p>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Organization" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Organization" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Spouse_Organization" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Married Family Details Table Locality  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-3">
+                                             <p style="text-align:right;width:100%"> Locality </p>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Locality" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Locality" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Spouse_Locality" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Married Family Details Table Contact  -->
+                                       <div class="row" style="margin-bottom:15px;">
+                                          <div class="col-sm-3">
+                                             <p style="text-align:right;width:100%"> Contact Number </p>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Father_Contact_Number" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Mother_Contact_Number" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Spouse_Contact_Number" type="text" size="30" pInputText>
+                                                <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Married Family Details Number of kids  -->
+                                       <div class="row" style="margin-left:30px;">
+                                          <div class="col-sm-4" style="margin-bottom: 25px">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="No_Of_Kids" (ngModelChange)="kids_change($event)" type="number" max="5" pInputText>
+                                                <label for="float-input"> Number of kids </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                 </ng-container>
+                              <!-- Kids  Details  -->
+                                 <ng-container *ngIf="ShowKidsInfo && firstFormGroup.controls['Marital_Status'].value === 'Married'">
+                                    <!-- Kids  Details Header  -->
+                                       <div class="row" style="margin-left:30px;">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Details of kids : </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+                                    <!-- Kids Details Table Header  -->
+                                       <div class="row">
+                                          <div class="col-sm-3" style="flex:20%">
+                                             <p style="text-align:center;width:100%"> Name </p>
+                                          </div>
+                                          <div class="col-sm-3" style="flex:20%">
+                                             <p style="text-align:center;width:100%"> Age </p>
+                                          </div>
+                                          <div class="col-sm-3" style="flex:20%">
+                                             <p style="text-align:center;width:100%"> Gender </p>
+                                          </div>
+                                          <div class="col-sm-3" style="flex:20%">
+                                             <p style="text-align:center;width:100%"> Class / Course </p>
+                                          </div>
+                                          <div class="col-sm-3" style="flex:20%">
+                                             <p style="text-align:center;width:100%"> School / College </p>
+                                          </div>
+                                       </div>
+                                    <!-- Kids Details Table Input Form Array  -->
+                                       <ng-container formArrayName="kids_List">
+                                          <div *ngFor="let item of firstFormGroup['controls'].kids_List['controls']; let i = index;">
+                                             <div [formGroupName]="i" class="row" style="margin-bottom:15px;">
+                                                <div class="col-sm-3" style="flex:20%">
+                                                   <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Kids_Name" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3" style="flex:20%">
+                                                   <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Kids_Age" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3" style="flex:20%">
+                                                   <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Kids_Gender" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3" style="flex:20%">
+                                                   <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Kids_Class_Course" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3" style="flex:20%">
+                                                   <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Kids_School_College" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </ng-container>
+                                 </ng-container>
+                              <!--  Buttons  -->
+                                 <hr style="margin:5px">
+                                 <div>
+                                       <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
+                                       <button (click)="Submit_2()" style="float: right;" mat-raised-button color="primary" matStepperNext>Next</button>
+                                 </div>
+                           </form>
+                        </mat-step>
+                     <!-- ***********************************************   Education Info   ******************************************* -->
+                        <mat-step [stepControl]="secondFormGroup">
+                           <form [formGroup]="secondFormGroup" style="min-height:400px">
+                              <ng-template matStepLabel>Education Info</ng-template>
+                              <!--  S.S.L.C Details Header   -->
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> S.S.L.C Details : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!--  S.S.L.C Details Input   -->
+                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Sslc_School" type="text" size="30" pInputText>
+                                          <label for="float-input"> School Name </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Sslc_Mediam" type="text" size="30" pInputText>
+                                          <label for="float-input"> Medium </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Sslc_Year_Of_Passing" type="text" size="30" pInputText>
+                                          <label for="float-input"> Year of passing </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Sslc_Percentage" type="text" size="30" pInputText>
+                                          <label for="float-input"> Percentage ( %) </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  H.S.C Details Header   -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> H.S.C Details : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!--  H.S.C Details Input   -->
+                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Hsl_School" type="text" size="30" pInputText>
+                                          <label for="float-input"> School Name </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Hsl_Mediam" type="text" size="30" pInputText>
+                                          <label for="float-input"> Medium </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Hsl_Year_Of_Passing" type="text" size="30" pInputText>
+                                          <label for="float-input"> Year of passing </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Hsl_Percentage" type="text" size="30" pInputText>
+                                          <label for="float-input"> Percentage ( %) </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  UG Details Header   -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> UG Details : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!--  UG Details Input   -->
+                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <p-dropdown [options]="UgCourses" formControlName="UG_Course" placeholder="Select Course" optionLabel="name"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="UG_Year_Of_Passing" type="text" size="30" pInputText>
+                                          <label for="float-input"> Year of passing </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="UG_College_Name" type="text" size="30" pInputText>
+                                          <label for="float-input"> College name </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="UG_Percentage" type="text" size="30" pInputText>
+                                          <label for="float-input"> Percentage ( % ) </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="UG_History_of_arrears" type="text" size="30" pInputText>
+                                          <label for="float-input"> History of arrears </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  PG Details Header   -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> PG Details : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!--  PG Details Input   -->
+                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <p-dropdown [options]="PgCourses" formControlName="PG_Course" placeholder="Select Course" optionLabel="name"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PG_Year_Of_Passing" type="text" size="30" pInputText>
+                                          <label for="float-input"> Year of passing </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PG_College_Name" type="text" size="30" pInputText>
+                                          <label for="float-input"> College name </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PG_Percentage" type="text" size="30" pInputText>
+                                          <label for="float-input"> Percentage ( % ) </label>
+                                       </span>
+                                    </div>
+                                       <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PG_History_of_arrears" type="text" size="30" pInputText>
+                                          <label for="float-input"> History of arrears </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--   Ph.d Details Header   -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Ph.d Details : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!--   Ph.d Details Input   -->
+                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <p-dropdown [options]="Phd" formControlName="PHD_Course" placeholder="Status" optionLabel="name"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PHD_Year_Of_completion" type="text" size="30" pInputText>
+                                          <label for="float-input"> Year of completion </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3" style="flex:20%">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PHD_University_Name" type="text" size="30" pInputText>
+                                          <label for="float-input"> University name </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!--  Buttons  -->
+                                 <br><hr>
+                                 <div>
+                                    <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
+                                    <button style="float: right;" (click)="Submit_3()" mat-raised-button color="primary" matStepperNext>Next</button>
+                                 </div>
+                           </form>
+                        </mat-step>
+                     <!-- ***********************************************   Experience & Activities   ******************************************* -->
+                        <mat-step [stepControl]="thirdFormGroup">
+                           <form [formGroup]="thirdFormGroup">
+                              <ng-template matStepLabel>Experience & Activities</ng-template>
+                              <!-- Experience Header -->
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <div class="radio_group">
+                                          <span> Experience : </span>
+                                          <p-radioButton class="radio_button" formControlName="Experience" name="group_2" value="Fresher" label="Fresher" [(ngModel)]="Experience_status"></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="Experience" name="group_2" value="Experienced" label="Experienced" [(ngModel)]="Experience_status"></p-radioButton>
+                                       </div>
+                                    </div>
+                                 </div>
+                              <!-- If Experienced -->
+                                 <ng-container *ngIf="thirdFormGroup.controls['Experience'].value === 'Experienced'">
+                                    <!-- Experienced No of Years -->
+                                       <div class="row" style="margin-top: 20px;">
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Number_Of_Years" type="number" pInputText>
+                                                <label for="float-input"> Number of years </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Experienced Details Header-->
+                                       <br>
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Experience Details : </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+                                    <!-- Experienced Details Field Of Experience-->
+                                       <div class="row" style="margin-bottom:20px;margin-left: 15px;">
+                                          <div class="col-sm-4">
+                                             <span class="ui-float-label">
+                                                <p-dropdown [options]="Experience_Type" formControlName="Field_of_Experience" placeholder="Field of Experience" optionLabel="name"></p-dropdown>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    <!-- Experienced Details Input -->
+                                       <div class="row" style="margin-bottom:15px;margin-left: 15px;">
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Institute" type="text" size="30" pInputText>
+                                                <label for="float-input"> Institute Name</label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Works_Handled" type="text" size="30" pInputText>
+                                                <label for="float-input"> Works Handled </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Subjects_Handled" type="text" size="30" pInputText>
+                                                <label for="float-input"> Subjects Handled </label>
+                                             </span>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Working_Duration" type="text" size="30" [bsConfig]="bsConfig" placement="left" bsDaterangepicker
+                                                pInputText>
+                                                <label for="float-input"> Working Duration </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                 </ng-container>
+                              <!-- Co-curricular Activities Header-->
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Co-curricular Activities : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Workshop 1 Header-->
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Workshop 1 : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Workshop 1 Input-->
+                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <p-dropdown [options]="Attended_As" formControlName="Workshop_Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Workshop_Institute" type="text" size="30" pInputText>
+                                          <label for="float-input"> College name / Organization </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Workshop_Domain" type="text" size="30" pInputText>
+                                          <label for="float-input"> Title / Domain </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!-- Paper Presentation 1 Header-->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Paper Presentation 1 : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Paper Presentation 1 Input-->
+                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <p-dropdown [options]="Attended_As" formControlName="Paper_Presentation_Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Paper_Presentation_Institute" type="text" size="30" pInputText>
+                                          <label for="float-input"> College name </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Paper_Presentation_Domain" type="text" size="30" pInputText>
+                                          <label for="float-input"> Domain </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Paper_Presentation_Title" type="text" size="30" pInputText>
+                                          <label for="float-input"> Title </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!-- Project Presentation 1 Header-->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Project Presentation 1 : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Project Presentation 1 Input-->
+                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <p-dropdown [options]="Attended_As" formControlName="Project_Presentation_Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Project_Presentation_Institute" type="text" size="30" pInputText>
+                                          <label for="float-input"> College name </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Project_Presentation_Domain" type="text" size="30" pInputText>
+                                          <label for="float-input"> Domain </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Project_Presentation_Title" type="text" size="30" pInputText>
+                                          <label for="float-input"> Title </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!-- UG Project 1 Header-->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> UG Project : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- UG Project 1 Input-->
+                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="UG_Project_Domain" type="text" size="30" pInputText>
+                                          <label for="float-input"> Domain </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="UG_Project_Title" type="text" size="30" pInputText>
+                                          <label for="float-input"> Title </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!-- PG Project 1 Header-->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> PG Project : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- PG Project 1 Input-->
+                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PG_Project_Domain" type="text" size="30" pInputText>
+                                          <label for="float-input"> Domain </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="PG_Project_Title" type="text" size="30" pInputText>
+                                          <label for="float-input"> Title </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!-- Pattron 1 Header -->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                    <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Pattron 1 : </p>
+                                    <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Pattron 1 Input -->
+                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Pattron_Domain" type="text" size="30" pInputText>
+                                          <label for="float-input"> Domain </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Pattron_Title" type="text" size="30" pInputText>
+                                          <label for="float-input"> Title </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                              <!-- Other Details Row One -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> What game do you play? </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <textarea style="width: 100%; height:125px" formControlName="Intrested_Game" pInputTextarea autoResize="autoResize"></textarea>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Any special achievements? </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <textarea style="width: 100%; height:125px" formControlName="Achievements" pInputTextarea autoResize="autoResize"></textarea>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              <!-- Other Details Row Two -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> List the activities, which you organized in your previous job </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <textarea style="width: 100%; height:125px" formControlName="Activities" pInputTextarea autoResize="autoResize"></textarea>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Any other special achievements that you may like to mention </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <textarea style="width: 100%; height:125px" formControlName="Special_Achievements" pInputTextarea autoResize="autoResize"></textarea>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              <!-- Join Time -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Time required to join </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                          <div class="col-sm-11" style="margin-left: 15px">
+                                             <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Joining_Time" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              <!-- Expect Salary -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-6">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Expected Salary </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                          <div class="col-sm-11" style="margin-left: 15px">
+                                             <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Expected_Salary" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              <!-- Buttons -->
+                                 <br><hr>
+                                 <div>
+                                    <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
+                                    <button (click)="Submit_4()" style="float: right;" mat-raised-button color="primary" matStepperNext>Next</button>
+                                 </div>
+                           </form>
+                        </mat-step>
+                     <!-- ***********************************************   Reference & Declaration   ******************************************* -->
+                        <mat-step [stepControl]="fourthFormGroup">
+                           <form [formGroup]="fourthFormGroup">
+                              <ng-template matStepLabel> Reference & Declaration </ng-template>
+                              <!-- Reference Header -->
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Reference : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Reference Details -->
+                              <ng-container>
+                                 <!-- Reference Details Table Header -->
+                                    <div class="row">
+                                       <div class="col-sm-2"></div>
+                                       <div class="col-sm-4">
+                                          <p style="text-align:center;width:100%"> Reference 1 </p>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <p style="text-align:center;width:100%"> Reference 2 </p>
+                                       </div>
+                                    </div>
+                                 <!-- Reference Details Table Name -->
+                                    <div class="row" style="margin-bottom:15px;">
+                                       <div class="col-sm-2">
+                                          <p style="text-align:right;width:100%"> Name </p>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference1_Name" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference2_Name" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                    </div>
+                                 <!-- Reference Details Table Designation -->
+                                    <div class="row" style="margin-bottom:15px;">
+                                       <div class="col-sm-2">
+                                          <p style="text-align:right;width:100%"> Designation </p>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference1_Designation" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference2_Designation" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                    </div>
+                                 <!-- Reference Details Table Organization -->
+                                    <div class="row" style="margin-bottom:15px;">
+                                       <div class="col-sm-2">
+                                          <p style="text-align:right;width:100%"> Organization </p>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference1_Organization" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference2_Organization" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                    </div>
+                                 <!-- Reference Details Table Contact -->
+                                    <div class="row" style="margin-bottom:15px;">
+                                       <div class="col-sm-2">
+                                          <p style="text-align:right;width:100%"> Contact Number </p>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference1_Contact_Number" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference2_Contact_Number" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                    </div>
+                                 <!-- Reference Details Table Email -->
+                                    <div class="row" style="margin-bottom:15px;">
+                                       <div class="col-sm-2">
+                                          <p style="text-align:right;width:100%"> Email Id </p>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference1_Email_Id" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Reference2_Email_Id" type="text" size="30" pInputText>
+                                             <label for="float-input"> </label>
+                                          </span>
+                                       </div>
+                                    </div>
+                                 <!-- Declarationl -->
+                                    <div class="row">
+                                       <div class="col-sm-12">
+                                          <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Declaration </p>
+                                          <hr style="border-style: dashed;border-color: #999;">
+                                       </div>
+                                       <div class="col-sm-12">
+                                          <p style="text-align: justify;font-size: 15px;font-weight: 500;color: #999;padding-left: 30px;">
+                                             &emsp; &emsp; I herely declare that the particulare furnished alone is genuine. It have not concealed any information likely
+                                             to inpair my fitness for employment. It it is revealed later that I have false details or concealed
+                                             material information, my services shall be liable to summary, termination without any notice or compensation.
+                                          </p>
+                                       </div>
+                                    </div>
+                                 <!-- Place, Date & Signature -->
+                                    <br><br><br>
+                                    <div class="row">
+                                       <div class="col-sm-6">
+                                          <div class="row">
+                                             <div class="col-sm-6">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Place" type="text" size="30" pInputText>
+                                                   <label for="float-input"> Place </label>
+                                                </span>
+                                             </div>
+                                          </div>
+                                          <div class="row" style="margin-top:10px">
+                                             <div class="col-sm-6">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Date" placement="top" [bsConfig]="bsConfig" bsDatepicker type="text"
+                                                      size="30" pInputText>
+                                                   <label for="float-input"> Date </label>
+                                                </span>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="col-sm-6" style="text-align: right">
+                                          <p style="width:100%;margin-top: 50px; padding-right: 50px;">
+                                             <b> (Signature) </b>
+                                          </p>
+                                       </div>
+                                    </div>
+                              </ng-container>
+                              <!-- Buttons -->
+                                 <hr>
+                                 <div>
+                                    <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
+                                    <button (click)="Submit()" style="float: right;" mat-raised-button color="primary" matStepperNext> Submit </button>
+                                 </div>
+                           </form>
+                        </mat-step>
+                  </mat-horizontal-stepper>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,25 @@
+.wm-box-service ul li:hover .wm-box-service-wrap{
+    box-shadow: 0px 1px 20px rgba(155, 25, 46, 0.53);
+    cursor: pointer;
+}
+.wm-box-service-wrap{
+    border: 1px solid #f1485052;
+}
+.wm-bgcolor{
+    background-color: #ee1e24;
+}
+.wm-fancy-title h2{
+    color: #ee1e24;
+}
+.wm-fancy-title h2 span{
+    color: #f58220;
+}
+.wm-color{
+    color: #f58220;
+}
+.wm-service-icon:before{
+    background-color: #ee1e24;
+}
+.wm-fancy-title h2:before{
+    background-image: none
+}
