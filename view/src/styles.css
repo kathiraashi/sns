@@ -61,3 +61,28 @@
 .ui-dropdown-panel .ui-dropdown-item{
     border-radius: 0px;
 }
+
+
+
+
+.ui-float-label>label span {
+    color: #ff7500;
+}
+.Required_Field~ label {
+    color: red !important;
+}
+.Required_Field{
+    border-color: red !important;
+}
+.ui-float-label input.ng-dirty.ng-invalid ~ label{
+    color: red !important;
+}
+.ui-float-label input.ng-dirty.ng-invalid{
+    border-color: red !important;
+}
+p-dropdown.Required_Field .ui-dropdown{
+    border-color: red !important;
+}
+p-dropdown.Required_Field .ui-dropdown label{
+    color: red !important;
+}

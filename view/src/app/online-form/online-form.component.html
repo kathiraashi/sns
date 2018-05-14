@@ -29,13 +29,13 @@
    </header>
    <!-- ***********************************************   Body   ******************************************* -->
    <div class="wm-main-banner">
-      <div class="container">
+      <div class="container" style="min-width:1140px">
          <div class="row">
             <div class="col-sm-12">
                <!--  Mat Steps   -->
                   <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
-                     <!-- ***********************************************   Basic Info   ******************************************* -->
-                        <mat-step [stepControl]="FormGroup">
+                     <!-- ***********************************************   Basic Info  [stepControl]="FormGroup" ******************************************* -->
+                        <mat-step >
                            <form [formGroup]="FormGroup">
                               <ng-template matStepLabel> Basic Info </ng-template>
                               <!--  Row  -->
@@ -43,14 +43,14 @@
                                  <div class="row">
                                     <div class="col-sm-6">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Post_Applied" type="text" size="30" pInputText>
-                                          <label for="float-input"> Post Applied </label>
+                                          <input id="float-input" formControlName="Post_Applied" type="text" pInputText [ngClass]="{'Required_Field':FormGroup['controls'].Post_Applied.status === 'INVALID' && FormGroup_Clicked}">
+                                          <label for="float-input"> Post Applied <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-6">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Department" type="text" size="30" pInputText>
-                                          <label for="float-input"> Department </label>
+                                          <input id="float-input" formControlName="Department" type="text" pInputText [ngClass]="{'Required_Field':FormGroup['controls'].Department.status === 'INVALID' && FormGroup_Clicked}">
+                                          <label for="float-input"> Department <span>* </span> </label>
                                        </span>
                                     </div>
                                  </div>
@@ -66,19 +66,19 @@
                                  <div class="row" style="margin-left: 0px;">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Preferred_Subject_1" type="text" size="30" pInputText>
-                                          <label for="float-input"> Subject 1 </label>
+                                          <input id="float-input" formControlName="Preferred_Subject_1" type="text" pInputText [ngClass]="{'Required_Field':FormGroup['controls'].Preferred_Subject_1.status === 'INVALID' && FormGroup_Clicked}">
+                                          <label for="float-input"> Subject 1 <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Preferred_Subject_2" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Preferred_Subject_2" type="text" pInputText>
                                           <label for="float-input"> Subject 2 </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Preferred_Subject_3" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Preferred_Subject_3" type="text" pInputText>
                                           <label for="float-input"> Subject 3 </label>
                                        </span>
                                     </div>
@@ -95,13 +95,13 @@
                                  <div class="row" style="margin-left: 0px;">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Preferred_Lab_1" type="text" size="30" pInputText>
-                                          <label for="float-input"> Lab 1 </label>
+                                          <input id="float-input" formControlName="Preferred_Lab_1" type="text" pInputText [ngClass]="{'Required_Field':FormGroup['controls'].Preferred_Lab_1.status === 'INVALID' && FormGroup_Clicked}">
+                                          <label for="float-input"> Lab 1 <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Preferred_Lab_2" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Preferred_Lab_2" type="text" pInputText>
                                           <label for="float-input"> Lab 2 </label>
                                        </span>
                                     </div>
@@ -113,30 +113,30 @@
                                  </div>
                            </form>
                         </mat-step>
-                     <!-- ***********************************************   Personal Info   ******************************************* -->
-                        <mat-step [stepControl]="firstFormGroup">
+                     <!-- ***********************************************   Personal Info  [stepControl]="firstFormGroup" ******************************************* -->
+                        <mat-step> 
                            <form [formGroup]="firstFormGroup">
                               <ng-template matStepLabel>personal Info</ng-template>
                               <!--  Personal Info Row One   -->
                                  <div class="row" style="padding: 15px 10px 10px 10px;">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Name" type="text" size="30" pInputText>
-                                          <label for="float-input"> Name </label>
+                                          <input id="float-input" formControlName="Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Name.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Name <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
                                           <input id="float-input" formControlName="DOB" (ngModelChange)="CalculateAge($event)" [bsConfig]="bsConfig" bsDatepicker type="text"
-                                             size="30" pInputText>
-                                          <label for="float-input"> Date of Birth</label>
+                                             pInputText (keypress)="_keyPress($event)" [ngClass]="{'Required_Field':firstFormGroup['controls'].DOB.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Date of Birth <span>* </span> </label>
                                           <mat-datepicker #myDatepicker></mat-datepicker>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Age" type="text" size="30" pInputText>
-                                          <label for="float-input"> Age </label>
+                                          <input id="float-input" formControlName="Age" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Age.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Age <span>* </span> </label>
                                        </span>
                                     </div>
                                  </div>
@@ -151,14 +151,14 @@
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Blace_of_Birth" type="text" size="30" pInputText>
-                                          <label for="float-input"> Place of birth</label>
+                                          <input id="float-input" formControlName="Blace_of_Birth" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Blace_of_Birth.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Place of birth <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Nationality" type="text" size="30" pInputText>
-                                          <label for="float-input"> Nationality </label>
+                                          <input id="float-input" formControlName="Nationality" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Nationality.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Nationality <span>* </span> </label>
                                        </span>
                                     </div>
                                  </div>
@@ -166,20 +166,20 @@
                                  <div class="row" style="padding: 15px 10px 10px 10px;">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Religion" type="text" size="30" pInputText>
-                                          <label for="float-input"> Religion </label>
+                                          <input id="float-input" formControlName="Religion" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Religion.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Religion <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Community" type="text" size="30" pInputText>
-                                          <label for="float-input"> Community </label>
+                                          <input id="float-input" formControlName="Community" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Community.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Community <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Caste" type="text" size="30" pInputText>
-                                          <label for="float-input"> Caste </label>
+                                          <input id="float-input" formControlName="Caste" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Caste.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Caste <span>* </span> </label>
                                        </span>
                                     </div>
                                  </div>
@@ -187,30 +187,30 @@
                                  <div class="row" style="padding: 15px 10px 10px 10px;">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Aadhar_No" type="text" size="30" pInputText>
-                                          <label for="float-input"> Aadhar card number </label>
+                                          <input id="float-input" formControlName="Aadhar_No" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Aadhar_No.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Aadhar card number <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PAN_No" type="text" size="30" pInputText>
-                                          <label for="float-input"> PAN Number </label>
-                                       </span>
+                                          <span class="ui-float-label">
+                                                <input id="float-input" formControlName="Email" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Email.status === 'INVALID' && firstFormGroup_Clicked}">
+                                                <label for="float-input"> Email Id <span>* </span> </label>
+                                          </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Contact_No" type="text" size="30" pInputText>
-                                          <label for="float-input"> Contact Number </label>
+                                          <input id="float-input" formControlName="Contact_No" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Contact_No.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Contact Number <span>* </span> </label>
                                        </span>
                                     </div>
                                  </div>
                               <!--  Personal Info Row Five   -->
                                  <div class="row" style="padding: 15px 10px 10px 10px;">
                                     <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Email" type="text" size="30" pInputText>
-                                          <label for="float-input"> Email Id </label>
-                                       </span>
+                                          <span class="ui-float-label">
+                                                <input id="float-input" formControlName="PAN_No" type="text" pInputText>
+                                                <label for="float-input"> PAN Number </label>
+                                          </span>
                                     </div>
                                  </div>
                               <!--  Permanent Address Header   -->
@@ -219,32 +219,37 @@
                                  <div class="row" style="padding: 5px 10px 10px 10px; display: inline-flex">
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Permanent_Door_No" type="text" size="30" pInputText>
-                                          <label for="float-input"> Door No </label>
+                                          <input id="float-input" formControlName="Permanent_Door_No" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Permanent_Door_No.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Door No <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Permanent_Street" type="text" size="30" pInputText>
-                                          <label for="float-input"> Street </label>
+                                          <input id="float-input" formControlName="Permanent_Street" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Permanent_Street.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Street <span>* </span> </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Permanent_City" type="text" size="30" pInputText>
-                                          <label for="float-input"> City </label>
+                                          <input id="float-input" formControlName="Permanent_City" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Permanent_City.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> City <span>* </span></label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Permanent_Pin_Code" type="text" size="30" pInputText>
-                                          <label for="float-input"> Pin Code </label>
+                                          <p-dropdown [options]="States" formControlName="Permanent_Sate" placeholder="State *" optionLabel="name" [ngClass]="{'Required_Field':firstFormGroup['controls'].Permanent_Sate.status === 'INVALID' && firstFormGroup_Clicked}"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Permanent_Pin_Code" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Permanent_Pin_Code.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Pin Code <span>* </span></label>
                                        </span>
                                     </div>
                                  </div>
                               <!--  Address Same   -->
                                  <div class="address_checkBox">
-                                    <p-checkbox binary="true" formControlName="Address_Same" (ngModelChange)="checkAddress($event)" value="Technology" label="Tick if both are same"></p-checkbox>
+                                    <p-checkbox binary="true" formControlName="Address_Same" (ngModelChange)="checkAddress($event)" label="Tick if both are same"></p-checkbox>
                                  </div>
                               <!--  Present Address Header   -->
                                  <p style="font-weight: 600; margin-top: 0px;"> Present Address : </p>
@@ -252,26 +257,31 @@
                                  <div class="row" style="padding: 5px 10px 10px 10px; display: inline-flex">
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Present_Door_No" type="text" size="30" pInputText>
-                                          <label for="float-input"> Door No </label>
+                                          <input id="float-input" formControlName="Present_Door_No" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Present_Door_No.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Door No <span>* </span></label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Present_Street" type="text" size="30" pInputText>
-                                          <label for="float-input"> Street </label>
+                                          <input id="float-input" formControlName="Present_Street" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Present_Street.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Street <span>* </span></label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Present_City" type="text" size="30" pInputText>
-                                          <label for="float-input"> City </label>
+                                          <input id="float-input" formControlName="Present_City" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Present_City.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> City <span>* </span></label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Present_Pin_Code" type="text" size="30" pInputText>
-                                          <label for="float-input"> Pin Code </label>
+                                          <p-dropdown [(ngModel)]="PresentSate" [options]="States" formControlName="Present_Sate" placeholder="State *" optionLabel="name" [ngClass]="{'Required_Field':firstFormGroup['controls'].Present_Sate.status === 'INVALID' && firstFormGroup_Clicked}"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-bottom: 25px">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Present_Pin_Code" type="text" (keypress)="_keyPress($event)" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Present_Pin_Code.status === 'INVALID' && firstFormGroup_Clicked}">
+                                          <label for="float-input"> Pin Code <span>* </span></label>
                                        </span>
                                     </div>
                                  </div>
@@ -307,17 +317,17 @@
                                     <!-- Single Family Details Table Name  -->
                                        <div class="row" style="margin-bottom:15px;">
                                           <div class="col-sm-4">
-                                             <p style="text-align:right;width:100%"> Name </p>
+                                             <p style="text-align:right;width:100%"> Name <span style="color: #ff7500"> * </span> </p>
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Name" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Father_Name.status === 'INVALID' && firstFormGroup_Clicked}">
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Name" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Mother_Name.status === 'INVALID' && firstFormGroup_Clicked}">
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -329,13 +339,13 @@
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Designation" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Designation" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Designation" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Designation" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -347,13 +357,13 @@
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Organization" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Organization" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Organization" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Organization" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -361,35 +371,17 @@
                                     <!-- Single Family Details Table Locality  -->
                                        <div class="row" style="margin-bottom:15px;">
                                           <div class="col-sm-4">
-                                             <p style="text-align:right;width:100%"> Locality </p>
+                                             <p style="text-align:right;width:100%"> Location </p>
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Locality" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Locality" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-4">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Locality" type="text" size="30" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Single Family Details Table Contact  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-4">
-                                             <p style="text-align:right;width:100%"> Contact Number </p>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Contact_Number" type="text" size="30" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Contact_Number" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Locality" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -398,7 +390,7 @@
                                        <div class="row" style="margin-left:30px;">
                                           <div class="col-sm-4" style="margin-bottom: 25px">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="No_Of_Siblings" type="number" max="10" pInputText>
+                                                <input id="float-input" formControlName="No_Of_Siblings" type="text" (keypress)="_keyPress($event)" max="10" pInputText>
                                                 <label for="float-input"> Number of siblings </label>
                                              </span>
                                           </div>
@@ -422,23 +414,23 @@
                                     <!-- Married Family Details Table Name  -->
                                        <div class="row" style="margin-bottom:15px;">
                                           <div class="col-sm-3">
-                                             <p style="text-align:right;width:100%"> Name </p>
+                                             <p style="text-align:right;width:100%"> Name <span style="color: #ff7500"> * </span> </p>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Name" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Father_Name.status === 'INVALID' && firstFormGroup_Clicked}">
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Name" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Mother_Name.status === 'INVALID' && firstFormGroup_Clicked}">
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Name" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Spouse_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Spouse_Name.value === '' && firstFormGroup_Clicked}">
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -450,19 +442,19 @@
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Designation" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Designation" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Designation" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Designation" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Designation" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Spouse_Designation" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -474,19 +466,19 @@
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Organization" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Organization" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Organization" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Organization" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Organization" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Spouse_Organization" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -494,47 +486,23 @@
                                     <!-- Married Family Details Table Locality  -->
                                        <div class="row" style="margin-bottom:15px;">
                                           <div class="col-sm-3">
-                                             <p style="text-align:right;width:100%"> Locality </p>
+                                             <p style="text-align:right;width:100%"> Location </p>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Locality" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Father_Locality" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Locality" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Mother_Locality" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Locality" type="text" size="30" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Married Family Details Table Contact  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-3">
-                                             <p style="text-align:right;width:100%"> Contact Number </p>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Contact_Number" type="text" size="30" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Contact_Number" type="text" size="30" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Contact_Number" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Spouse_Locality" type="text" pInputText>
                                                 <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -543,7 +511,7 @@
                                        <div class="row" style="margin-left:30px;">
                                           <div class="col-sm-4" style="margin-bottom: 25px">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="No_Of_Kids" (ngModelChange)="kids_change($event)" type="number" max="5" pInputText>
+                                                <input id="float-input" formControlName="No_Of_Kids" (ngModelChange)="kids_change($event)" type="text" (keypress)="_keyPress($event)" max="5" pInputText>
                                                 <label for="float-input"> Number of kids </label>
                                              </span>
                                           </div>
@@ -582,19 +550,19 @@
                                              <div [formGroupName]="i" class="row" style="margin-bottom:15px;">
                                                 <div class="col-sm-3" style="flex:20%">
                                                    <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_Name" type="text" pInputText>
+                                                   <input id="float-input" formControlName="Kids_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Name.status === 'INVALID' && firstFormGroup_Clicked}">
                                                    <label for="float-input"> </label>
                                                    </span>
                                                 </div>
                                                 <div class="col-sm-3" style="flex:20%">
                                                    <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_Age" type="text" pInputText>
+                                                   <input id="float-input" formControlName="Kids_Age" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Age.status === 'INVALID' && firstFormGroup_Clicked}">
                                                    <label for="float-input"> </label>
                                                    </span>
                                                 </div>
                                                 <div class="col-sm-3" style="flex:20%">
                                                    <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_Gender" type="text" pInputText>
+                                                   <input id="float-input" formControlName="Kids_Gender" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Gender.status === 'INVALID' && firstFormGroup_Clicked}">
                                                    <label for="float-input"> </label>
                                                    </span>
                                                 </div>
@@ -626,40 +594,223 @@
                         <mat-step [stepControl]="secondFormGroup">
                            <form [formGroup]="secondFormGroup" style="min-height:400px">
                               <ng-template matStepLabel>Education Info</ng-template>
-                              <!--  S.S.L.C Details Header   -->
+                              <!--   TABLE FOR DEGREE DETAILS   -->
+                                 <table class="edu_table">
+                                    <!--   Table Headings  -->
+                                       <thead>
+                                             <tr class="edu_table_heading">
+                                                <td style="width: 120px;"> Degree</td>
+                                                <td> Subject and Area of Specialization	</td>
+                                                <td style="width: 210px;"> Name of the College</td>
+                                                <td style="width: 140px;"> Year of Passing </td>
+                                                <td style="width: 202px;"> Percentage of Mark and Class</td>
+                                                <td style="width: 100px;"> Medium </td>
+                                             </tr>
+                                       </thead>
+                                    <!--   Table Body  -->
+                                       <tbody>
+                                          <!--  Table UG Input row  -->
+                                             <tr class="edu_table_body">
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="UgCourses" formControlName="UG_Course" placeholder="Course" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Departments" formControlName="UG_Department" placeholder="Department" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="UG_College_Name" type="text" pInputText>
+                                                      <label for="float-input"> College Name </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="UG_Year_Of_Passing" type="text" pInputText (keypress)="_keyPress($event)">
+                                                      <label for="float-input"> Year of passing </label>
+                                                   </span>
+                                                </td>
+                                                <td style="display:inline-flex">
+                                                   <div style="flex:48%;margin-right:2%">
+                                                      <span class="ui-float-label">
+                                                         <input id="float-input" formControlName="UG_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
+                                                         <label for="float-input"> Marks (%) </label>
+                                                      </span>
+                                                   </div>
+                                                   <div style="flex:48%; margin-left:2%">
+                                                      <span class="ui-float-label">
+                                                         <p-dropdown [options]="Grade_Class" formControlName="UG_Class" placeholder="Class" optionLabel="name"></p-dropdown>
+                                                      </span>
+                                                   </div>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Medium" formControlName="UG_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                          <!--  Table PG Input row  -->
+                                             <tr class="edu_table_body">
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="PgCourses" formControlName="PG_Course" placeholder="Course" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Departments" formControlName="PG_Department" placeholder="Department" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="PG_College_Name" type="text" pInputText>
+                                                      <label for="float-input"> College Name </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="PG_Year_Of_Passing" type="text" pInputText (keypress)="_keyPress($event)">
+                                                      <label for="float-input"> Year of passing </label>
+                                                   </span>
+                                                </td>
+                                                <td style="display:inline-flex">
+                                                   <div style="flex:48%;margin-right:2%">
+                                                      <span class="ui-float-label">
+                                                         <input id="float-input" formControlName="PG_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
+                                                         <label for="float-input"> Marks (%) </label>
+                                                      </span>
+                                                   </div>
+                                                   <div style="flex:48%; margin-left:2%">
+                                                      <span class="ui-float-label">
+                                                         <p-dropdown [options]="Grade_Class" formControlName="PG_Class" placeholder="Class" optionLabel="name"></p-dropdown>
+                                                      </span>
+                                                   </div>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Medium" formControlName="PG_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                          <!--  Table Mphil Input row  -->
+                                             <tr class="edu_table_body">
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="MphilCourses" formControlName="Mphil_Course" placeholder="Course" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Departments" formControlName="Mphil_Department" placeholder="Department" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Mphil_College_Name" type="text" pInputText>
+                                                      <label for="float-input"> College Name </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Mphil_Year_Of_Passing" type="text" pInputText (keypress)="_keyPress($event)">
+                                                      <label for="float-input"> Year of passing </label>
+                                                   </span>
+                                                </td>
+                                                <td style="display:inline-flex">
+                                                   <div style="flex:48%;margin-right:2%">
+                                                      <span class="ui-float-label">
+                                                         <input id="float-input" formControlName="Mphil_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
+                                                         <label for="float-input"> Marks (%) </label>
+                                                      </span>
+                                                   </div>
+                                                   <div style="flex:48%; margin-left:2%">
+                                                      <span class="ui-float-label">
+                                                         <p-dropdown [options]="Grade_Class" formControlName="Mphil_Class" placeholder="Class" optionLabel="name"></p-dropdown>
+                                                      </span>
+                                                   </div>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Medium" formControlName="Mphil_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                          <!--  Table PHD Input row  -->
+                                             <tr class="edu_table_body">
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="PhdCourses" formControlName="PHD_Course" placeholder="Course" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Departments" formControlName="PHD_Department" placeholder="Department" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="PHD_College_Name" type="text" pInputText>
+                                                      <label for="float-input"> College Name </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="PHD_Year_Of_Passing" type="text" pInputText (keypress)="_keyPress($event)">
+                                                      <label for="float-input"> Year of passing </label>
+                                                   </span>
+                                                </td>
+                                                <td style="display:inline-flex">
+                                                   <div style="flex:48%;margin-right:2%">
+                                                      <span class="ui-float-label">
+                                                         <input id="float-input" formControlName="PHD_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
+                                                         <label for="float-input"> Marks (%) </label>
+                                                      </span>
+                                                   </div>
+                                                   <div style="flex:48%; margin-left:2%">
+                                                      <span class="ui-float-label">
+                                                         <p-dropdown [options]="Grade_Class" formControlName="PHD_Class" placeholder="Class" optionLabel="name"></p-dropdown>
+                                                      </span>
+                                                   </div>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Medium" formControlName="PHD_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                             <tr>
+                                                <td colspan="7"> 
+                                                   <p style="margin: 0px;font-size: 14px;color: #999;padding-top: 20px; padding-left: 15px;"> *  FwD = First Class with Distinction. </p>  
+                                                </td>
+                                             </tr>
+                                       </tbody>
+                                 </table>
+
+                                 <!-- Chennai Guide ship -->
+                                 <br>
                                  <div class="row">
                                     <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> S.S.L.C Details : </p>
-                                       <hr style="border-style: dashed;border-color: #999;">
+                                       <div class="radio_group">
+                                          <span> If Completed PhD, do you have Anna University, Chennai Guide ship? </span>
+                                          <p-radioButton class="radio_button" formControlName="Chennai_Guide_ship" name="group_3" value="Yes" label="Yes" [(ngModel)]="ChennaiGuideShip"></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="Chennai_Guide_ship" name="group_3" value="No" label="No" [(ngModel)]="ChennaiGuideShip"></p-radioButton>
+                                       </div>
                                     </div>
                                  </div>
-                              <!--  S.S.L.C Details Input   -->
-                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Sslc_School" type="text" size="30" pInputText>
-                                          <label for="float-input"> School Name </label>
-                                       </span>
+                                 <ng-container *ngIf="secondFormGroup.controls['Chennai_Guide_ship'].value === 'Yes' ">
+                                    <div class="row" style="margin-top:15px;margin-left: 0px">
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Chennai_Guide_ship_No" type="text" pInputText>
+                                             <label for="float-input"> Recognition Number </label>
+                                          </span>
+                                       </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Sslc_Mediam" type="text" size="30" pInputText>
-                                          <label for="float-input"> Medium </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Sslc_Year_Of_Passing" type="text" size="30" pInputText>
-                                          <label for="float-input"> Year of passing </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Sslc_Percentage" type="text" size="30" pInputText>
-                                          <label for="float-input"> Percentage ( %) </label>
-                                       </span>
-                                    </div>
-                                 </div>
+                                 </ng-container>
+                                 
                               <!--  H.S.C Details Header   -->
                                  <br>
                                  <div class="row">
@@ -672,134 +823,58 @@
                                  <div class="row" style="margin-bottom:15px;margin-left: 0px">
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Hsl_School" type="text" size="30" pInputText>
-                                          <label for="float-input"> School Name </label>
+                                          <input id="float-input" formControlName="Hsl_School" type="text" pInputText>
+                                          <label for="float-input"> Name of the School </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Hsl_Mediam" type="text" size="30" pInputText>
-                                          <label for="float-input"> Medium </label>
+                                          <p-dropdown [options]="Medium" formControlName="Hsl_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Hsl_Year_Of_Passing" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Hsl_Year_Of_Passing" (keypress)="_keyPress($event)" type="text" pInputText>
                                           <label for="float-input"> Year of passing </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Hsl_Percentage" type="text" size="30" pInputText>
-                                          <label for="float-input"> Percentage ( %) </label>
+                                          <input id="float-input" formControlName="Hsl_Percentage" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> Percentage (%) of Mark </label>
                                        </span>
                                     </div>
                                  </div>
-                              <!--  UG Details Header   -->
-                                 <br>
+                              <!--  S.S.L.C Details Header   -->
                                  <div class="row">
                                     <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> UG Details : </p>
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> S.S.L.C Details : </p>
                                        <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!--  UG Details Input   -->
+                              <!--  S.S.L.C Details Input   -->
                                  <div class="row" style="margin-bottom:15px;margin-left: 0px">
-                                    <div class="col-sm-3" style="flex:20%">
+                                    <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <p-dropdown [options]="UgCourses" formControlName="UG_Course" placeholder="Select Course" optionLabel="name"></p-dropdown>
+                                          <input id="float-input" formControlName="Sslc_School" type="text" pInputText>
+                                          <label for="float-input"> Name of the School </label>
                                        </span>
                                     </div>
-                                    <div class="col-sm-3" style="flex:20%">
+                                    <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_Year_Of_Passing" type="text" size="30" pInputText>
+                                          <p-dropdown [options]="Medium" formControlName="Sslc_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="Sslc_Year_Of_Passing" (keypress)="_keyPress($event)" type="text" pInputText>
                                           <label for="float-input"> Year of passing </label>
                                        </span>
                                     </div>
-                                    <div class="col-sm-3" style="flex:20%">
+                                    <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_College_Name" type="text" size="30" pInputText>
-                                          <label for="float-input"> College name </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_Percentage" type="text" size="30" pInputText>
-                                          <label for="float-input"> Percentage ( % ) </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_History_of_arrears" type="text" size="30" pInputText>
-                                          <label for="float-input"> History of arrears </label>
-                                       </span>
-                                    </div>
-                                 </div>
-                              <!--  PG Details Header   -->
-                                 <br>
-                                 <div class="row">
-                                    <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> PG Details : </p>
-                                       <hr style="border-style: dashed;border-color: #999;">
-                                    </div>
-                                 </div>
-                              <!--  PG Details Input   -->
-                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <p-dropdown [options]="PgCourses" formControlName="PG_Course" placeholder="Select Course" optionLabel="name"></p-dropdown>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_Year_Of_Passing" type="text" size="30" pInputText>
-                                          <label for="float-input"> Year of passing </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_College_Name" type="text" size="30" pInputText>
-                                          <label for="float-input"> College name </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_Percentage" type="text" size="30" pInputText>
-                                          <label for="float-input"> Percentage ( % ) </label>
-                                       </span>
-                                    </div>
-                                       <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_History_of_arrears" type="text" size="30" pInputText>
-                                          <label for="float-input"> History of arrears </label>
-                                       </span>
-                                    </div>
-                                 </div>
-                              <!--   Ph.d Details Header   -->
-                                 <br>
-                                 <div class="row">
-                                    <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Ph.d Details : </p>
-                                       <hr style="border-style: dashed;border-color: #999;">
-                                    </div>
-                                 </div>
-                              <!--   Ph.d Details Input   -->
-                                 <div class="row" style="margin-bottom:15px;margin-left: 0px">
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <p-dropdown [options]="Phd" formControlName="PHD_Course" placeholder="Status" optionLabel="name"></p-dropdown>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PHD_Year_Of_completion" type="text" size="30" pInputText>
-                                          <label for="float-input"> Year of completion </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3" style="flex:20%">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PHD_University_Name" type="text" size="30" pInputText>
-                                          <label for="float-input"> University name </label>
+                                          <input id="float-input" formControlName="Sslc_Percentage" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> Percentage (%) of Mark</label>
                                        </span>
                                     </div>
                                  </div>
@@ -856,25 +931,25 @@
                                        <div class="row" style="margin-bottom:15px;margin-left: 15px;">
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Institute" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Institute" type="text" pInputText>
                                                 <label for="float-input"> Institute Name</label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Works_Handled" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Works_Handled" type="text" pInputText>
                                                 <label for="float-input"> Works Handled </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Subjects_Handled" type="text" size="30" pInputText>
+                                                <input id="float-input" formControlName="Subjects_Handled" type="text" pInputText>
                                                 <label for="float-input"> Subjects Handled </label>
                                              </span>
                                           </div>
                                           <div class="col-sm-3">
                                              <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Working_Duration" type="text" size="30" [bsConfig]="bsConfig" placement="left" bsDaterangepicker
+                                                <input id="float-input" formControlName="Working_Duration" type="text" [bsConfig]="bsConfig" placement="left" bsDaterangepicker
                                                 pInputText>
                                                 <label for="float-input"> Working Duration </label>
                                              </span>
@@ -904,13 +979,13 @@
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Workshop_Institute" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Workshop_Institute" type="text" pInputText>
                                           <label for="float-input"> College name / Organization </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Workshop_Domain" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Workshop_Domain" type="text" pInputText>
                                           <label for="float-input"> Title / Domain </label>
                                        </span>
                                     </div>
@@ -932,19 +1007,19 @@
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Paper_Presentation_Institute" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Paper_Presentation_Institute" type="text" pInputText>
                                           <label for="float-input"> College name </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Paper_Presentation_Domain" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Paper_Presentation_Domain" type="text" pInputText>
                                           <label for="float-input"> Domain </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Paper_Presentation_Title" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Paper_Presentation_Title" type="text" pInputText>
                                           <label for="float-input"> Title </label>
                                        </span>
                                     </div>
@@ -966,19 +1041,19 @@
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Project_Presentation_Institute" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Project_Presentation_Institute" type="text" pInputText>
                                           <label for="float-input"> College name </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Project_Presentation_Domain" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Project_Presentation_Domain" type="text" pInputText>
                                           <label for="float-input"> Domain </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Project_Presentation_Title" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Project_Presentation_Title" type="text" pInputText>
                                           <label for="float-input"> Title </label>
                                        </span>
                                     </div>
@@ -995,13 +1070,13 @@
                                  <div class="row" style="margin-bottom:15px;margin-left:15px">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_Project_Domain" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="UG_Project_Domain" type="text" pInputText>
                                           <label for="float-input"> Domain </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_Project_Title" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="UG_Project_Title" type="text" pInputText>
                                           <label for="float-input"> Title </label>
                                        </span>
                                     </div>
@@ -1018,13 +1093,13 @@
                                  <div class="row" style="margin-bottom:15px;margin-left:15px">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_Project_Domain" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="PG_Project_Domain" type="text" pInputText>
                                           <label for="float-input"> Domain </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_Project_Title" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="PG_Project_Title" type="text" pInputText>
                                           <label for="float-input"> Title </label>
                                        </span>
                                     </div>
@@ -1041,13 +1116,13 @@
                                  <div class="row" style="margin-bottom:15px;margin-left:15px">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Pattron_Domain" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Pattron_Domain" type="text" pInputText>
                                           <label for="float-input"> Domain </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Pattron_Title" type="text" size="30" pInputText>
+                                          <input id="float-input" formControlName="Pattron_Title" type="text" pInputText>
                                           <label for="float-input"> Title </label>
                                        </span>
                                     </div>
@@ -1126,7 +1201,7 @@
                                           </div>
                                           <div class="col-sm-11" style="margin-left: 15px">
                                              <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Joining_Time" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Joining_Time" type="text" pInputText>
                                              <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -1144,7 +1219,7 @@
                                           </div>
                                           <div class="col-sm-11" style="margin-left: 15px">
                                              <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Expected_Salary" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Expected_Salary" type="text" pInputText>
                                              <label for="float-input"> </label>
                                              </span>
                                           </div>
@@ -1189,13 +1264,13 @@
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Name" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference1_Name" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Name" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference2_Name" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
@@ -1207,13 +1282,13 @@
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Designation" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference1_Designation" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Designation" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference2_Designation" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
@@ -1225,13 +1300,13 @@
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Organization" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference1_Organization" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Organization" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference2_Organization" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
@@ -1243,13 +1318,13 @@
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Contact_Number" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference1_Contact_Number" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Contact_Number" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference2_Contact_Number" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
@@ -1261,13 +1336,13 @@
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Email_Id" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference1_Email_Id" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Email_Id" type="text" size="30" pInputText>
+                                             <input id="float-input" formControlName="Reference2_Email_Id" type="text" pInputText>
                                              <label for="float-input"> </label>
                                           </span>
                                        </div>
@@ -1293,7 +1368,7 @@
                                           <div class="row">
                                              <div class="col-sm-6">
                                                 <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Place" type="text" size="30" pInputText>
+                                                   <input id="float-input" formControlName="Place" type="text" pInputText>
                                                    <label for="float-input"> Place </label>
                                                 </span>
                                              </div>
@@ -1302,7 +1377,7 @@
                                              <div class="col-sm-6">
                                                 <span class="ui-float-label">
                                                    <input id="float-input" formControlName="Date" placement="top" [bsConfig]="bsConfig" bsDatepicker type="text"
-                                                      size="30" pInputText>
+                                                      pInputText>
                                                    <label for="float-input"> Date </label>
                                                 </span>
                                              </div>

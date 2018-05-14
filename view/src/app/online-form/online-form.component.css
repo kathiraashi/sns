@@ -52,3 +52,22 @@
 .address_checkBox .ui-chkbox-label{
     margin-left: 10px;
 }
+
+.edu_table{
+    width: 100%;
+    border: 1px solid silver;
+}
+.edu_table .edu_table_heading td{
+    text-align: center;
+    height: 35px;
+    background-color: #e4e4e4;
+    font-size: 14px;
+    font-weight: 600;
+    color: #585858;
+}
+
+
+.edu_table_body td {
+    padding: 5px;
+    padding-top: 25px;
+}

@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app.routing.module';
 import { MaterialModule } from './material.module';
 import { PrimengModule } from './primeng.module';
 
+import {KeyFilterModule} from 'primeng/keyfilter';
+
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppComponent } from './app.component';
@@ -40,7 +42,8 @@ import { OnlineFormService } from './Service/online-form/online-form.service';
       AppRoutingModule,
       MaterialModule,
       PrimengModule,
-      BsDatepickerModule.forRoot()
+      BsDatepickerModule.forRoot(),
+      KeyFilterModule
   ],
   providers: [OnlineFormService],
   bootstrap: [AppComponent]
