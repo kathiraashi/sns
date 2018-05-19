@@ -34,8 +34,8 @@
             <div class="col-sm-12">
                <!--  Mat Steps   -->
                   <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
-                     <!-- ***********************************************   Basic Info  [stepControl]="FormGroup" ******************************************* -->
-                        <mat-step >
+                     <!-- ***********************************************   Basic Info  ******************************************* -->
+                        <mat-step [stepControl]="FormGroup">
                            <form [formGroup]="FormGroup">
                               <ng-template matStepLabel> Basic Info </ng-template>
                               <!--  Row  -->
@@ -113,8 +113,8 @@
                                  </div>
                            </form>
                         </mat-step>
-                     <!-- ***********************************************   Personal Info  [stepControl]="firstFormGroup" ******************************************* -->
-                        <mat-step> 
+                     <!-- ***********************************************   Personal Info  ******************************************* -->
+                        <mat-step [stepControl]="firstFormGroup"> 
                            <form [formGroup]="firstFormGroup">
                               <ng-template matStepLabel>personal Info</ng-template>
                               <!--  Personal Info Row One   -->
@@ -193,9 +193,10 @@
                                     </div>
                                     <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Email" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Email.status === 'INVALID' && firstFormGroup_Clicked}">
+                                                <input id="float-input" formControlName="Email" type="email" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Email.status === 'INVALID' && firstFormGroup_Clicked}">
                                                 <label for="float-input"> Email Id <span>* </span> </label>
                                           </span>
+                                          <small style="color: red" *ngIf="firstFormGroup['controls'].Email.errors && firstFormGroup_Clicked"> Enter Valid Email </small>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
@@ -529,13 +530,13 @@
                                     <!-- Kids Details Table Header  -->
                                        <div class="row">
                                           <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> Name </p>
+                                             <p style="text-align:center;width:100%"> Name <span style="color:#ff7500">* </span></p>
                                           </div>
                                           <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> Age </p>
+                                             <p style="text-align:center;width:100%"> Age <span style="color:#ff7500">* </span> </p>
                                           </div>
                                           <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> Gender </p>
+                                             <p style="text-align:center;width:100%"> Gender <span style="color:#ff7500">* </span> </p>
                                           </div>
                                           <div class="col-sm-3" style="flex:20%">
                                              <p style="text-align:center;width:100%"> Class / Course </p>
@@ -562,8 +563,7 @@
                                                 </div>
                                                 <div class="col-sm-3" style="flex:20%">
                                                    <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_Gender" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Gender.status === 'INVALID' && firstFormGroup_Clicked}">
-                                                   <label for="float-input"> </label>
+                                                      <p-dropdown [options]="Genders" formControlName="Kids_Gender" placeholder="Gender" optionLabel="name" [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Gender.status === 'INVALID' && firstFormGroup_Clicked}"></p-dropdown>
                                                    </span>
                                                 </div>
                                                 <div class="col-sm-3" style="flex:20%">
@@ -695,7 +695,7 @@
                                                    </span>
                                                 </td>
                                              </tr>
-                                          <!--  Table Mphil Input row  -->
+                                          <!--  Table MPhil Input row  -->
                                              <tr class="edu_table_body">
                                                 <td>
                                                    <span class="ui-float-label">
@@ -789,14 +789,14 @@
                                        </tbody>
                                  </table>
 
-                                 <!-- Chennai Guide ship -->
+                              <!-- Chennai Guide ship -->
                                  <br>
                                  <div class="row">
                                     <div class="col-sm-12">
                                        <div class="radio_group">
                                           <span> If Completed PhD, do you have Anna University, Chennai Guide ship? </span>
-                                          <p-radioButton class="radio_button" formControlName="Chennai_Guide_ship" name="group_3" value="Yes" label="Yes" [(ngModel)]="ChennaiGuideShip"></p-radioButton>
-                                          <p-radioButton class="radio_button" formControlName="Chennai_Guide_ship" name="group_3" value="No" label="No" [(ngModel)]="ChennaiGuideShip"></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="Chennai_Guide_ship" name="group_3" value="Yes" label="Yes" ></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="Chennai_Guide_ship" name="group_3" value="No" label="No" ></p-radioButton>
                                        </div>
                                     </div>
                                  </div>
@@ -895,22 +895,13 @@
                                     <div class="col-sm-4">
                                        <div class="radio_group">
                                           <span> Experience : </span>
-                                          <p-radioButton class="radio_button" formControlName="Experience" name="group_2" value="Fresher" label="Fresher" [(ngModel)]="Experience_status"></p-radioButton>
-                                          <p-radioButton class="radio_button" formControlName="Experience" name="group_2" value="Experienced" label="Experienced" [(ngModel)]="Experience_status"></p-radioButton>
+                                          <p-radioButton class="radio_button" (click)="Experience_Change()" formControlName="Experience" name="group_2" value="Fresher" label="Fresher" [(ngModel)]="Experience_status"></p-radioButton>
+                                          <p-radioButton class="radio_button" (click)="Experience_Change()" formControlName="Experience" name="group_2" value="Experienced" label="Experienced" [(ngModel)]="Experience_status"></p-radioButton>
                                        </div>
                                     </div>
                                  </div>
                               <!-- If Experienced -->
                                  <ng-container *ngIf="thirdFormGroup.controls['Experience'].value === 'Experienced'">
-                                    <!-- Experienced No of Years -->
-                                       <div class="row" style="margin-top: 20px;">
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Number_Of_Years" type="number" pInputText>
-                                                <label for="float-input"> Number of years </label>
-                                             </span>
-                                          </div>
-                                       </div>
                                     <!-- Experienced Details Header-->
                                        <br>
                                        <div class="row">
@@ -919,74 +910,629 @@
                                              <hr style="border-style: dashed;border-color: #999;">
                                           </div>
                                        </div>
-                                    <!-- Experienced Details Field Of Experience-->
-                                       <div class="row" style="margin-bottom:20px;margin-left: 15px;">
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <p-dropdown [options]="Experience_Type" formControlName="Field_of_Experience" placeholder="Field of Experience" optionLabel="name"></p-dropdown>
-                                             </span>
+                                       <!--Teaching Experience Details Header-->
+                                          <div class="row" style="margin-top:10px;margin-left: 0px;">
+                                                <div class="col-sm-12">
+                                                <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Teaching Experience : </p>
+                                                <hr style="border-style: dashed;border-color: #999;">
+                                                </div>
                                           </div>
-                                       </div>
-                                    <!-- Experienced Details Input -->
-                                       <div class="row" style="margin-bottom:15px;margin-left: 15px;">
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Institute" type="text" pInputText>
-                                                <label for="float-input"> Institute Name</label>
-                                             </span>
+                                       <!-- Table for  Teaching Experience Details  -->
+                                          <table class="edu_table">
+                                             <!--   Table Headings  -->
+                                                <thead>
+                                                   <tr class="edu_table_heading">
+                                                      <td style="width: 220px;"> Name of the Institute</td>
+                                                      <td style="width: 150px;"> Designation	</td>
+                                                      <td style="width: 150px;"> Responsibilities </td>
+                                                      <td style="width: 120px;"> Salary </td>
+                                                      <td > Working Duration </td>
+                                                      <td >  </td>
+                                                   </tr>
+                                                </thead>
+                                             <!--   Table Body  -->
+                                                <tbody>
+                                                   <ng-container formArrayName="Teaching_Experience">
+                                                      <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Teaching_Experience['controls']; let i = index;" [formGroupName]="i">
+                                                            <td>
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Institute_Name" type="text" pInputText>
+                                                                  <label for="float-input"> Name of the Institute </label>
+                                                               </span>
+                                                            </td>
+                                                            <td> 
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Designation" type="text" pInputText>
+                                                                  <label for="float-input"> Designation </label>
+                                                               </span>
+                                                            </td>
+                                                            <td> 
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Responsiblities" type="text" pInputText>
+                                                                  <label for="float-input"> Responsibilities </label>
+                                                               </span>
+                                                            </td>
+                                                            <td> 
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Salary" type="text" pInputText>
+                                                                  <label for="float-input"> Salary </label>
+                                                               </span>
+                                                            </td>
+                                                            <td style="display:inline-flex">
+                                                               <div style="flex:30%;margin-right:1.3%">
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Working_Duration_From" type="text" (ngModelChange)="Calculate_Teachnig_Duration('From', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                     <label for="float-input"> From </label>
+                                                                  </span>
+                                                               </div>
+                                                               <div style="flex:30%; margin-left:1.3%">
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Working_Duration_To" type="text" (ngModelChange)="Calculate_Teachnig_Duration('To', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                     <label for="float-input"> To </label>
+                                                                  </span>
+                                                               </div>
+                                                               <div style="flex:36%; margin-left:1.3%">
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Working_Duration" type="text" pInputText readonly (keypress)="_keyPress($event)">
+                                                                     <label for="float-input"> Experience Duration </label>
+                                                                  </span>
+                                                               </div>
+                                                            </td>
+                                                            <td>
+                                                               <ng-container *ngIf="i === 0">
+                                                                  <i (click)="TeachingExperience_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                               </ng-container>
+                                                               <ng-container *ngIf="i > 0">
+                                                                  <i (click)="TeachingExperience_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                               </ng-container>
+                                                            </td>
+                                                      </tr>
+                                                   </ng-container>
+                                                   <tr>
+                                                      <td colspan="7" style="height:20px"></td>
+                                                   </tr>
+                                                </tbody>
+                                          </table>
+                                          <!--Industry /Other Experience Details Header-->
+                                          <div class="row" style="margin-top:30px;margin-left: 0px;">
+                                                <div class="col-sm-12">
+                                                   <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Industry/Other Experience : </p>
+                                                   <hr style="border-style: dashed;border-color: #999;">
+                                                </div>
                                           </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Works_Handled" type="text" pInputText>
-                                                <label for="float-input"> Works Handled </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Subjects_Handled" type="text" pInputText>
-                                                <label for="float-input"> Subjects Handled </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Working_Duration" type="text" [bsConfig]="bsConfig" placement="left" bsDaterangepicker
-                                                pInputText>
-                                                <label for="float-input"> Working Duration </label>
-                                             </span>
-                                          </div>
-                                       </div>
+                                       <!-- Table for  Teaching Experience Details  -->
+                                          <table class="edu_table">
+                                             <!--   Table Headings  -->
+                                                <thead>
+                                                   <tr class="edu_table_heading">
+                                                      <td style="width: 220px;"> Name of the Industry</td>
+                                                      <td style="width: 150px;"> Designation	</td>
+                                                      <td style="width: 150px;"> Responsibilities </td>
+                                                      <td style="width: 120px;"> Salary </td>
+                                                      <td > Working Duration </td>
+                                                      <td >  </td>
+                                                   </tr>
+                                                </thead>
+                                             <!--   Table Body  -->
+                                                <tbody>
+                                                   <ng-container formArrayName="Industry_Experience">
+                                                      <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Industry_Experience['controls']; let i = index;" [formGroupName]="i">
+                                                         <td>
+                                                            <span class="ui-float-label">
+                                                               <input id="float-input" formControlName="Industry_Name" type="text" pInputText>
+                                                               <label for="float-input"> Name of the Industry </label>
+                                                            </span>
+                                                         </td>
+                                                         <td> 
+                                                            <span class="ui-float-label">
+                                                               <input id="float-input" formControlName="Designation" type="text" pInputText>
+                                                               <label for="float-input"> Designation </label>
+                                                            </span>
+                                                         </td>
+                                                         <td> 
+                                                            <span class="ui-float-label">
+                                                               <input id="float-input" formControlName="Responsiblities" type="text" pInputText>
+                                                               <label for="float-input"> Responsibilities </label>
+                                                            </span>
+                                                         </td>
+                                                         <td> 
+                                                            <span class="ui-float-label">
+                                                               <input id="float-input" formControlName="Salary" type="text" pInputText>
+                                                               <label for="float-input"> Salary </label>
+                                                            </span>
+                                                         </td>
+                                                         <td style="display:inline-flex">
+                                                            <div style="flex:30%;margin-right:1.3%">
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Working_Duration_From" type="text" (ngModelChange)="Calculate_Industry_Duration('From', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                  <label for="float-input"> From </label>
+                                                               </span>
+                                                            </div>
+                                                            <div style="flex:30%; margin-left:1.3%">
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Working_Duration_To" type="text" (ngModelChange)="Calculate_Industry_Duration('To', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                  <label for="float-input"> To </label>
+                                                               </span>
+                                                            </div>
+                                                            <div style="flex:36%; margin-left:1.3%">
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Working_Duration" type="text" pInputText readonly (keypress)="_keyPress($event)">
+                                                                  <label for="float-input"> Experience Duration </label>
+                                                               </span>
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <ng-container *ngIf="i === 0">
+                                                               <i (click)="IndustryExperience_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="i > 0">
+                                                               <i (click)="IndustryExperience_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                            </ng-container>
+                                                         </td>
+                                                      </tr>
+                                                   </ng-container>
+                                                   <tr>
+                                                      <td colspan="7" style="height:20px"></td>
+                                                   </tr>
+                                                </tbody>
+                                          </table>
                                  </ng-container>
                               <!-- Co-curricular Activities Header-->
-                                 <div class="row">
+                                 <div class="row"style="margin-top:20px;">
                                     <div class="col-sm-12">
                                        <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Co-curricular Activities : </p>
                                        <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!-- Workshop 1 Header-->
+                              <!-- Programmes Attended Header-->
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Workshop 1 : </p>
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Programmes Attended </p>
                                        <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!-- Workshop 1 Input-->
-                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
-                                    <div class="col-sm-4">
+                              <!-- Programmes Attended Input-->
+                                 <div class="row" style="margin-bottom:15px;margin-left:0px">
+                                    <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <p-dropdown [options]="Attended_As" formControlName="Workshop_Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                          <input id="float-input" (input)="Attended_FDP_Change($event.target.value)" formControlName="No_Of_FDP_Attended" (keypress)="_keyPress($event)" type="number" pInputText>
+                                          <label for="float-input"> No.of FDP <small> (Faculty Development Programme)</small> </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" (input)="Attended_Workshop_Change($event.target.value)" formControlName="No_Of_Workshop_Attended" (keypress)="_keyPress($event)" type="number" pInputText>
+                                          <label for="float-input"> No.of Workshop </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" (input)="Attended_Conference_Change($event.target.value)" formControlName="No_Of_Conference_Attended" (keypress)="_keyPress($event)" type="number" pInputText>
+                                          <label for="float-input"> No.of Conference </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" (input)="Attended_Symposium_Change($event.target.value)" formControlName="No_Of_Symposium_Attended" (keypress)="_keyPress($event)" type="number" pInputText>
+                                          <label for="float-input"> No.of Symposium </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                                 <!-- Programmes Attended FDP Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_FDP_Attended'].value > 0">
+                                    <!-- Programmes Attended FDP Details Header-->
+                                       <div class="row" style="margin-left:10px;">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                <span *ngIf="thirdFormGroup.controls['No_Of_FDP_Attended'].value > 3"> Best 3 </span> Attended FDP Details :
+                                             </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+                                    <!-- Programmes Attended FDP Details FormArray-->
+                                       <ng-container formArrayName="Attended_FDP_Details">
+                                          <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Attended_FDP_Details['controls']; let i = index;" [formGroupName]="i">
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                </span>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                   <label for="float-input"> College Name / Organization </label>
+                                                </span>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                   <label for="float-input"> Title / Domain </label>
+                                                </span>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                   <label for="float-input"> Year </label>
+                                                </span>
+                                             </div>
+                                          </div>
+                                       </ng-container>
+                                    </ng-container>
+                                 <!-- Programmes Attended Workshop Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_Workshop_Attended'].value > 0">
+                                    <!-- Programmes Attended Workshop Details Header-->
+                                       <div class="row" style="margin-left:10px;">
+                                          <div class="col-sm-12">
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                <span *ngIf="thirdFormGroup.controls['No_Of_Workshop_Attended'].value > 3"> Best 3 </span> Attended Workshop Details :
+                                             </p>
+                                             <hr style="border-style: dashed;border-color: #999;">
+                                          </div>
+                                       </div>
+                                    <!-- Programmes Attended Workshop Details FormArray-->
+                                       <ng-container formArrayName="Attended_Workshop_Details">
+                                          <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Attended_Workshop_Details['controls']; let i = index;" [formGroupName]="i">
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                </span>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                   <label for="float-input"> College Name / Organization </label>
+                                                </span>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                   <label for="float-input"> Title / Domain </label>
+                                                </span>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                   <label for="float-input"> Year </label>
+                                                </span>
+                                             </div>
+                                          </div>
+                                       </ng-container>
+                                    </ng-container>
+                                 <!-- Programmes Attended Conference Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_Conference_Attended'].value > 0">
+                                       <!-- Programmes Attended Conference Details Header-->
+                                          <div class="row" style="margin-left:10px;">
+                                             <div class="col-sm-12">
+                                                <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                   <span *ngIf="thirdFormGroup.controls['No_Of_Conference_Attended'].value > 3"> Best 3 </span> Attended Conference Details :
+                                                </p>
+                                                <hr style="border-style: dashed;border-color: #999;">
+                                             </div>
+                                          </div>
+                                       <!-- Programmes Attended Conference Details FormArray-->
+                                          <ng-container formArrayName="Attended_Conference_Details">
+                                             <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Attended_Conference_Details['controls']; let i = index;" [formGroupName]="i">
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> College Name / Organization </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Title / Domain </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </ng-container>
+                                    </ng-container>
+                                 <!-- Programmes Attended Symposium Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_Symposium_Attended'].value > 0">
+                                       <!-- Programmes Attended Conference Details Header-->
+                                          <div class="row" style="margin-left:10px;">
+                                             <div class="col-sm-12">
+                                                <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                   <span *ngIf="thirdFormGroup.controls['No_Of_Symposium_Attended'].value > 3"> Best 3 </span> Attended Symposium Details :
+                                                </p>
+                                                <hr style="border-style: dashed;border-color: #999;">
+                                             </div>
+                                          </div>
+                                       <!-- Programmes Attended Symposium Details FormArray-->
+                                          <ng-container formArrayName="Attended_Symposium_Details">
+                                             <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Attended_Symposium_Details['controls']; let i = index;" [formGroupName]="i">
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> College Name / Organization </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Title / Domain </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </ng-container>
+                                    </ng-container>
+
+                              <!-- Programmes Organized Header-->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Programmes Organized </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Programmes Organized Input-->
+                                 <div class="row" style="margin-bottom:15px;margin-left:0px">
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" (input)="Organized_FDP_Change($event.target.value)" formControlName="No_Of_FDP_Organized" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of FDP <small> (Faculty Development Programme)</small> </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" (input)="Organized_Workshop_Change($event.target.value)"  formControlName="No_Of_Workshop_Organized" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Workshop </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" (input)="Organized_Conference_Change($event.target.value)"  formControlName="No_Of_Conference_Organized" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Conference </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" (input)="Organized_Symposium_Change($event.target.value)"  formControlName="No_Of_Symposium_Organized" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Symposium </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                                 <!-- Programmes Organized FDP Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_FDP_Organized'].value > 0">
+                                       <!-- Programmes Organized FDP Details Header-->
+                                          <div class="row" style="margin-left:10px;">
+                                             <div class="col-sm-12">
+                                                <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                   <span *ngIf="thirdFormGroup.controls['No_Of_FDP_Organized'].value > 3"> Best 3 </span> Organized FDP Details :
+                                                </p>
+                                                <hr style="border-style: dashed;border-color: #999;">
+                                             </div>
+                                          </div>
+                                       <!-- Programmes Organized FDP Details FormArray-->
+                                          <ng-container formArrayName="Organized_FDP_Details">
+                                             <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Organized_FDP_Details['controls']; let i = index;" [formGroupName]="i">
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> College Name / Organization </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Title / Domain </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </ng-container>
+                                    </ng-container>
+                                 <!-- Programmes Organized Workshop Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_Workshop_Organized'].value > 0">
+                                       <!-- Programmes Organized Workshop Details Header-->
+                                          <div class="row" style="margin-left:10px;">
+                                             <div class="col-sm-12">
+                                                <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                   <span *ngIf="thirdFormGroup.controls['No_Of_Workshop_Organized'].value > 3"> Best 3 </span> Organized Workshop Details :
+                                                </p>
+                                                <hr style="border-style: dashed;border-color: #999;">
+                                             </div>
+                                          </div>
+                                       <!-- Programmes Organized Workshop Details FormArray-->
+                                          <ng-container formArrayName="Organized_Workshop_Details">
+                                             <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Organized_Workshop_Details['controls']; let i = index;" [formGroupName]="i">
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> College Name / Organization </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Title / Domain </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </ng-container>
+                                    </ng-container>
+                                 <!-- Programmes Organized Conference Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_Conference_Organized'].value > 0">
+                                       <!-- Programmes Organized Conference Details Header-->
+                                          <div class="row" style="margin-left:10px;">
+                                             <div class="col-sm-12">
+                                                <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                   <span *ngIf="thirdFormGroup.controls['No_Of_Conference_Organized'].value > 3"> Best 3 </span> Organized Conference Details :
+                                                </p>
+                                                <hr style="border-style: dashed;border-color: #999;">
+                                             </div>
+                                          </div>
+                                       <!-- Programmes Organized Conference Details FormArray-->
+                                          <ng-container formArrayName="Organized_Conference_Details">
+                                             <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Organized_Conference_Details['controls']; let i = index;" [formGroupName]="i">
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> College Name / Organization </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Title / Domain </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </ng-container>
+                                    </ng-container>
+                                 <!-- Programmes Organized Symposium Details -->
+                                    <ng-container *ngIf="thirdFormGroup.controls['No_Of_Symposium_Organized'].value > 0">
+                                       <!-- Programmes Organized Conference Details Header-->
+                                          <div class="row" style="margin-left:10px;">
+                                             <div class="col-sm-12">
+                                                <p style="font-weight:600;background-color:#fff;padding-right: 10px;">
+                                                   <span *ngIf="thirdFormGroup.controls['No_Of_Symposium_Organized'].value > 3"> Best 3 </span> Organized Symposium Details :
+                                                </p>
+                                                <hr style="border-style: dashed;border-color: #999;">
+                                             </div>
+                                          </div>
+                                       <!-- Programmes Organized Symposium Details FormArray-->
+                                          <ng-container formArrayName="Organized_Symposium_Details">
+                                             <div class="row" style="margin-bottom:20px;margin-left:20px" *ngFor="let item of thirdFormGroup['controls'].Organized_Symposium_Details['controls']; let i = index;" [formGroupName]="i">
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> College Name / Organization </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Title / Domain </label>
+                                                   </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </ng-container>
+                                    </ng-container>
+
+                              <!-- Research Published Header-->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Research Published Details </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Research Published Input-->
+                                 <div class="row" style="margin-bottom:25px;margin-left:0px">
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="No_Of_Monograph_Published" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Monograph / Thesis Published </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="No_Of_Books_Published" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Books Published </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input"  formControlName="No_Of_Chapter_in_Edited_Books" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Chapter in Edited Books </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input"  formControlName="No_Of_C10_Index" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of C-10 Index </label>
+                                       </span>
+                                    </div>
+                                 </div>
+                                 <div class="row" style="margin-bottom:15px;margin-left:0px">
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input" formControlName="No_Of_Paper_Published_InJournal" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Paper Published in Journal </label>
+                                       </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                       <span class="ui-float-label">
+                                          <input id="float-input"  formControlName="No_Of_Chapters" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Chapters </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Workshop_Institute" type="text" pInputText>
-                                          <label for="float-input"> College name / Organization </label>
+                                          <input id="float-input" formControlName="No_Of_Paper_InConference" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of Paper Published in Conference proceeding </label>
                                        </span>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-2">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Workshop_Domain" type="text" pInputText>
-                                          <label for="float-input"> Title / Domain </label>
+                                          <input id="float-input"  formControlName="No_Of_H_Index" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> No.of H-Index </label>
                                        </span>
                                     </div>
                                  </div>
@@ -994,34 +1540,56 @@
                                  <br>
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Paper Presentation 1 : </p>
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Paper Presentation : </p>
                                        <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!-- Paper Presentation 1 Input-->
-                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <p-dropdown [options]="Attended_As" formControlName="Paper_Presentation_Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Paper_Presentation_Institute" type="text" pInputText>
-                                          <label for="float-input"> College name </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Paper_Presentation_Domain" type="text" pInputText>
-                                          <label for="float-input"> Domain </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Paper_Presentation_Title" type="text" pInputText>
-                                          <label for="float-input"> Title </label>
-                                       </span>
+                              <!-- Table for Paper Presentation Details  -->
+                                 <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                    <div class="col-sm-12">
+                                       <table class="edu_table" style="border:none;">
+                                          <ng-container formArrayName="Paper_Presentation">
+                                             <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Paper_Presentation['controls']; let i = index;" [formGroupName]="i">
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> Name of the Institute </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Domain </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Title" type="text" pInputText>
+                                                      <label for="float-input"> Title </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <ng-container *ngIf="i === 0 && thirdFormGroup['controls'].Paper_Presentation['controls']?.length < 3">
+                                                      <i (click)="PaperPresentation_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="i > 0">
+                                                      <i (click)="PaperPresentation_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                   </ng-container>
+                                                </td>
+                                             </tr>
+                                          </ng-container>
+                                       </table>
                                     </div>
                                  </div>
                               <!-- Project Presentation 1 Header-->
@@ -1032,33 +1600,55 @@
                                        <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!-- Project Presentation 1 Input-->
-                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <p-dropdown [options]="Attended_As" formControlName="Project_Presentation_Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Project_Presentation_Institute" type="text" pInputText>
-                                          <label for="float-input"> College name </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Project_Presentation_Domain" type="text" pInputText>
-                                          <label for="float-input"> Domain </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-3">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Project_Presentation_Title" type="text" pInputText>
-                                          <label for="float-input"> Title </label>
-                                       </span>
+                              <!-- Table for Project Presentation Details  -->
+                                 <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                    <div class="col-sm-12">
+                                       <table class="edu_table" style="border:none;">
+                                          <ng-container formArrayName="Project_Presentation">
+                                             <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Project_Presentation['controls']; let i = index;" [formGroupName]="i">
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Attended_As" formControlName="Attended_As" placeholder="Attended As" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> Name of the Institute </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Domain </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Title" type="text" pInputText>
+                                                      <label for="float-input"> Title </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <ng-container *ngIf="i === 0 && thirdFormGroup['controls'].Project_Presentation['controls']?.length < 3">
+                                                      <i (click)="ProjectPresentation_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="i > 0">
+                                                      <i (click)="ProjectPresentation_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                   </ng-container>
+                                                </td>
+                                             </tr>
+                                          </ng-container>
+                                       </table>
                                     </div>
                                  </div>
-                              <!-- UG Project 1 Header-->
+                              <!-- UG Project Header-->
                                  <br>
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
@@ -1066,22 +1656,50 @@
                                        <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!-- UG Project 1 Input-->
-                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
-                                    <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_Project_Domain" type="text" pInputText>
-                                          <label for="float-input"> Domain </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="UG_Project_Title" type="text" pInputText>
-                                          <label for="float-input"> Title </label>
-                                       </span>
+                              <!-- Table for UG Project Details  -->
+                                 <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                    <div class="col-sm-12">
+                                       <table class="edu_table" style="border:none;">
+                                          <ng-container formArrayName="UG_Project">
+                                             <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].UG_Project['controls']; let i = index;" [formGroupName]="i">
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> Name of the Institute </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Domain </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Title" type="text" pInputText>
+                                                      <label for="float-input"> Title </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <ng-container *ngIf="i === 0 && thirdFormGroup['controls'].UG_Project['controls']?.length < 3">
+                                                      <i (click)="UGProject_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="i > 0">
+                                                      <i (click)="UGProject_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                   </ng-container>
+                                                </td>
+                                             </tr>
+                                          </ng-container>
+                                       </table>
                                     </div>
                                  </div>
-                              <!-- PG Project 1 Header-->
+                              <!-- PG Project Header-->
                                  <br>
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
@@ -1089,44 +1707,255 @@
                                        <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!-- PG Project 1 Input-->
-                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
-                                    <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_Project_Domain" type="text" pInputText>
-                                          <label for="float-input"> Domain </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="PG_Project_Title" type="text" pInputText>
-                                          <label for="float-input"> Title </label>
-                                       </span>
+                              <!-- Table for PG Project Details  -->
+                                 <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                    <div class="col-sm-12">
+                                       <table class="edu_table" style="border:none;">
+                                          <ng-container formArrayName="PG_Project">
+                                             <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].PG_Project['controls']; let i = index;" [formGroupName]="i">
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                      <label for="float-input"> Name of the Institute </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Domain" type="text" pInputText>
+                                                      <label for="float-input"> Domain </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Title" type="text" pInputText>
+                                                      <label for="float-input"> Title </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <ng-container *ngIf="i === 0 && thirdFormGroup['controls'].PG_Project['controls']?.length < 3">
+                                                      <i (click)="PGProject_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="i > 0">
+                                                      <i (click)="PGProject_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                   </ng-container>
+                                                </td>
+                                             </tr>
+                                          </ng-container>
+                                       </table>
                                     </div>
                                  </div>
-                              <!-- Pattron 1 Header -->
+                              <!-- Patent Header -->
                                  <br>
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
-                                    <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Pattron 1 : </p>
+                                    <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Patent : </p>
                                     <hr style="border-style: dashed;border-color: #999;">
                                     </div>
                                  </div>
-                              <!-- Pattron 1 Input -->
-                                 <div class="row" style="margin-bottom:15px;margin-left:15px">
-                                    <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Pattron_Domain" type="text" pInputText>
-                                          <label for="float-input"> Domain </label>
-                                       </span>
-                                    </div>
-                                    <div class="col-sm-4">
-                                       <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Pattron_Title" type="text" pInputText>
-                                          <label for="float-input"> Title </label>
-                                       </span>
+                               <!-- Table for Patent Details  -->
+                                 <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                    <div class="col-sm-12">
+                                       <table class="edu_table" style="border:none;">
+                                          <ng-container formArrayName="Patent">
+                                             <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Patent['controls']; let i = index;" [formGroupName]="i">
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Title" type="text" pInputText>
+                                                      <label for="float-input"> Title </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Investigators" type="text" pInputText>
+                                                      <label for="float-input"> Investigators </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Patent_No" type="text" pInputText>
+                                                      <label for="float-input"> Patent_No </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <p-dropdown [options]="Patent_Status" formControlName="Status" placeholder="Status" optionLabel="name"></p-dropdown>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <ng-container *ngIf="i === 0 && thirdFormGroup['controls'].Patent['controls']?.length < 3">
+                                                      <i (click)="Patent_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="i > 0">
+                                                      <i (click)="Patent_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                   </ng-container>
+                                                </td>
+                                             </tr>
+                                          </ng-container>
+                                       </table>
                                     </div>
                                  </div>
+                              <!-- Journal Header -->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                    <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Journal Published : </p>
+                                    <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                               <!-- Table for Journal Details  -->
+                                 <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                    <div class="col-sm-12">
+                                       <table class="edu_table" style="border:none;">
+                                          <ng-container formArrayName="Journal">
+                                             <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Journal['controls']; let i = index;" [formGroupName]="i">
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Author" type="text" pInputText>
+                                                      <label for="float-input"> Author </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Title" type="text" pInputText>
+                                                      <label for="float-input"> Title </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Journal_Name" type="text" pInputText>
+                                                      <label for="float-input"> Name ofJournal </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Volume" type="text" pInputText>
+                                                      <label for="float-input"> Volume </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Issue" type="text" pInputText>
+                                                      <label for="float-input"> Issue </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Page_No" type="text" pInputText>
+                                                      <label for="float-input"> No.of Page </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <ng-container *ngIf="i === 0 && thirdFormGroup['controls'].Journal['controls']?.length < 3">
+                                                      <i (click)="Journal_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="i > 0">
+                                                      <i (click)="Journal_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                   </ng-container>
+                                                </td>
+                                             </tr>
+                                          </ng-container>
+                                       </table>
+                                    </div>
+                                 </div>
+                              <!-- Achievements & Awards Header-->
+                                 <br>
+                                 <div class="row" style="margin-left:0px;">
+                                    <div class="col-sm-12">
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Achievements & Award : </p>
+                                       <hr style="border-style: dashed;border-color: #999;">
+                                    </div>
+                                 </div>
+                              <!-- Table for Achievements & Award Details  -->
+                                 <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                    <div class="col-sm-12">
+                                       <table class="edu_table" style="border:none;">
+                                          <ng-container formArrayName="Achievements_Awards">
+                                             <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Achievements_Awards['controls']; let i = index;" [formGroupName]="i">
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Category" type="text" pInputText>
+                                                      <label for="float-input"> Category </label>
+                                                   </span>
+                                                </td>
+                                                <td> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Award_Achievement" type="text" pInputText>
+                                                      <label for="float-input"> Achievement / Award </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Year" type="text" pInputText>
+                                                      <label for="float-input"> Year </label>
+                                                   </span>
+                                                </td>
+                                                <td>
+                                                   <ng-container *ngIf="i === 0 && thirdFormGroup['controls'].Achievements_Awards['controls']?.length < 3">
+                                                      <i (click)="AchievementsAwards_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="i > 0">
+                                                      <i (click)="AchievementsAwards_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                   </ng-container>
+                                                </td>
+                                             </tr>
+                                          </ng-container>
+                                       </table>
+                                    </div>
+                                 </div>
+                              <!-- Research Funding -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <div class="radio_group">
+                                          <span> Have you got Research Funding? </span>
+                                          <p-radioButton class="radio_button" formControlName="Research_Found" name="group_4" value="Yes" label="Yes" ></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="Research_Found" name="group_4" value="No" label="No" ></p-radioButton>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <ng-container *ngIf="thirdFormGroup.controls['Research_Found'].value === 'Yes' ">
+                                    <div class="row" style="margin-top:15px;margin-left: 0px">
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Research_Found_Amount" type="text" pInputText>
+                                             <label for="float-input"> Amount in Lakhs </label>
+                                          </span>
+                                       </div>
+                                    </div>
+                                 </ng-container>
+                              <!-- contact Industries -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <div class="radio_group">
+                                          <span> Do you have contact with Industries ? </span>
+                                          <p-radioButton class="radio_button" formControlName="Contact_Industries" name="group_5" value="Yes" label="Yes"></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="Contact_Industries" name="group_5" value="No" label="No"></p-radioButton>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <ng-container *ngIf="thirdFormGroup.controls['Contact_Industries'].value === 'Yes' ">
+                                    <div class="row" style="margin-top:15px;margin-left: 0px">
+                                       <div class="col-sm-4">
+                                          <span class="ui-float-label">
+                                             <input id="float-input" formControlName="Contact_Industries_Count" type="text" pInputText>
+                                             <label for="float-input"> No.of Industries </label>
+                                          </span>
+                                       </div>
+                                    </div>
+                                 </ng-container>
                               <!-- Other Details Row One -->
                                  <br>
                                  <div class="row">
@@ -1137,7 +1966,6 @@
                                              <hr style="border-style: dashed;border-color: #999;">
                                           </div>
                                        </div>
-
                                        <div class="row">
                                           <div class="col-sm-12">
                                              <textarea style="width: 100%; height:125px" formControlName="Intrested_Game" pInputTextarea autoResize="autoResize"></textarea>
@@ -1147,14 +1975,14 @@
                                     <div class="col-sm-6">
                                        <div class="row">
                                           <div class="col-sm-12">
-                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Any special achievements? </p>
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> list the activities, which you organized in your previous job  </p>
                                              <hr style="border-style: dashed;border-color: #999;">
                                           </div>
                                        </div>
 
                                        <div class="row">
                                           <div class="col-sm-12">
-                                             <textarea style="width: 100%; height:125px" formControlName="Achievements" pInputTextarea autoResize="autoResize"></textarea>
+                                             <textarea style="width: 100%; height:125px" formControlName="Activities" pInputTextarea autoResize="autoResize"></textarea>
                                           </div>
                                        </div>
                                     </div>
@@ -1162,19 +1990,6 @@
                               <!-- Other Details Row Two -->
                                  <br>
                                  <div class="row">
-                                    <div class="col-sm-6">
-                                       <div class="row">
-                                          <div class="col-sm-12">
-                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> List the activities, which you organized in your previous job </p>
-                                             <hr style="border-style: dashed;border-color: #999;">
-                                          </div>
-                                       </div>
-                                       <div class="row">
-                                          <div class="col-sm-12">
-                                             <textarea style="width: 100%; height:125px" formControlName="Activities" pInputTextarea autoResize="autoResize"></textarea>
-                                          </div>
-                                       </div>
-                                    </div>
                                     <div class="col-sm-6">
                                        <div class="row">
                                           <div class="col-sm-12">
@@ -1238,7 +2053,64 @@
                         <mat-step [stepControl]="fourthFormGroup">
                            <form [formGroup]="fourthFormGroup">
                               <ng-template matStepLabel> Reference & Declaration </ng-template>
+                              <!-- Family members in SNS -->
+                                 <br>
+                                 <div class="row">
+                                    <div class="col-sm-12">
+                                       <div class="radio_group">
+                                          <span> If any member of your family employed in SNS Group of institution ? </span>
+                                          <p-radioButton (click)="Family_in_SNS_Details_Change('Yes')" class="radio_button" formControlName="Family_in_SNS" name="group_6" value="Yes" label="Yes"></p-radioButton>
+                                          <p-radioButton (click)="Family_in_SNS_Details_Change('No')" class="radio_button" formControlName="Family_in_SNS" name="group_6" value="No" label="No"></p-radioButton>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- if Family members in SNS Details Table -->
+                                 <ng-container *ngIf="fourthFormGroup.controls['Family_in_SNS'].value === 'Yes' ">
+                                    <div class="row" style="margin-top:-10px;margin-left:5px;">
+                                          <div class="col-sm-12">
+                                             <table class="edu_table" style="border:none;">
+                                                <ng-container formArrayName="Family_in_SNS_Details">
+                                                   <tr class="edu_table_body" *ngFor="let item of fourthFormGroup['controls'].Family_in_SNS_Details['controls']; let i = index;" [formGroupName]="i">
+                                                      <td> 
+                                                         <span class="ui-float-label">
+                                                            <input id="float-input" formControlName="Name" type="text" pInputText>
+                                                            <label for="float-input"> Name </label>
+                                                         </span>
+                                                      </td>
+                                                      <td> 
+                                                         <span class="ui-float-label">
+                                                            <input id="float-input" formControlName="Institute" type="text" pInputText>
+                                                            <label for="float-input"> Name of Institute </label>
+                                                         </span>
+                                                      </td>
+                                                      <td> 
+                                                         <span class="ui-float-label">
+                                                            <input id="float-input" formControlName="Designation" type="text" pInputText>
+                                                            <label for="float-input"> Designation </label>
+                                                         </span>
+                                                      </td>
+                                                      <td> 
+                                                         <span class="ui-float-label">
+                                                            <input id="float-input" formControlName="Responsibilities" type="text" pInputText>
+                                                            <label for="float-input"> Responsibilities </label>
+                                                         </span>
+                                                      </td>
+                                                      <td>
+                                                         <ng-container *ngIf="i === 0 && fourthFormGroup['controls'].Family_in_SNS_Details['controls']?.length < 3">
+                                                            <i (click)="Family_in_SNS_Details_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                         </ng-container>
+                                                         <ng-container *ngIf="i > 0">
+                                                            <i (click)="Family_in_SNS_Details_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                         </ng-container>
+                                                      </td>
+                                                   </tr>
+                                                </ng-container>
+                                             </table>
+                                          </div>
+                                       </div>
+                                 </ng-container>
                               <!-- Reference Header -->
+                                 <br>
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
                                        <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Reference : </p>
@@ -1347,7 +2219,7 @@
                                           </span>
                                        </div>
                                     </div>
-                                 <!-- Declarationl -->
+                                 <!-- Declaration -->
                                     <div class="row">
                                        <div class="col-sm-12">
                                           <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Declaration </p>
@@ -1355,8 +2227,8 @@
                                        </div>
                                        <div class="col-sm-12">
                                           <p style="text-align: justify;font-size: 15px;font-weight: 500;color: #999;padding-left: 30px;">
-                                             &emsp; &emsp; I herely declare that the particulare furnished alone is genuine. It have not concealed any information likely
-                                             to inpair my fitness for employment. It it is revealed later that I have false details or concealed
+                                             &emsp; &emsp; I hardly declare that the particular furnished alone is genuine. It have not concealed any information likely
+                                             to impair my fitness for employment. It it is revealed later that I have false details or concealed
                                              material information, my services shall be liable to summary, termination without any notice or compensation.
                                           </p>
                                        </div>
@@ -1365,6 +2237,18 @@
                                     <br><br><br>
                                     <div class="row">
                                        <div class="col-sm-6">
+                                          <div class="row">
+                                             <div class="col-sm-12">
+                                                <label class="custom-file-upload" [ngClass]="{'Required_Field': Uploaded_File_alert !== '', 'success': Uploaded_File && Uploaded_File !== '' }">
+                                                   <input type="file" (change)="onUploadFileChange($event)" #fileInputFile/>
+                                                    Upload file
+                                                </label>
+                                                <p *ngIf="Uploaded_File && Uploaded_File !== ''" style="width:100%;font-size: 14px; color: green; margin: 0px;"> {{Uploaded_File.name}} </p>
+                                                <p *ngIf="Uploaded_File_alert !== ''" style="width:100%;font-size: 14px; color: red; margin: 0px;"> {{Uploaded_File_alert}} </p>
+                                                <p style="margin: 0px; font-size: 14px;"> [ Upload a hand written document specifying the works you handle in our college ] </p>
+                                                <p style="font-size: 12px; color: #999; margin-top: -8px;"> (Only accepted for 'pdf' files, Size should not more then 500KB ) </p>
+                                             </div>
+                                          </div>
                                           <div class="row">
                                              <div class="col-sm-6">
                                                 <span class="ui-float-label">
@@ -1384,9 +2268,18 @@
                                           </div>
                                        </div>
                                        <div class="col-sm-6" style="text-align: right">
-                                          <p style="width:100%;margin-top: 50px; padding-right: 50px;">
-                                             <b> (Signature) </b>
-                                          </p>
+                                          <div style="width:240px; float:right; text-align:center;margin-top: 100px;">
+                                             <label class="custom-file-upload" [ngClass]="{'Required_Field': Uploaded_Sign_alert !== '', 'success': Uploaded_Sign && Uploaded_Sign !== '' }">
+                                                <input type="file" (change)="onUploadSignChange($event)" #fileInputSign/>
+                                                 Upload Signature
+                                             </label>
+                                             <p *ngIf="Uploaded_Sign_alert !== ''" style="width:100%;font-size: 14px; color: red; margin: 0px;"> {{Uploaded_Sign_alert}} </p>
+                                             <p *ngIf="Uploaded_Sign && Uploaded_Sign !== ''" style="width:100%;font-size: 14px; color: green; margin: 0px;"> {{Uploaded_Sign.name}} </p>
+                                             <p style="width:100%; margin:0px; font-size:12px; color:#999;line-height: 19px;">  ( Only accepted for 'jpeg, jpg and png' files, Size should not more then 20KB )  </p>
+                                             <p style="width:100%;">
+                                                <b> (Signature) </b>
+                                             </p>
+                                          </div>
                                        </div>
                                     </div>
                               </ng-container>

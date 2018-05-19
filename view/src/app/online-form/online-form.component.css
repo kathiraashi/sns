@@ -71,3 +71,22 @@
     padding: 5px;
     padding-top: 25px;
 }
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-bottom: 0px;
+}
+.custom-file-upload.Required_Field{
+    color: red;
+}
+.custom-file-upload.success{
+    border-color: green;
+    color: green;
+}

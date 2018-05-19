@@ -37,7 +37,19 @@
     margin-right: 5px
 }
 
-
+.ui-dropdown .ui-dropdown-label{
+    font-size: 14px;
+    color: #333333 !important;
+    font-weight: 500
+}
+.ui-dropdown .ui-dropdown-label.ui-placeholder{
+   color: #999999 !important;
+}
+.ui-float-label #float-input{
+    font-size: 14px !important;
+    color: #333333 !important;
+    font-weight: 500 !important;
+}
 .ui-dropdown{
     width:100% !important;
     height: 40px !important;
@@ -64,6 +76,9 @@
 
 
 
+.ui-float-label > label{
+    font-size: 13px !important;
+}
 
 .ui-float-label>label span {
     color: #ff7500;
