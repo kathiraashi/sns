@@ -10,7 +10,7 @@ const appRoutes: Routes = [
         component: HomeComponent,
         data: { animation: { value: 'Home', } }
     },
-    { path: 'Online_Form',
+    { path: 'Online_Form/:Type',
         component: OnlineFormComponent,
         data: { animation: { value: 'Online_Form', } }
     },

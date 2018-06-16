@@ -1,6 +1,6 @@
 import {  Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators} from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
@@ -18,11 +18,17 @@ export class OnlineFormComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
 
   @ViewChild('fileInputFile') fileInputFile: ElementRef;
+  @ViewChild('fileInputPhoto') fileInputPhoto: ElementRef;
   @ViewChild('fileInputSign') fileInputSign: ElementRef;
+
+  Institute_Type;
+  Online_Form_Type = 0;
 
   FormData: FormData = new FormData;
   Uploaded_File;
   Uploaded_File_alert = '';
+  Uploaded_Photo;
+  Uploaded_Photo_alert = '';
   Uploaded_Sign;
   Uploaded_Sign_alert = '';
 
@@ -47,6 +53,30 @@ export class OnlineFormComponent implements OnInit {
   selectedCity;
 
   PresentSate;
+
+  Nationalities = [
+    {name: 'Indian'},
+    {name: 'Others'}
+  ];
+
+  Religions = [
+    {name: 'Hindu'},
+    {name: 'Muslim'},
+    {name: 'Christian'},
+    {name: 'Sikh'},
+    {name: 'Buddhist'},
+    {name: 'Others'}
+  ];
+
+  Communities = [
+    {name: 'BC'},
+    {name: 'BCM'},
+    {name: 'DC'},
+    {name: 'MBC'},
+    {name: 'ST'},
+    {name: 'SC'},
+    {name: 'Others'}
+  ];
 
   Genders = [
     {name: 'Male'},
@@ -98,41 +128,37 @@ export class OnlineFormComponent implements OnInit {
     {name: 'Other'}
   ];
 
-  Departments = [
-    { name: 'Physics'},
-    { name: 'Mathematics'},
-    { name: 'English'},
-    { name: 'Tamil'},
-    { name: 'E-commerce'},
-    { name: 'CA'},
-    { name: 'Computer Science'},
+  Applied_For = [
+    { name: 'Assistant Professor'},
+    { name: 'Associate Professor'},
+    { name: 'Professor'},
+    { name: 'HOD/Dean'},
+    { name: 'Principal'}
+  ];
+
+  Applied_Departments = [
     { name: 'Aeronautical Engineering'},
+    { name: 'Agriculture Engineering'},
     { name: 'Automobile Engineering'},
-    { name: 'Bio-Technology'},
-    { name: 'Computer Science and Engineering'},
+    { name: 'Biomedical Engineering'},
     { name: 'Civil Engineering'},
+    { name: 'Civil Engineering and Planning'},
+    { name: 'Computer Science Engineering'},
+    { name: 'Electrical and Electronics Engineering'},
     { name: 'Electronics and Communication Engineering'},
     { name: 'Electronics and Instrumentation Engineering'},
-    { name: 'Electrical and Electronics Engineering'},
-    { name: 'Fashion Technology'},
     { name: 'Information Technology'},
-    { name: 'Textile Technology'},
-    { name: 'Master of  Computer Applications'},
     { name: 'Mechanical Engineering'},
+    { name: 'Mechanical and Automation Engineering'},
     { name: 'Mechatronics Engineering'},
-    { name: 'Science and Humanities'},
-    { name: 'Science and Humanities-Physics'},
-    { name: 'Science and Humanities-Chemistry'},
-    { name: 'Science and Humanities-English'},
-    { name: 'Science and Humanities-Mathematics'},
-    { name: 'HR'},
-    { name: 'Systems'},
-    { name: 'Marketing'},
-    { name: 'Others'},
+    { name: 'Master of Business Administration'},
+    { name: 'Master of Computer Application'},
+    { name: 'Science & Humanities'},
+    { name: 'Department of Physical Education'},
   ];
 
   Grade_Class = [
-    {name: 'Fwd*'},
+    {name: 'FWD*'},
     {name: 'I Class'},
     {name: 'II Class'}
   ];
@@ -141,23 +167,30 @@ export class OnlineFormComponent implements OnInit {
     {name: 'MA'},
     {name: 'MSC'},
     {name: 'MBA'},
+    {name: 'MCom'},
     {name: 'MCA'},
     {name: 'ME/M.Tech'},
+    {name: 'Others'}
   ];
 
   UgCourses = [
     {name: 'BA'},
     {name: 'BSc'},
+    {name: 'BCA'},
+    {name: 'BCom'},
     {name: 'BBA'},
     {name: 'BE/B.Tech'},
+    {name: 'Others'}
   ];
 
   MphilCourses = [
-    {name: 'Mphil'}
+    {name: 'Mphil'},
+    {name: 'Others'}
   ];
 
   PhdCourses = [
-    {name: 'Phd'}
+    {name: 'Phd'},
+    {name: 'Others'}
   ];
 
   Experience_Type = [
@@ -204,8 +237,23 @@ export class OnlineFormComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
               public snackBar: MatSnackBar,
               private router: Router,
+              private Active_route: ActivatedRoute,
               private Service: OnlineFormService) {
     this.bsConfig = Object.assign({}, { containerClass: 'theme-red' });
+    this.Active_route.params.subscribe(res => {
+      this.Institute_Type = res.Type;
+      if (res.Type === 'Technology' || res.Type === 'Engineering' ) {
+        this.Online_Form_Type = 1;
+      } else if (res.Type === 'Arts') {
+        this.Online_Form_Type = 2;
+      } else if (res.Type === 'Education') {
+        this.Online_Form_Type = 3;
+      } else  if (res.Type === 'School') {
+        this.Online_Form_Type = 4;
+      } else {
+        this.Online_Form_Type = 0;
+      }
+    });
    }
 
    ngOnInit() {
@@ -213,11 +261,9 @@ export class OnlineFormComponent implements OnInit {
     this.FormGroup = this._formBuilder.group({
       Post_Applied: new FormControl('', Validators.required),
       Department: new FormControl('', Validators.required),
-      Preferred_Subject_1: new FormControl('', Validators.required),
+      Preferred_Subject_1: new FormControl(''),
       Preferred_Subject_2: new FormControl(''),
       Preferred_Subject_3: new FormControl(''),
-      Preferred_Lab_1: new FormControl('', Validators.required),
-      Preferred_Lab_2: new FormControl(''),
     });
 
     this.firstFormGroup = this._formBuilder.group({
@@ -225,7 +271,7 @@ export class OnlineFormComponent implements OnInit {
       DOB: new FormControl('', Validators.required),
       Age: new FormControl('', Validators.required),
       Gender: new FormControl('', Validators.required),
-      Blace_of_Birth: new FormControl('', Validators.required),
+      Place_of_Birth: new FormControl('', Validators.required),
       Nationality: new FormControl('', Validators.required),
       Religion: new FormControl('', Validators.required),
       Community: new FormControl('', Validators.required),
@@ -270,6 +316,7 @@ export class OnlineFormComponent implements OnInit {
       UG_Class: new FormControl(''),
       UG_Year_Of_Passing: new FormControl(''),
       UG_College_Name: new FormControl(''),
+      UG_CGPA: new FormControl(''),
       UG_Percentage: new FormControl(''),
       UG_Medium: new FormControl(''),
 
@@ -278,6 +325,7 @@ export class OnlineFormComponent implements OnInit {
       PG_Class: new FormControl(''),
       PG_Year_Of_Passing: new FormControl(''),
       PG_College_Name: new FormControl(''),
+      PG_CGPA: new FormControl(''),
       PG_Percentage: new FormControl(''),
       PG_Medium: new FormControl(''),
 
@@ -286,6 +334,7 @@ export class OnlineFormComponent implements OnInit {
       Mphil_Class: new FormControl(''),
       Mphil_Year_Of_Passing: new FormControl(''),
       Mphil_College_Name: new FormControl(''),
+      Mphil_CGPA: new FormControl(''),
       Mphil_Percentage: new FormControl(''),
       Mphil_Medium: new FormControl(''),
 
@@ -294,8 +343,46 @@ export class OnlineFormComponent implements OnInit {
       PHD_Class: new FormControl(''),
       PHD_Year_Of_Passing: new FormControl(''),
       PHD_College_Name: new FormControl(''),
+      PHD_CGPA: new FormControl(''),
       PHD_Percentage: new FormControl(''),
       PHD_Medium: new FormControl(''),
+
+      Bed_Course: new FormControl(''),
+      Bed_Department: new FormControl(''),
+      Bed_Class: new FormControl(''),
+      Bed_Year_Of_Passing: new FormControl(''),
+      Bed_College_Name: new FormControl(''),
+      Bed_CGPA: new FormControl(''),
+      Bed_Percentage: new FormControl(''),
+      Bed_Medium: new FormControl(''),
+
+      Med_Course: new FormControl(''),
+      Med_Department: new FormControl(''),
+      Med_Class: new FormControl(''),
+      Med_Year_Of_Passing: new FormControl(''),
+      Med_College_Name: new FormControl(''),
+      Med_CGPA: new FormControl(''),
+      Med_Percentage: new FormControl(''),
+      Med_Medium: new FormControl(''),
+
+      Other1_Course: new FormControl(''),
+      Other1_Department: new FormControl(''),
+      Other1_Class: new FormControl(''),
+      Other1_Year_Of_Passing: new FormControl(''),
+      Other1_College_Name: new FormControl(''),
+      Other1_CGPA: new FormControl(''),
+      Other1_Percentage: new FormControl(''),
+      Other1_Medium: new FormControl(''),
+
+
+      Other2_Course: new FormControl(''),
+      Other2_Department: new FormControl(''),
+      Other2_Class: new FormControl(''),
+      Other2_Year_Of_Passing: new FormControl(''),
+      Other2_College_Name: new FormControl(''),
+      Other2_CGPA: new FormControl(''),
+      Other2_Percentage: new FormControl(''),
+      Other2_Medium: new FormControl(''),
 
       Hsl_School: new FormControl(''),
       Hsl_Medium: new FormControl(''),
@@ -307,8 +394,11 @@ export class OnlineFormComponent implements OnInit {
       Sslc_Year_Of_Passing: new FormControl(''),
       Sslc_Percentage: new FormControl(''),
 
-      Chennai_Guide_ship: new FormControl(''),
-      Chennai_Guide_ship_No: new FormControl(''),
+      Guide_ship: new FormControl(''),
+      Guide_ship_No: new FormControl(''),
+
+      NET_Qualified: new FormControl(''),
+      NET_Qualified_No: new FormControl(''),
     });
 
     this.thirdFormGroup = this._formBuilder.group({
@@ -320,35 +410,27 @@ export class OnlineFormComponent implements OnInit {
       No_Of_Workshop_Attended: new FormControl(''),
       No_Of_Conference_Attended: new FormControl(''),
       No_Of_Symposium_Attended: new FormControl(''),
-      Attended_FDP_Details: this._formBuilder.array([ ]),
-      Attended_Workshop_Details: this._formBuilder.array([ ]),
-      Attended_Conference_Details: this._formBuilder.array([ ]),
-      Attended_Symposium_Details: this._formBuilder.array([ ]),
 
       No_Of_FDP_Organized: new FormControl(''),
       No_Of_Workshop_Organized: new FormControl(''),
       No_Of_Conference_Organized: new FormControl(''),
       No_Of_Symposium_Organized: new FormControl(''),
-      Organized_FDP_Details: this._formBuilder.array([ ]),
-      Organized_Workshop_Details: this._formBuilder.array([ ]),
-      Organized_Conference_Details: this._formBuilder.array([ ]),
-      Organized_Symposium_Details: this._formBuilder.array([ ]),
 
       No_Of_Monograph_Published: new FormControl(''),
       No_Of_Books_Published: new FormControl(''),
-      No_Of_Chapter_in_Edited_Books: new FormControl(''),
-      No_Of_C10_Index: new FormControl(''),
-      No_Of_Paper_Published_InJournal: new FormControl(''),
-      No_Of_Chapters: new FormControl(''),
-      No_Of_Paper_InConference: new FormControl(''),
+      No_Of_Chapter_in_Inherited_Books: new FormControl(''),
+      No_Of_Paper_Published_InJournals: new FormControl(''),
+      No_Of_Papers_InConference: new FormControl(''),
+      No_Of_Citations: new FormControl(''),
       No_Of_H_Index: new FormControl(''),
+      No_Of_I10_Index: new FormControl(''),
 
-      Paper_Presentation: this._formBuilder.array([ ]),
-      Project_Presentation: this._formBuilder.array([ ]),
-      UG_Project: this._formBuilder.array([ ]),
-      PG_Project: this._formBuilder.array([ ]),
+
+      No_Of_Project_Guided_UG: new FormControl(''),
+      No_Of_Project_Guided_PG: new FormControl(''),
+      No_Of_Project_Guided_PHD: new FormControl(''),
+
       Patent: this._formBuilder.array([ ]),
-      Journal: this._formBuilder.array([ ]),
       Achievements_Awards: this._formBuilder.array([ ]),
 
       Research_Found: new FormControl(''),
@@ -356,19 +438,14 @@ export class OnlineFormComponent implements OnInit {
       Contact_Industries: new FormControl(''),
       Contact_Industries_Count: new FormControl(''),
 
-      Intrested_Game: new FormControl(''),
+      Interested_Game: new FormControl(''),
       Activities: new FormControl(''),
       Special_Achievements: new FormControl(''),
       Joining_Time: new FormControl(''),
       Expected_Salary: new FormControl(''),
 
     });
-    this.PaperPresentation_Add();
-    this.ProjectPresentation_Add();
-    this.UGProject_Add();
-    this.PGProject_Add();
     this.Patent_Add();
-    this.Journal_Add();
     this.AchievementsAwards_Add();
 
     this.fourthFormGroup = this._formBuilder.group({
@@ -387,6 +464,10 @@ export class OnlineFormComponent implements OnInit {
       Place: new FormControl(''),
       Date: new FormControl(''),
     });
+
+    if (this.Institute_Type === 'School') {
+      this.FormGroup.controls['Preferred_Subject_1'].setValidators(Validators.required);
+    }
 
   }
 
@@ -462,6 +543,150 @@ export class OnlineFormComponent implements OnInit {
     }
   }
 
+  UG_CGPA_Calculate(type) {
+    const UG_Percentage =  this.secondFormGroup.controls['UG_Percentage'].value;
+    const UG_CGPA =  this.secondFormGroup.controls['UG_CGPA'].value;
+    if (type === 'CGPA' && UG_CGPA !== '' && UG_CGPA > 0) {
+      let Percentage = UG_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['UG_Percentage'].setValue(Percentage);
+    } else if (UG_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['UG_Percentage'].setValue('');
+    } else if (type === 'Percentage' && UG_Percentage !== '' && UG_Percentage > 0) {
+      let CGPA = UG_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['UG_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && UG_Percentage === '') {
+      this.secondFormGroup.controls['UG_CGPA'].setValue('');
+    }
+  }
+
+  PG_CGPA_Calculate(type) {
+    const PG_Percentage =  this.secondFormGroup.controls['PG_Percentage'].value;
+    const PG_CGPA =  this.secondFormGroup.controls['PG_CGPA'].value;
+    if (type === 'CGPA' && PG_CGPA !== '' && PG_CGPA > 0) {
+      let Percentage = PG_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['PG_Percentage'].setValue(Percentage);
+    } else if (PG_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['PG_Percentage'].setValue('');
+    } else if (type === 'Percentage' && PG_Percentage !== '' && PG_Percentage > 0) {
+      let CGPA = PG_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['PG_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && PG_Percentage === '') {
+      this.secondFormGroup.controls['PG_CGPA'].setValue('');
+    }
+  }
+
+  Mphil_CGPA_Calculate(type) {
+    const Mphil_Percentage =  this.secondFormGroup.controls['Mphil_Percentage'].value;
+    const Mphil_CGPA =  this.secondFormGroup.controls['Mphil_CGPA'].value;
+    if (type === 'CGPA' && Mphil_CGPA !== '' && Mphil_CGPA > 0) {
+      let Percentage = Mphil_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['Mphil_Percentage'].setValue(Percentage);
+    } else if (Mphil_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['Mphil_Percentage'].setValue('');
+    } else if (type === 'Percentage' && Mphil_Percentage !== '' && Mphil_Percentage > 0) {
+      let CGPA = Mphil_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['Mphil_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && Mphil_Percentage === '') {
+      this.secondFormGroup.controls['Mphil_CGPA'].setValue('');
+    }
+  }
+
+  PHD_CGPA_Calculate(type) {
+    const PHD_Percentage =  this.secondFormGroup.controls['PHD_Percentage'].value;
+    const PHD_CGPA =  this.secondFormGroup.controls['PHD_CGPA'].value;
+    if (type === 'CGPA' && PHD_CGPA !== '' && PHD_CGPA > 0) {
+      let Percentage = PHD_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['PHD_Percentage'].setValue(Percentage);
+    } else if (PHD_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['PHD_Percentage'].setValue('');
+    } else if (type === 'Percentage' && PHD_Percentage !== '' && PHD_Percentage > 0) {
+      let CGPA = PHD_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['PHD_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && PHD_Percentage === '') {
+      this.secondFormGroup.controls['PHD_CGPA'].setValue('');
+    }
+  }
+
+  Other1_CGPA_Calculate(type) {
+    const Other1_Percentage =  this.secondFormGroup.controls['Other1_Percentage'].value;
+    const Other1_CGPA =  this.secondFormGroup.controls['Other1_CGPA'].value;
+    if (type === 'CGPA' && Other1_CGPA !== '' && Other1_CGPA > 0) {
+      let Percentage = Other1_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['Other1_Percentage'].setValue(Percentage);
+    } else if (Other1_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['Other1_Percentage'].setValue('');
+    } else if (type === 'Percentage' && Other1_Percentage !== '' && Other1_Percentage > 0) {
+      let CGPA = Other1_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['Other1_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && Other1_Percentage === '') {
+      this.secondFormGroup.controls['Other1_CGPA'].setValue('');
+    }
+  }
+
+  Other2_CGPA_Calculate(type) {
+    const Other2_Percentage =  this.secondFormGroup.controls['Other2_Percentage'].value;
+    const Other2_CGPA =  this.secondFormGroup.controls['Other2_CGPA'].value;
+    if (type === 'CGPA' && Other2_CGPA !== '' && Other2_CGPA > 0) {
+      let Percentage = Other2_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['Other2_Percentage'].setValue(Percentage);
+    } else if (Other2_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['Other2_Percentage'].setValue('');
+    } else if (type === 'Percentage' && Other2_Percentage !== '' && Other2_Percentage > 0) {
+      let CGPA = Other2_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['Other2_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && Other2_Percentage === '') {
+      this.secondFormGroup.controls['Other2_CGPA'].setValue('');
+    }
+  }
+
+  Bed_CGPA_Calculate(type) {
+    const Bed_Percentage =  this.secondFormGroup.controls['Bed_Percentage'].value;
+    const Bed_CGPA =  this.secondFormGroup.controls['Bed_CGPA'].value;
+    if (type === 'CGPA' && Bed_CGPA !== '' && Bed_CGPA > 0) {
+      let Percentage = Bed_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['Bed_Percentage'].setValue(Percentage);
+    } else if (Bed_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['Bed_Percentage'].setValue('');
+    } else if (type === 'Percentage' && Bed_Percentage !== '' && Bed_Percentage > 0) {
+      let CGPA = Bed_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['Bed_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && Bed_Percentage === '') {
+      this.secondFormGroup.controls['Bed_CGPA'].setValue('');
+    }
+  }
+
+  Med_CGPA_Calculate(type) {
+    const Med_Percentage =  this.secondFormGroup.controls['Med_Percentage'].value;
+    const Med_CGPA =  this.secondFormGroup.controls['Med_CGPA'].value;
+    if (type === 'CGPA' && Med_CGPA !== '' && Med_CGPA > 0) {
+      let Percentage = Med_CGPA * 9.5;
+      Percentage = Math.round(Percentage * 100) / 100;
+      this.secondFormGroup.controls['Med_Percentage'].setValue(Percentage);
+    } else if (Med_CGPA === '' && type === 'CGPA') {
+      this.secondFormGroup.controls['Med_Percentage'].setValue('');
+    } else if (type === 'Percentage' && Med_Percentage !== '' && Med_Percentage > 0) {
+      let CGPA = Med_Percentage / 9.5;
+      CGPA = Math.round(CGPA * 10) / 10;
+      this.secondFormGroup.controls['Med_CGPA'].setValue(CGPA);
+    } else if (type === 'Percentage' && Med_Percentage === '') {
+      this.secondFormGroup.controls['Med_CGPA'].setValue('');
+    }
+  }
+
   Experience_Change() {
     const old_array = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'];
     const old_array_1 = <FormArray>this.thirdFormGroup.controls['Industry_Experience']['controls'];
@@ -487,11 +712,12 @@ export class OnlineFormComponent implements OnInit {
     }
   }
 
+
   TeachingExperience_FormArray(): FormGroup {
     return this._formBuilder.group({
       Institute_Name: new FormControl(''),
       Designation: new FormControl(''),
-      Responsiblities: new FormControl(''),
+      Responsibilities: new FormControl(''),
       Salary: new FormControl(''),
       Working_Duration_From: new FormControl(''),
       Working_Duration_To: new FormControl(''),
@@ -506,7 +732,7 @@ export class OnlineFormComponent implements OnInit {
       const control = <FormArray>this.thirdFormGroup.controls['Teaching_Experience'];
       control.removeAt(index);
   }
-  Calculate_Teachnig_Duration(_type, _value, _index) {
+  Calculate_Teaching_Duration(_type, _value, _index) {
       const from_Data = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'][_index]['controls']['Working_Duration_From'];
       let from_time = 0;
       if (_type === 'From') {
@@ -527,17 +753,17 @@ export class OnlineFormComponent implements OnInit {
           const days: number = Math.floor(diff / day);
           const months: number = Math.floor(days / 30);
           const years: number = Math.floor(months / 12);
-          let Duaration = '';
+          let Duration = '';
           if (years <= 0) {
-            if (months > 0) { Duaration = months + 'months';
-            } else if (days > 0) { Duaration = days + 'days';
-            } else { Duaration = '0'; }
+            if (months > 0) { Duration = months + 'months';
+            } else if (days > 0) { Duration = days + 'days';
+            } else { Duration = '0'; }
           } else {
             const if_month = months - (years * 12);
-            if (if_month > 0) { Duaration = years + 'years ' + if_month + 'months';
-            } else { Duaration = years + 'years'; }
+            if (if_month > 0) { Duration = years + 'years ' + if_month + 'months';
+            } else { Duration = years + 'years'; }
           }
-          const form_Controll = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duaration);
+          const form_Control = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duration);
         }
   }
 
@@ -545,7 +771,7 @@ export class OnlineFormComponent implements OnInit {
     return this._formBuilder.group({
       Industry_Name: new FormControl(''),
       Designation: new FormControl(''),
-      Responsiblities: new FormControl(''),
+      Responsibilities: new FormControl(''),
       Salary: new FormControl(''),
       Working_Duration_From: new FormControl(''),
       Working_Duration_To: new FormControl(''),
@@ -581,533 +807,20 @@ export class OnlineFormComponent implements OnInit {
           const days: number = Math.floor(diff / day);
           const months: number = Math.floor(days / 30);
           const years: number = Math.floor(months / 12);
-          let Duaration = '';
+          let Duration = '';
           if (years <= 0) {
-            if (months > 0) { Duaration = months + 'months';
-            } else if (days > 0) { Duaration = days + 'days';
-            } else { Duaration = '0'; }
+            if (months > 0) { Duration = months + 'months';
+            } else if (days > 0) { Duration = days + 'days';
+            } else { Duration = '0'; }
           } else {
             const if_month = months - (years * 12);
-            if (if_month > 0) { Duaration = years + 'years ' + if_month + 'months';
-            } else { Duaration = years + 'years'; }
+            if (if_month > 0) { Duration = years + 'years ' + if_month + 'months';
+            } else { Duration = years + 'years'; }
           }
-          const form_Controll = <FormArray>this.thirdFormGroup.controls['Industry_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duaration);
+          const form_Control = <FormArray>this.thirdFormGroup.controls['Industry_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duration);
         }
   }
 
-
-  Attended_FDP_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Attended_FDP_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Attended_FDP_Details') as FormArray;
-              group.push(this.Attended_FDP_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Attended_FDP_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Attended_FDP_Details') as FormArray;
-          group.push(this.Attended_FDP_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Attended_FDP_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Attended_FDP_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  Attended_Workshop_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Attended_Workshop_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Attended_Workshop_Details') as FormArray;
-              group.push(this.Attended_Workshop_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Attended_Workshop_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Attended_Workshop_Details') as FormArray;
-          group.push(this.Attended_Workshop_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Attended_Workshop_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Attended_Workshop_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  Attended_Conference_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Attended_Conference_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Attended_Conference_Details') as FormArray;
-              group.push(this.Attended_Conference_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Attended_Conference_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Attended_Conference_Details') as FormArray;
-          group.push(this.Attended_Conference_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Attended_Conference_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Attended_Conference_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  Attended_Symposium_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Attended_Symposium_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Attended_Symposium_Details') as FormArray;
-              group.push(this.Attended_Symposium_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Attended_Symposium_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Attended_Symposium_Details') as FormArray;
-          group.push(this.Attended_Symposium_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Attended_Symposium_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Attended_Symposium_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  Organized_FDP_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Organized_FDP_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Organized_FDP_Details') as FormArray;
-              group.push(this.Organized_FDP_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Organized_FDP_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Organized_FDP_Details') as FormArray;
-          group.push(this.Organized_FDP_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Organized_FDP_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Organized_FDP_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  Organized_Workshop_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Organized_Workshop_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Organized_Workshop_Details') as FormArray;
-              group.push(this.Organized_Workshop_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Organized_Workshop_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Organized_Workshop_Details') as FormArray;
-          group.push(this.Organized_Workshop_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Organized_Workshop_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Organized_Workshop_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  Organized_Conference_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Organized_Conference_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Organized_Conference_Details') as FormArray;
-              group.push(this.Organized_Conference_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Organized_Conference_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Organized_Conference_Details') as FormArray;
-          group.push(this.Organized_Conference_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Organized_Conference_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Organized_Conference_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  Organized_Symposium_Change(value) {
-    const old_array = <FormArray>this.thirdFormGroup.controls['Organized_Symposium_Details']['controls'];
-    if (value !== '' && value > 0) {
-      if (old_array.length > 0) {
-        if (value > old_array.length ) {
-          let new_value = value - old_array.length;
-          if (old_array.length < 3 ) {
-            if ((old_array.length + new_value) > 3) { new_value = 3 - old_array.length; }
-            let i = 0;
-            while ( i++ < new_value) {
-              const group = this.thirdFormGroup.get('Organized_Symposium_Details') as FormArray;
-              group.push(this.Organized_Symposium_FormArray());
-            }
-          }
-        } else {
-          const remove_value = old_array.length - value;
-          const old_array_length = old_array.length;
-          let i = 0;
-          while ( i++ <= remove_value) {
-            const Get_index = old_array_length - i;
-            const control = <FormArray>this.thirdFormGroup.controls['Organized_Symposium_Details'];
-            control.removeAt(Get_index + 1);
-          }
-        }
-      } else {
-        let new_value = value;
-        if (new_value > 3) { new_value = 3; }
-        let i = 0;
-        while ( i++ < new_value) {
-          const group = this.thirdFormGroup.get('Organized_Symposium_Details') as FormArray;
-          group.push(this.Organized_Symposium_FormArray());
-        }
-      }
-    } else {
-      if ( old_array.length > 0) {
-        let i = 0;
-        const old_array_length = old_array.length;
-        while ( i++ <= old_array_length) {
-          const Get_index = old_array_length - i;
-          const control = <FormArray>this.thirdFormGroup.controls['Organized_Symposium_Details'];
-          control.removeAt(Get_index);
-        }
-      }
-    }
-  }
-  Organized_Symposium_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-
-
-  PaperPresentation_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Title: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-  PaperPresentation_Add() {
-      const group = this.thirdFormGroup.get('Paper_Presentation') as FormArray;
-      group.push(this.PaperPresentation_FormArray());
-  }
-  PaperPresentation_Remove(index: number) {
-      const control = <FormArray>this.thirdFormGroup.controls['Paper_Presentation'];
-      control.removeAt(index);
-  }
-
-
-  ProjectPresentation_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Attended_As: new FormControl(''),
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Title: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-  ProjectPresentation_Add() {
-      const group = this.thirdFormGroup.get('Project_Presentation') as FormArray;
-      group.push(this.ProjectPresentation_FormArray());
-  }
-  ProjectPresentation_Remove(index: number) {
-      const control = <FormArray>this.thirdFormGroup.controls['Project_Presentation'];
-      control.removeAt(index);
-  }
-
-
-  UGProject_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Title: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-  UGProject_Add() {
-      const group = this.thirdFormGroup.get('UG_Project') as FormArray;
-      group.push(this.UGProject_FormArray());
-  }
-  UGProject_Remove(index: number) {
-      const control = <FormArray>this.thirdFormGroup.controls['UG_Project'];
-      control.removeAt(index);
-  }
-
-
-  PGProject_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Institute: new FormControl(''),
-      Domain: new FormControl(''),
-      Title: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-  PGProject_Add() {
-      const group = this.thirdFormGroup.get('PG_Project') as FormArray;
-      group.push(this.PGProject_FormArray());
-  }
-  PGProject_Remove(index: number) {
-      const control = <FormArray>this.thirdFormGroup.controls['PG_Project'];
-      control.removeAt(index);
-  }
 
 
   Patent_FormArray(): FormGroup {
@@ -1124,27 +837,6 @@ export class OnlineFormComponent implements OnInit {
   }
   Patent_Remove(index: number) {
       const control = <FormArray>this.thirdFormGroup.controls['Patent'];
-      control.removeAt(index);
-  }
-
-
-  Journal_FormArray(): FormGroup {
-    return this._formBuilder.group({
-      Author: new FormControl(''),
-      Title: new FormControl(''),
-      Journal_Name: new FormControl(''),
-      Volume: new FormControl(''),
-      Issue: new FormControl(''),
-      Page_No: new FormControl(''),
-      Year: new FormControl(''),
-    });
-  }
-  Journal_Add() {
-      const group = this.thirdFormGroup.get('Journal') as FormArray;
-      group.push(this.Journal_FormArray());
-  }
-  Journal_Remove(index: number) {
-      const control = <FormArray>this.thirdFormGroup.controls['Journal'];
       control.removeAt(index);
   }
 
@@ -1222,6 +914,23 @@ export class OnlineFormComponent implements OnInit {
       }
     }
   }
+
+  onUploadPhotoChange(event) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      if (file.type !== 'image/jpeg' && file.type !== 'image/jpg' && file.type !== 'image/png') {
+        this.Uploaded_Photo = null;
+        this.Uploaded_Photo_alert = 'File format not valid!';
+      } else if (file.size > 204800) {
+        this.Uploaded_Photo = null;
+        this.Uploaded_Photo_alert = 'Size more than "200KB"';
+      } else {
+        this.Uploaded_Photo_alert = '';
+        this.Uploaded_Photo = file;
+      }
+    }
+  }
+
   onUploadSignChange(event) {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -1264,18 +973,18 @@ export class OnlineFormComponent implements OnInit {
     this.FormData.set('Personal_Info', JSON.stringify(this.firstFormGroup.value));
     this.FormData.set('Education_Info', JSON.stringify(this.secondFormGroup.value));
     this.FormData.set('Activity_Info', JSON.stringify(this.thirdFormGroup.value));
-    this.FormData.set('Refrence_Info', JSON.stringify(this.fourthFormGroup.value));
+    this.FormData.set('Reference_Info', JSON.stringify(this.fourthFormGroup.value));
 
-    this.Service.Online_Form_Submit(this.FormData).subscribe( datas => {
-        if (datas['Status'] === 'True') {
+    // this.Service.Online_Form_Submit(this.FormData).subscribe( datas => {
+    //     if (datas['Status'] === 'True') {
           this.snackBar.open( 'You Application Successfully Submitted', ' ', {
             horizontalPosition: 'center',
             duration: 3000,
             verticalPosition: 'top',
           });
-          // this.router.navigate(['/']);
-        }
-    });
+          this.router.navigate(['/']);
+    //     }
+    // });
   }
 
 }
