@@ -239,7 +239,7 @@ export class OnlineFormComponent implements OnInit {
               private router: Router,
               private Active_route: ActivatedRoute,
               private Service: OnlineFormService) {
-    this.bsConfig = Object.assign({}, { containerClass: 'theme-red' });
+    this.bsConfig = Object.assign({}, { containerClass: 'theme-red', dateInputFormat: 'DD/MM/YYYY' });
     this.Active_route.params.subscribe(res => {
       this.Institute_Type = res.Type;
       if (res.Type === 'Technology' || res.Type === 'Engineering' ) {
@@ -397,8 +397,8 @@ export class OnlineFormComponent implements OnInit {
       Guide_ship: new FormControl(''),
       Guide_ship_No: new FormControl(''),
 
-      NET_Qualified: new FormControl(''),
-      NET_Qualified_No: new FormControl(''),
+      SET_Qualified: new FormControl(''),
+      SET_Marks: new FormControl(''),
     });
 
     this.thirdFormGroup = this._formBuilder.group({
@@ -543,150 +543,6 @@ export class OnlineFormComponent implements OnInit {
     }
   }
 
-  UG_CGPA_Calculate(type) {
-    const UG_Percentage =  this.secondFormGroup.controls['UG_Percentage'].value;
-    const UG_CGPA =  this.secondFormGroup.controls['UG_CGPA'].value;
-    if (type === 'CGPA' && UG_CGPA !== '' && UG_CGPA > 0) {
-      let Percentage = UG_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['UG_Percentage'].setValue(Percentage);
-    } else if (UG_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['UG_Percentage'].setValue('');
-    } else if (type === 'Percentage' && UG_Percentage !== '' && UG_Percentage > 0) {
-      let CGPA = UG_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['UG_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && UG_Percentage === '') {
-      this.secondFormGroup.controls['UG_CGPA'].setValue('');
-    }
-  }
-
-  PG_CGPA_Calculate(type) {
-    const PG_Percentage =  this.secondFormGroup.controls['PG_Percentage'].value;
-    const PG_CGPA =  this.secondFormGroup.controls['PG_CGPA'].value;
-    if (type === 'CGPA' && PG_CGPA !== '' && PG_CGPA > 0) {
-      let Percentage = PG_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['PG_Percentage'].setValue(Percentage);
-    } else if (PG_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['PG_Percentage'].setValue('');
-    } else if (type === 'Percentage' && PG_Percentage !== '' && PG_Percentage > 0) {
-      let CGPA = PG_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['PG_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && PG_Percentage === '') {
-      this.secondFormGroup.controls['PG_CGPA'].setValue('');
-    }
-  }
-
-  Mphil_CGPA_Calculate(type) {
-    const Mphil_Percentage =  this.secondFormGroup.controls['Mphil_Percentage'].value;
-    const Mphil_CGPA =  this.secondFormGroup.controls['Mphil_CGPA'].value;
-    if (type === 'CGPA' && Mphil_CGPA !== '' && Mphil_CGPA > 0) {
-      let Percentage = Mphil_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['Mphil_Percentage'].setValue(Percentage);
-    } else if (Mphil_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['Mphil_Percentage'].setValue('');
-    } else if (type === 'Percentage' && Mphil_Percentage !== '' && Mphil_Percentage > 0) {
-      let CGPA = Mphil_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['Mphil_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && Mphil_Percentage === '') {
-      this.secondFormGroup.controls['Mphil_CGPA'].setValue('');
-    }
-  }
-
-  PHD_CGPA_Calculate(type) {
-    const PHD_Percentage =  this.secondFormGroup.controls['PHD_Percentage'].value;
-    const PHD_CGPA =  this.secondFormGroup.controls['PHD_CGPA'].value;
-    if (type === 'CGPA' && PHD_CGPA !== '' && PHD_CGPA > 0) {
-      let Percentage = PHD_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['PHD_Percentage'].setValue(Percentage);
-    } else if (PHD_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['PHD_Percentage'].setValue('');
-    } else if (type === 'Percentage' && PHD_Percentage !== '' && PHD_Percentage > 0) {
-      let CGPA = PHD_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['PHD_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && PHD_Percentage === '') {
-      this.secondFormGroup.controls['PHD_CGPA'].setValue('');
-    }
-  }
-
-  Other1_CGPA_Calculate(type) {
-    const Other1_Percentage =  this.secondFormGroup.controls['Other1_Percentage'].value;
-    const Other1_CGPA =  this.secondFormGroup.controls['Other1_CGPA'].value;
-    if (type === 'CGPA' && Other1_CGPA !== '' && Other1_CGPA > 0) {
-      let Percentage = Other1_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['Other1_Percentage'].setValue(Percentage);
-    } else if (Other1_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['Other1_Percentage'].setValue('');
-    } else if (type === 'Percentage' && Other1_Percentage !== '' && Other1_Percentage > 0) {
-      let CGPA = Other1_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['Other1_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && Other1_Percentage === '') {
-      this.secondFormGroup.controls['Other1_CGPA'].setValue('');
-    }
-  }
-
-  Other2_CGPA_Calculate(type) {
-    const Other2_Percentage =  this.secondFormGroup.controls['Other2_Percentage'].value;
-    const Other2_CGPA =  this.secondFormGroup.controls['Other2_CGPA'].value;
-    if (type === 'CGPA' && Other2_CGPA !== '' && Other2_CGPA > 0) {
-      let Percentage = Other2_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['Other2_Percentage'].setValue(Percentage);
-    } else if (Other2_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['Other2_Percentage'].setValue('');
-    } else if (type === 'Percentage' && Other2_Percentage !== '' && Other2_Percentage > 0) {
-      let CGPA = Other2_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['Other2_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && Other2_Percentage === '') {
-      this.secondFormGroup.controls['Other2_CGPA'].setValue('');
-    }
-  }
-
-  Bed_CGPA_Calculate(type) {
-    const Bed_Percentage =  this.secondFormGroup.controls['Bed_Percentage'].value;
-    const Bed_CGPA =  this.secondFormGroup.controls['Bed_CGPA'].value;
-    if (type === 'CGPA' && Bed_CGPA !== '' && Bed_CGPA > 0) {
-      let Percentage = Bed_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['Bed_Percentage'].setValue(Percentage);
-    } else if (Bed_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['Bed_Percentage'].setValue('');
-    } else if (type === 'Percentage' && Bed_Percentage !== '' && Bed_Percentage > 0) {
-      let CGPA = Bed_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['Bed_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && Bed_Percentage === '') {
-      this.secondFormGroup.controls['Bed_CGPA'].setValue('');
-    }
-  }
-
-  Med_CGPA_Calculate(type) {
-    const Med_Percentage =  this.secondFormGroup.controls['Med_Percentage'].value;
-    const Med_CGPA =  this.secondFormGroup.controls['Med_CGPA'].value;
-    if (type === 'CGPA' && Med_CGPA !== '' && Med_CGPA > 0) {
-      let Percentage = Med_CGPA * 9.5;
-      Percentage = Math.round(Percentage * 100) / 100;
-      this.secondFormGroup.controls['Med_Percentage'].setValue(Percentage);
-    } else if (Med_CGPA === '' && type === 'CGPA') {
-      this.secondFormGroup.controls['Med_Percentage'].setValue('');
-    } else if (type === 'Percentage' && Med_Percentage !== '' && Med_Percentage > 0) {
-      let CGPA = Med_Percentage / 9.5;
-      CGPA = Math.round(CGPA * 10) / 10;
-      this.secondFormGroup.controls['Med_CGPA'].setValue(CGPA);
-    } else if (type === 'Percentage' && Med_Percentage === '') {
-      this.secondFormGroup.controls['Med_CGPA'].setValue('');
-    }
-  }
-
   Experience_Change() {
     const old_array = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'];
     const old_array_1 = <FormArray>this.thirdFormGroup.controls['Industry_Experience']['controls'];
@@ -716,6 +572,7 @@ export class OnlineFormComponent implements OnInit {
   TeachingExperience_FormArray(): FormGroup {
     return this._formBuilder.group({
       Institute_Name: new FormControl(''),
+      Department: new FormControl(''),
       Designation: new FormControl(''),
       Responsibilities: new FormControl(''),
       Salary: new FormControl(''),
@@ -770,6 +627,7 @@ export class OnlineFormComponent implements OnInit {
   IndustryExperience_FormArray(): FormGroup {
     return this._formBuilder.group({
       Industry_Name: new FormControl(''),
+      Department: new FormControl(''),
       Designation: new FormControl(''),
       Responsibilities: new FormControl(''),
       Salary: new FormControl(''),

@@ -52,6 +52,14 @@
 .address_checkBox .ui-chkbox-label{
     margin-left: 10px;
 }
+.Family_Person{
+    font-weight: 600;
+    margin: 0px;
+    color: #484848;
+    font-size: 16px;
+    font-family: unset;
+    text-align: center;
+}
 
 .edu_table{
     width: 100%;

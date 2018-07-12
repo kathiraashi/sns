@@ -75,7 +75,13 @@
                                     <div class="col-sm-6"></div>
                                     <div class="col-sm-6" style="margin-top:30px;">
                                        <span class="ui-float-label">
-                                          <p-dropdown [options]="Applied_Departments" scrollHeight="130px" formControlName="Department" placeholder="Department *" optionLabel="name" [ngClass]="{'Required_Field':FormGroup['controls'].Department.status === 'INVALID' && FormGroup_Clicked}"></p-dropdown>
+                                          <ng-container *ngIf="Institute_Type === 'Technology' || Institute_Type === 'Engineering'">
+                                             <p-dropdown [options]="Applied_Departments" scrollHeight="130px" formControlName="Department" placeholder="Department *" optionLabel="name" [ngClass]="{'Required_Field':FormGroup['controls'].Department.status === 'INVALID' && FormGroup_Clicked}"></p-dropdown>
+                                          </ng-container>
+                                          <ng-container *ngIf="Institute_Type !== 'Technology' && Institute_Type !== 'Engineering'">
+                                             <input id="float-input" formControlName="Department" type="text" pInputText [ngClass]="{'Required_Field':FormGroup['controls'].Department.status === 'INVALID' && FormGroup_Clicked}">
+                                             <label for="float-input"> Department <span>* </span> </label>
+                                          </ng-container>
                                        </span>
                                     </div>
 											</div>
@@ -217,9 +223,9 @@
                                     </div>
                                  </div>
                               <!--  Permanent Address Header   -->
-                                 <p style="font-weight: 600; margin-top: 30px;width:100%;"> Permanent Address : </p>
+                                 <p style="font-weight: 600; margin-top: 30px; margin-bottom: 15px; width:100%;"> Permanent Address : </p>
                               <!--  Permanent Address Input   -->
-                                 <div class="row" style="padding: 5px 10px 10px 10px; display: inline-flex">
+                                 <div class="row" style="padding: 0px; margin: 0px; width:100%;">
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
                                           <input id="float-input" formControlName="Permanent_Door_No" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Permanent_Door_No.status === 'INVALID' && firstFormGroup_Clicked}">
@@ -255,9 +261,9 @@
                                     <p-checkbox binary="true" formControlName="Address_Same" (ngModelChange)="checkAddress($event)" label="Tick if both are same"></p-checkbox>
                                  </div>
                               <!--  Present Address Header   -->
-                                 <p style="font-weight: 600; margin-top: 0px;width:100%"> Present Address : </p>
+                                 <p style="font-weight: 600;     margin: 15px 0px; width:100%"> Present Address : </p>
                               <!--  Present Address Input   -->
-                                 <div class="row" style="padding: 5px 10px 10px 10px; display: inline-flex">
+                                 <div class="row" style="padding: 0px; margin: 0px; width:100%;">
                                     <div class="col-sm-4" style="margin-bottom: 25px">
                                        <span class="ui-float-label">
                                           <input id="float-input" formControlName="Present_Door_No" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Present_Door_No.status === 'INVALID' && firstFormGroup_Clicked}">
@@ -299,288 +305,200 @@
                                     </div>
                                  </div>
                               <!--  Family Details Header   -->
-                                 <div class="row" style="margin-left:30px;">
+                                 <div class="row">
                                     <div class="col-sm-12">
                                        <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Details of family members : </p>
                                     </div>
                                  </div>
-                              <!-- Single Family Details  -->
-                                 <ng-container *ngIf="firstFormGroup.controls['Marital_Status'].value === 'Single'">
-                                    <!-- Single Family Details Table Header  -->
-                                       <div class="row">
-                                          <div class="col-sm-4"></div>
-                                          <div class="col-sm-4">
-                                             <p style="text-align:center;width:100%"> Father </p>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <p style="text-align:center;width:100%"> Mother </p>
-                                          </div>
-                                       </div>
-                                    <!-- Single Family Details Table Name  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-4">
-                                             <p style="text-align:right;width:100%"> Name <span style="color: #ff7500"> * </span> </p>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Father_Name.status === 'INVALID' && firstFormGroup_Clicked}">
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Mother_Name.status === 'INVALID' && firstFormGroup_Clicked}">
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Single Family Details Table Designation  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-4">
-                                             <p style="text-align:right;width:100%"> Designation </p>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Designation" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Designation" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Single Family Details Table Organization  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-4">
-                                             <p style="text-align:right;width:100%"> Organization </p>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Organization" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Organization" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Single Family Details Table Locality  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-4">
-                                             <p style="text-align:right;width:100%"> Location </p>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Locality" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-4">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Locality" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Single Family Details Number of Siblings  -->
-                                       <div class="row" style="margin-left:30px;">
-                                          <div class="col-sm-4" style="margin-bottom: 25px">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="No_Of_Siblings" type="text" (keypress)="_keyPress($event)" max="10" pInputText>
-                                                <label for="float-input"> Number of siblings </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                 </ng-container>
-                              <!-- Married Family Details  -->
-                                 <ng-container *ngIf="firstFormGroup.controls['Marital_Status'].value === 'Married'">
-                                    <!-- Married Family Details Table Header  -->
-                                       <div class="row">
-                                          <div class="col-sm-3"></div>
-                                          <div class="col-sm-3">
-                                             <p style="text-align:center;width:100%"> Father </p>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <p style="text-align:center;width:100%"> Mother </p>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <p style="text-align:center;width:100%"> Spouse </p>
-                                          </div>
-                                       </div>
-                                    <!-- Married Family Details Table Name  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-3">
-                                             <p style="text-align:right;width:100%"> Name <span style="color: #ff7500"> * </span> </p>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Father_Name.status === 'INVALID' && firstFormGroup_Clicked}">
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Mother_Name.status === 'INVALID' && firstFormGroup_Clicked}">
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Spouse_Name.value === '' && firstFormGroup_Clicked}">
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Married Family Details Table Designation  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-3">
-                                             <p style="text-align:right;width:100%"> Designation </p>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Designation" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Designation" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Designation" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Married Family Details Table Organization  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-3">
-                                             <p style="text-align:right;width:100%"> Organization </p>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Organization" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Organization" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Organization" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Married Family Details Table Locality  -->
-                                       <div class="row" style="margin-bottom:15px;">
-                                          <div class="col-sm-3">
-                                             <p style="text-align:right;width:100%"> Location </p>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Father_Locality" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Mother_Locality" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                          <div class="col-sm-3">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="Spouse_Locality" type="text" pInputText>
-                                                <label for="float-input"> </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                    <!-- Married Family Details Number of kids  -->
-                                       <div class="row" style="margin-left:30px;">
-                                          <div class="col-sm-4" style="margin-bottom: 25px">
-                                             <span class="ui-float-label">
-                                                <input id="float-input" formControlName="No_Of_Kids" (ngModelChange)="kids_change($event)" type="text" (keypress)="_keyPress($event)" max="5" pInputText>
-                                                <label for="float-input"> Number of kids </label>
-                                             </span>
-                                          </div>
-                                       </div>
-                                 </ng-container>
+                              <!--  TABLE FOR FAMILY DETAILS   -->
+                                 <table class="edu_table">
+                                    <!--   Table Headings  -->
+                                       <thead>
+                                          <tr class="edu_table_heading">
+                                             <td> </td>
+                                             <td> Name *</td>
+                                             <td> Designation </td>
+                                             <td> Organization </td>
+                                             <td> Location </td>
+                                          </tr>
+                                       </thead>
+                                    <!--   Table Body  -->
+                                       <tbody>
+                                          <tr class="edu_table_body">
+                                             <td style="padding-top:15px">
+                                                <h5 class="Family_Person"> Father </h5>
+                                             </td>
+                                             <td style="padding-top:15px">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Father_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Father_Name.status === 'INVALID' && firstFormGroup_Clicked}">
+                                                   <label for="float-input">  </label>
+                                                </span>
+                                             </td>
+                                             <td style="padding-top:15px"> 
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Father_Designation" type="text" pInputText>
+                                                   <label for="float-input">  </label>
+                                                </span>
+                                             </td>
+                                             <td style="padding-top:15px"> 
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Father_Organization" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                </span>
+                                             </td>
+                                             <td style="padding-top:15px"> 
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Father_Locality" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                </span>
+                                             </td>
+                                          </tr>
+                                          <tr class="edu_table_body">
+                                             <td style="padding-top:15px">
+                                                <h5 class="Family_Person"> Mother </h5>
+                                             </td>
+                                             <td style="padding-top:15px">
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Mother_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Mother_Name.status === 'INVALID' && firstFormGroup_Clicked}">
+                                                   <label for="float-input">  </label>
+                                                </span>
+                                             </td>
+                                             <td style="padding-top:15px"> 
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Mother_Designation" type="text" pInputText>
+                                                   <label for="float-input">  </label>
+                                                </span>
+                                             </td>
+                                             <td style="padding-top:15px"> 
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Mother_Organization" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                </span>
+                                             </td>
+                                             <td style="padding-top:15px"> 
+                                                <span class="ui-float-label">
+                                                   <input id="float-input" formControlName="Mother_Locality" type="text" pInputText>
+                                                   <label for="float-input"> </label>
+                                                </span>
+                                             </td> 
+                                          </tr>
+                                          <ng-container *ngIf="firstFormGroup.controls['Marital_Status'].value === 'Married'">
+                                             <tr class="edu_table_body">
+                                                <td style="padding-top:15px">
+                                                   <h5 class="Family_Person"> Spouse </h5>
+                                                </td>
+                                                <td style="padding-top:15px">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Spouse_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Spouse_Name.value === '' && firstFormGroup_Clicked}">
+                                                      <label for="float-input">  </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding-top:15px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Spouse_Designation" type="text" pInputText>
+                                                      <label for="float-input">  </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding-top:15px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Spouse_Organization" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding-top:15px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Spouse_Locality" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td> 
+                                             </tr>
+                                          </ng-container>
+                                          <tr>
+                                             <td colspan="2">
+                                                <ng-container *ngIf="firstFormGroup.controls['Marital_Status'].value === 'Single'">
+                                                   <!-- Single Family Details Number of Siblings  -->
+                                                      <div style="margin:30px 5px 15px 15px;">
+                                                         <span class="ui-float-label">
+                                                            <input id="float-input" formControlName="No_Of_Siblings" type="text" (keypress)="_keyPress($event)" max="10" pInputText>
+                                                            <label for="float-input"> Number of siblings </label>
+                                                         </span>
+                                                      </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="firstFormGroup.controls['Marital_Status'].value === 'Married'">
+                                                   <!-- Married Family Details Number of kids  -->
+                                                      <div style="margin:30px 5px 15px 15px;">
+                                                         <span class="ui-float-label">
+                                                            <input id="float-input" formControlName="No_Of_Kids" (ngModelChange)="kids_change($event)" type="text" (keypress)="_keyPress($event)" max="5" pInputText>
+                                                            <label for="float-input"> Number of kids </label>
+                                                         </span>
+                                                      </div>
+                                                </ng-container>
+                                             </td>
+                                             <td colspan="3"></td>
+                                          </tr>
+                                       </tbody>
+                                 </table>
+                                 <br>
                               <!-- Kids  Details  -->
                                  <ng-container *ngIf="ShowKidsInfo && firstFormGroup.controls['Marital_Status'].value === 'Married'">
                                     <!-- Kids  Details Header  -->
-                                       <div class="row" style="margin-left:30px;">
+                                       <div class="row">
                                           <div class="col-sm-12">
                                              <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Details of kids : </p>
                                           </div>
                                        </div>
-                                    <!-- Kids Details Table Header  -->
-                                       <div class="row">
-                                          <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> Name <span style="color:#ff7500">* </span></p>
-                                          </div>
-                                          <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> Age <span style="color:#ff7500">* </span> </p>
-                                          </div>
-                                          <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> Gender <span style="color:#ff7500">* </span> </p>
-                                          </div>
-                                          <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> Class / Course </p>
-                                          </div>
-                                          <div class="col-sm-3" style="flex:20%">
-                                             <p style="text-align:center;width:100%"> School / College </p>
-                                          </div>
-                                       </div>
-                                    <!-- Kids Details Table Input Form Array  -->
-                                       <ng-container formArrayName="kids_List">
-                                          <div *ngFor="let item of firstFormGroup['controls'].kids_List['controls']; let i = index;">
-                                             <div [formGroupName]="i" class="row" style="margin-bottom:15px;">
-                                                <div class="col-sm-3" style="flex:20%">
-                                                   <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Name.status === 'INVALID' && firstFormGroup_Clicked}">
-                                                   <label for="float-input"> </label>
-                                                   </span>
-                                                </div>
-                                                <div class="col-sm-3" style="flex:20%">
-                                                   <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_Age" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Age.status === 'INVALID' && firstFormGroup_Clicked}">
-                                                   <label for="float-input"> </label>
-                                                   </span>
-                                                </div>
-                                                <div class="col-sm-3" style="flex:20%">
-                                                   <span class="ui-float-label">
-                                                      <p-dropdown [options]="Genders" formControlName="Kids_Gender" placeholder="Gender" optionLabel="name" [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Gender.status === 'INVALID' && firstFormGroup_Clicked}"></p-dropdown>
-                                                   </span>
-                                                </div>
-                                                <div class="col-sm-3" style="flex:20%">
-                                                   <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_Class_Course" type="text" pInputText>
-                                                   <label for="float-input"> </label>
-                                                   </span>
-                                                </div>
-                                                <div class="col-sm-3" style="flex:20%">
-                                                   <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Kids_School_College" type="text" pInputText>
-                                                   <label for="float-input"> </label>
-                                                   </span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </ng-container>
+                                       <!--   TABLE FOR DETAILS OF KIDS   -->
+                                          <table class="edu_table">
+                                             <!--   Table Headings  -->
+                                                <thead>
+                                                   <tr class="edu_table_heading">
+                                                      <td> Name *</td>
+                                                      <td> Age </td>
+                                                      <td> Gender </td>
+                                                      <td> Class / Course  </td>
+                                                      <td> School / College  </td>
+                                                   </tr>
+                                                </thead>
+                                             <!--   Table Body  -->
+                                                <tbody>
+                                                   <ng-container formArrayName="kids_List">
+                                                      <tr class="edu_table_body" *ngFor="let item of firstFormGroup['controls'].kids_List['controls']; let i = index;">
+                                                         <ng-container [formGroupName]="i" class="row" style="margin-bottom:15px;">
+                                                            <td style="padding-top:15px">
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Kids_Name" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Name.status === 'INVALID' && firstFormGroup_Clicked}">
+                                                                  <label for="float-input"> </label>
+                                                               </span>
+                                                            </td>
+                                                            <td style="padding-top:15px">
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Kids_Age" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Age.status === 'INVALID' && firstFormGroup_Clicked}">
+                                                                  <label for="float-input"> </label>
+                                                               </span>
+                                                            </td>
+                                                            <td style="padding-top:15px">
+                                                               <span class="ui-float-label">
+                                                                  <p-dropdown [options]="Genders" formControlName="Kids_Gender" placeholder="Gender" optionLabel="name" [ngClass]="{'Required_Field':firstFormGroup['controls'].kids_List['controls'][i]['controls'].Kids_Gender.status === 'INVALID' && firstFormGroup_Clicked}"></p-dropdown>
+                                                               </span>
+                                                            </td>
+                                                            <td style="padding-top:15px">
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Kids_Class_Course" type="text" pInputText>
+                                                                  <label for="float-input"> </label>
+                                                               </span>
+                                                            </td>
+                                                            <td style="padding-top:15px">
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Kids_School_College" type="text" pInputText>
+                                                                  <label for="float-input"> </label>
+                                                               </span>
+                                                            </td>
+                                                         </ng-container>
+                                                      </tr>
+                                                   </ng-container>
+                                                </tbody>
+                                          </table>
+                                          <br><br>
                                  </ng-container>
                               <!--  Buttons  -->
                                  <hr style="margin:5px">
@@ -591,10 +509,11 @@
                            </form>
                         </mat-step>
                      <!-- ***********************************************   Education Info   ******************************************* -->
-                        <mat-step > <!--  [stepControl]="secondFormGroup" -->
+                        <mat-step [stepControl]="secondFormGroup"> <!--  [stepControl]="secondFormGroup" -->
                            <form [formGroup]="secondFormGroup" style="min-height:400px">
                               <ng-template matStepLabel>Education Info</ng-template>
                               <br>
+                              <div style="border-right: 1px solid silver">
                               <!--   TABLE FOR DEGREE DETAILS   -->
                                  <table class="edu_table">
                                     <!--   Table Headings  -->
@@ -638,13 +557,13 @@
                                                 <td style="display:inline-flex">
 																	<div style="flex:28%;margin-right:2%">
 																		<span class="ui-float-label">
-																			<input id="float-input" formControlName="UG_CGPA" type="text" pInputText (blur)="UG_CGPA_Calculate('CGPA')" (keypress)="_keyPress($event)">
+																			<input id="float-input" formControlName="UG_CGPA" type="text" pInputText (keypress)="_keyPress($event)">
 																			<label for="float-input" style="font-size:12px !important"> CGPA </label>
 																		</span>
 																	</div>
                                                    <div style="flex:33%;margin-right:2%">
                                                       <span class="ui-float-label">
-                                                         <input id="float-input" formControlName="UG_Percentage" type="text" pInputText (blur)="UG_CGPA_Calculate('Percentage')" (keypress)="_keyPress($event)">
+                                                         <input id="float-input" formControlName="UG_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
                                                          <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
                                                       </span>
                                                    </div>
@@ -666,7 +585,7 @@
                                                    <td>
                                                       <span class="ui-float-label">
                                                          <input id="float-input" formControlName="Bed_Department" type="text" pInputText>
-                                                         <label for="float-input" style="font-size:12px !important"> B.ed </label>
+                                                         <label for="float-input" style="font-size:12px !important"> B.Ed </label>
                                                       </span>
                                                    </td>
                                                    <td> 
@@ -690,13 +609,13 @@
                                                    <td style="display:inline-flex">
                                                       <div style="flex:28%;margin-right:2%">
                                                          <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="Bed_CGPA" type="text" (blur)="Bed_CGPA_Calculate('CGPA')" pInputText (keypress)="_keyPress($event)">
+                                                            <input id="float-input" formControlName="Bed_CGPA" type="text" pInputText (keypress)="_keyPress($event)">
                                                             <label for="float-input" style="font-size:12px !important"> CGPA </label>
                                                          </span>
                                                       </div>
                                                       <div style="flex:33%;margin-right:2%">
                                                          <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="Bed_Percentage" type="text" (blur)="Bed_CGPA_Calculate('Percentage')" pInputText (keypress)="_keyPress($event)">
+                                                            <input id="float-input" formControlName="Bed_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
                                                             <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
                                                          </span>
                                                       </div>
@@ -741,13 +660,13 @@
                                                 <td style="display:inline-flex">
 																	<div style="flex:28%;margin-right:2%">
 																		<span class="ui-float-label">
-																			<input id="float-input" formControlName="PG_CGPA" type="text" (blur)="PG_CGPA_Calculate('CGPA')" pInputText (keypress)="_keyPress($event)">
+																			<input id="float-input" formControlName="PG_CGPA" type="text" pInputText (keypress)="_keyPress($event)">
 																			<label for="float-input" style="font-size:12px !important"> CGPA </label>
 																		</span>
 																	</div>
                                                    <div style="flex:33%;margin-right:2%">
                                                       <span class="ui-float-label">
-                                                         <input id="float-input" formControlName="PG_Percentage" type="text"  (blur)="PG_CGPA_Calculate('Percentage')"  pInputText (keypress)="_keyPress($event)">
+                                                         <input id="float-input" formControlName="PG_Percentage" type="text"  pInputText (keypress)="_keyPress($event)">
                                                          <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
                                                       </span>
                                                    </div>
@@ -792,13 +711,13 @@
                                                    <td style="display:inline-flex">
                                                       <div style="flex:28%;margin-right:2%">
                                                          <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="Mphil_CGPA" type="text" (blur)="Mphil_CGPA_Calculate('CGPA')" pInputText (keypress)="_keyPress($event)">
+                                                            <input id="float-input" formControlName="Mphil_CGPA" type="text" pInputText (keypress)="_keyPress($event)">
                                                             <label for="float-input" style="font-size:12px !important"> CGPA </label>
                                                          </span>
                                                       </div>
                                                       <div style="flex:33%;margin-right:2%">
                                                          <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="Mphil_Percentage" type="text" (blur)="Mphil_CGPA_Calculate('Percentage')"  pInputText (keypress)="_keyPress($event)">
+                                                            <input id="float-input" formControlName="Mphil_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
                                                             <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
                                                          </span>
                                                       </div>
@@ -841,24 +760,10 @@
                                                          <label for="float-input"> Year of passing </label>
                                                       </span>
                                                    </td>
-                                                   <td style="display:inline-flex">
-                                                      <div style="flex:28%;margin-right:2%">
-                                                         <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="PHD_CGPA" type="text" (blur)="PHD_CGPA_Calculate('CGPA')" pInputText (keypress)="_keyPress($event)">
-                                                            <label for="float-input" style="font-size:12px !important"> CGPA </label>
-                                                         </span>
-                                                      </div>
-                                                      <div style="flex:33%;margin-right:2%">
-                                                         <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="PHD_Percentage" type="text" (blur)="PHD_CGPA_Calculate('Percentage')" pInputText (keypress)="_keyPress($event)">
-                                                            <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
-                                                         </span>
-                                                      </div>
-                                                      <div style="flex:33%; margin-left:2%">
-                                                         <span class="ui-float-label">
-                                                            <p-dropdown [options]="Grade_Class" formControlName="PHD_Class" placeholder="Class" optionLabel="name"></p-dropdown>
-                                                         </span>
-                                                      </div>
+                                                   <td style="display:inline-flex; width:100%">
+                                                      <div style="flex:28%;margin-right:2%; background-color: #f1f1f1;height: 40px; cursor: no-drop;"></div>
+                                                      <div style="flex:33%;margin-right:2%; background-color: #f1f1f1;height: 40px; cursor: no-drop;"></div>
+                                                      <div style="flex:33%; margin-left:2%; background-color: #f1f1f1;height: 40px; cursor: no-drop;"></div>
                                                    </td>
                                                    <td> 
                                                       <span class="ui-float-label">
@@ -873,7 +778,7 @@
                                                    <td>
                                                       <span class="ui-float-label">
                                                          <input id="float-input" formControlName="Med_Department" type="text" pInputText>
-                                                         <label for="float-input" style="font-size:12px !important"> M.ed </label>
+                                                         <label for="float-input" style="font-size:12px !important"> M.Ed </label>
                                                       </span>
                                                    </td>
                                                    <td> 
@@ -897,13 +802,13 @@
                                                    <td style="display:inline-flex">
                                                       <div style="flex:28%;margin-right:2%">
                                                          <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="Med_CGPA" type="text" (blur)="Med_CGPA_Calculate('CGPA')" pInputText (keypress)="_keyPress($event)">
+                                                            <input id="float-input" formControlName="Med_CGPA" type="text" pInputText (keypress)="_keyPress($event)">
                                                             <label for="float-input" style="font-size:12px !important"> CGPA </label>
                                                          </span>
                                                       </div>
                                                       <div style="flex:33%;margin-right:2%">
                                                          <span class="ui-float-label">
-                                                            <input id="float-input" formControlName="Med_Percentage" type="text" (blur)="Med_CGPA_Calculate('Percentage')" pInputText (keypress)="_keyPress($event)">
+                                                            <input id="float-input" formControlName="Med_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
                                                             <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
                                                          </span>
                                                       </div>
@@ -949,13 +854,13 @@
                                                 <td style="display:inline-flex">
 																	<div style="flex:28%;margin-right:2%">
 																		<span class="ui-float-label">
-																			<input id="float-input" formControlName="Other1_CGPA" type="text" (blur)="Other1_CGPA_Calculate('CGPA')" pInputText (keypress)="_keyPress($event)">
+																			<input id="float-input" formControlName="Other1_CGPA" type="text" pInputText (keypress)="_keyPress($event)">
 																			<label for="float-input" style="font-size:12px !important"> CGPA </label>
 																		</span>
 																	</div>
                                                    <div style="flex:33%;margin-right:2%">
                                                       <span class="ui-float-label">
-                                                         <input id="float-input" formControlName="Other1_Percentage" type="text" (blur)="Other1_CGPA_Calculate('Percentage')" pInputText (keypress)="_keyPress($event)">
+                                                         <input id="float-input" formControlName="Other1_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
                                                          <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
                                                       </span>
                                                    </div>
@@ -1000,13 +905,13 @@
                                                 <td style="display:inline-flex">
                                                    <div style="flex:28%;margin-right:2%">
                                                       <span class="ui-float-label">
-                                                         <input id="float-input" formControlName="Other2_CGPA" type="text" (blur)="Other2_CGPA_Calculate('CGPA')" pInputText (keypress)="_keyPress($event)">
+                                                         <input id="float-input" formControlName="Other2_CGPA" type="text" pInputText (keypress)="_keyPress($event)">
                                                          <label for="float-input" style="font-size:12px !important"> CGPA </label>
                                                       </span>
                                                    </div>
                                                    <div style="flex:33%;margin-right:2%">
                                                       <span class="ui-float-label">
-                                                         <input id="float-input" formControlName="Other2_Percentage" type="text" (blur)="Other2_CGPA_Calculate('Percentage')" pInputText (keypress)="_keyPress($event)">
+                                                         <input id="float-input" formControlName="Other2_Percentage" type="text" pInputText (keypress)="_keyPress($event)">
                                                          <label for="float-input" style="font-size:12px !important"> Marks (%) </label>
                                                       </span>
                                                    </div>
@@ -1029,7 +934,7 @@
                                              </tr>
                                        </tbody>
                                  </table>
-
+                              </div>
                               <!-- Guide ship -->
                                  <ng-container *ngIf="Institute_Type !== 'Education' && Institute_Type !== 'School'">
                                     <br>
@@ -1064,17 +969,17 @@
                                     <div class="col-sm-12">
                                        <div class="radio_group">
                                           <span> Are you NET/SET/SLET Qualified? </span>
-                                          <p-radioButton class="radio_button" formControlName="NET_Qualified" name="group_7" value="Yes" label="Yes" ></p-radioButton>
-                                          <p-radioButton class="radio_button" formControlName="NET_Qualified" name="group_7" value="No" label="No" ></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="SET_Qualified" name="group_7" value="Yes" label="Yes" ></p-radioButton>
+                                          <p-radioButton class="radio_button" formControlName="SET_Qualified" name="group_7" value="No" label="No" ></p-radioButton>
                                        </div>
                                     </div>
                                  </div>
-                                 <ng-container *ngIf="secondFormGroup.controls['NET_Qualified'].value === 'Yes' ">
+                                 <ng-container *ngIf="secondFormGroup.controls['SET_Qualified'].value === 'Yes' ">
                                     <div class="row" style="margin-top:15px;margin-left: 0px">
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="NET_Qualified_No" type="text" pInputText>
-                                             <label for="float-input"> Number </label>
+                                             <input id="float-input" formControlName="SET_Marks" type="text" pInputText (keypress)="_keyPress($event)">
+                                             <label for="float-input"> Marks </label>
                                           </span>
                                        </div>
                                     </div>
@@ -1154,7 +1059,7 @@
                            </form>
                         </mat-step>
                      <!-- ***********************************************   Experience & Activities   ******************************************* -->
-                        <mat-step > <!-- [stepControl]="thirdFormGroup" -->
+                        <mat-step [stepControl]="thirdFormGroup"> <!-- [stepControl]="thirdFormGroup" -->
                            <form [formGroup]="thirdFormGroup">
                               <ng-template matStepLabel>Experience & Activities</ng-template>
                               <!-- Experience Header -->
@@ -1184,26 +1089,125 @@
                                              </div>
                                           </div>
                                        <!-- Table for  Teaching Experience Details  -->
-                                          <table class="edu_table">
-                                             <!--   Table Headings  -->
-                                                <thead>
-                                                   <tr class="edu_table_heading">
-                                                      <td style="width: 220px;"> Name of the Institute</td>
-                                                      <td style="width: 150px;"> Designation	</td>
-                                                      <td style="width: 150px;"> Responsibilities </td>
-                                                      <td style="width: 120px;"> Salary </td>
-                                                      <td > Working Duration </td>
-                                                      <td >  </td>
-                                                   </tr>
-                                                </thead>
-                                             <!--   Table Body  -->
-                                                <tbody>
-                                                   <ng-container formArrayName="Teaching_Experience">
-                                                      <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Teaching_Experience['controls']; let i = index;" [formGroupName]="i">
+                                          <div style="border-right: 1px solid silver">
+                                             <table class="edu_table">
+                                                <!--   Table Headings  -->
+                                                   <thead>
+                                                      <tr class="edu_table_heading">
+                                                         <td style="width: 200px;"> Name of the Institute</td>
+                                                         <td style="width: 130px;"> Department	</td>
+                                                         <td style="width: 130px;"> Designation	</td>
+                                                         <td style="width: 130px;"> Responsibilities </td>
+                                                         <td style="width: 90px;"> Salary </td>
+                                                         <td > Working Duration </td>
+                                                         <td >  </td>
+                                                      </tr>
+                                                   </thead>
+                                                <!--   Table Body  -->
+                                                   <tbody>
+                                                      <ng-container formArrayName="Teaching_Experience">
+                                                         <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Teaching_Experience['controls']; let i = index;" [formGroupName]="i">
+                                                               <td>
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Institute_Name" type="text" pInputText>
+                                                                     <label for="float-input"> Name of the Institute </label>
+                                                                  </span>
+                                                               </td>
+                                                               <td> 
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Department" type="text" pInputText>
+                                                                     <label for="float-input"> Department </label>
+                                                                  </span>
+                                                               </td>
+                                                               <td> 
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Designation" type="text" pInputText>
+                                                                     <label for="float-input"> Designation </label>
+                                                                  </span>
+                                                               </td>
+                                                               <td> 
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Responsibilities" type="text" pInputText>
+                                                                     <label for="float-input"> Responsibilities </label>
+                                                                  </span>
+                                                               </td>
+                                                               <td> 
+                                                                  <span class="ui-float-label">
+                                                                     <input id="float-input" formControlName="Salary" type="text" pInputText>
+                                                                     <label for="float-input"> Salary </label>
+                                                                  </span>
+                                                               </td>
+                                                               <td style="display:inline-flex">
+                                                                  <div style="flex:30%;margin-right:1.3%">
+                                                                     <span class="ui-float-label">
+                                                                        <input id="float-input" formControlName="Working_Duration_From" type="text" (ngModelChange)="Calculate_Teaching_Duration('From', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                        <label for="float-input"> From </label>
+                                                                     </span>
+                                                                  </div>
+                                                                  <div style="flex:30%; margin-left:1.3%">
+                                                                     <span class="ui-float-label">
+                                                                        <input id="float-input" formControlName="Working_Duration_To" type="text" (ngModelChange)="Calculate_Teaching_Duration('To', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                        <label for="float-input"> To </label>
+                                                                     </span>
+                                                                  </div>
+                                                                  <div style="flex:36%; margin-left:1.3%">
+                                                                     <span class="ui-float-label">
+                                                                        <input id="float-input" formControlName="Working_Duration" type="text" pInputText readonly (keypress)="_keyPress($event)">
+                                                                        <label for="float-input"> Duration </label>
+                                                                     </span>
+                                                                  </div>
+                                                               </td>
+                                                               <td>
+                                                                  <ng-container *ngIf="i === 0">
+                                                                     <i (click)="TeachingExperience_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                                  </ng-container>
+                                                                  <ng-container *ngIf="i > 0">
+                                                                     <i (click)="TeachingExperience_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                                  </ng-container>
+                                                               </td>
+                                                         </tr>
+                                                      </ng-container>
+                                                      <tr>
+                                                         <td colspan="7" style="height:20px"></td>
+                                                      </tr>
+                                                   </tbody>
+                                             </table>
+                                          </div>
+                                          <!--Industry /Other Experience Details Header-->
+                                          <div class="row" style="margin-top:30px;">
+                                                <div class="col-sm-12">
+                                                   <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Industry/Other Experience : </p>
+                                                </div>
+                                          </div>
+                                       <!-- Table for  Teaching Experience Details  -->
+                                          <div style="border-right: 1px solid silver">
+                                             <table class="edu_table">
+                                                <!--   Table Headings  -->
+                                                   <thead>
+                                                      <tr class="edu_table_heading">
+                                                         <td style="width: 200px;"> Name of the Industry</td>
+                                                         <td style="width: 130px;"> Department	</td>
+                                                         <td style="width: 130px;"> Designation	</td>
+                                                         <td style="width: 130px;"> Responsibilities </td>
+                                                         <td style="width: 90px;"> Salary </td>
+                                                         <td> Working Duration </td>
+                                                         <td>  </td>
+                                                      </tr>
+                                                   </thead>
+                                                <!--   Table Body  -->
+                                                   <tbody>
+                                                      <ng-container formArrayName="Industry_Experience">
+                                                         <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Industry_Experience['controls']; let i = index;" [formGroupName]="i">
                                                             <td>
                                                                <span class="ui-float-label">
-                                                                  <input id="float-input" formControlName="Institute_Name" type="text" pInputText>
-                                                                  <label for="float-input"> Name of the Institute </label>
+                                                                  <input id="float-input" formControlName="Industry_Name" type="text" pInputText>
+                                                                  <label for="float-input"> Name of the Industry </label>
+                                                               </span>
+                                                            </td>
+                                                            <td> 
+                                                               <span class="ui-float-label">
+                                                                  <input id="float-input" formControlName="Department" type="text" pInputText>
+                                                                  <label for="float-input"> Department </label>
                                                                </span>
                                                             </td>
                                                             <td> 
@@ -1227,120 +1231,39 @@
                                                             <td style="display:inline-flex">
                                                                <div style="flex:30%;margin-right:1.3%">
                                                                   <span class="ui-float-label">
-                                                                     <input id="float-input" formControlName="Working_Duration_From" type="text" (ngModelChange)="Calculate_Teaching_Duration('From', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                     <input id="float-input" formControlName="Working_Duration_From" type="text" (ngModelChange)="Calculate_Industry_Duration('From', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
                                                                      <label for="float-input"> From </label>
                                                                   </span>
                                                                </div>
                                                                <div style="flex:30%; margin-left:1.3%">
                                                                   <span class="ui-float-label">
-                                                                     <input id="float-input" formControlName="Working_Duration_To" type="text" (ngModelChange)="Calculate_Teaching_Duration('To', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
+                                                                     <input id="float-input" formControlName="Working_Duration_To" type="text" (ngModelChange)="Calculate_Industry_Duration('To', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
                                                                      <label for="float-input"> To </label>
                                                                   </span>
                                                                </div>
                                                                <div style="flex:36%; margin-left:1.3%">
                                                                   <span class="ui-float-label">
                                                                      <input id="float-input" formControlName="Working_Duration" type="text" pInputText readonly (keypress)="_keyPress($event)">
-                                                                     <label for="float-input"> Experience Duration </label>
+                                                                     <label for="float-input"> Duration </label>
                                                                   </span>
                                                                </div>
                                                             </td>
                                                             <td>
                                                                <ng-container *ngIf="i === 0">
-                                                                  <i (click)="TeachingExperience_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
+                                                                  <i (click)="IndustryExperience_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
                                                                </ng-container>
                                                                <ng-container *ngIf="i > 0">
-                                                                  <i (click)="TeachingExperience_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
+                                                                  <i (click)="IndustryExperience_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
                                                                </ng-container>
                                                             </td>
+                                                         </tr>
+                                                      </ng-container>
+                                                      <tr>
+                                                         <td colspan="7" style="height:20px"></td>
                                                       </tr>
-                                                   </ng-container>
-                                                   <tr>
-                                                      <td colspan="7" style="height:20px"></td>
-                                                   </tr>
-                                                </tbody>
-                                          </table>
-                                          <!--Industry /Other Experience Details Header-->
-                                          <div class="row" style="margin-top:30px;">
-                                                <div class="col-sm-12">
-                                                   <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Industry/Other Experience : </p>
-                                                </div>
+                                                   </tbody>
+                                             </table>
                                           </div>
-                                       <!-- Table for  Teaching Experience Details  -->
-                                          <table class="edu_table">
-                                             <!--   Table Headings  -->
-                                                <thead>
-                                                   <tr class="edu_table_heading">
-                                                      <td style="width: 220px;"> Name of the Industry</td>
-                                                      <td style="width: 150px;"> Designation	</td>
-                                                      <td style="width: 150px;"> Responsibilities </td>
-                                                      <td style="width: 120px;"> Salary </td>
-                                                      <td> Working Duration </td>
-                                                      <td>  </td>
-                                                   </tr>
-                                                </thead>
-                                             <!--   Table Body  -->
-                                                <tbody>
-                                                   <ng-container formArrayName="Industry_Experience">
-                                                      <tr class="edu_table_body" *ngFor="let item of thirdFormGroup['controls'].Industry_Experience['controls']; let i = index;" [formGroupName]="i">
-                                                         <td>
-                                                            <span class="ui-float-label">
-                                                               <input id="float-input" formControlName="Industry_Name" type="text" pInputText>
-                                                               <label for="float-input"> Name of the Industry </label>
-                                                            </span>
-                                                         </td>
-                                                         <td> 
-                                                            <span class="ui-float-label">
-                                                               <input id="float-input" formControlName="Designation" type="text" pInputText>
-                                                               <label for="float-input"> Designation </label>
-                                                            </span>
-                                                         </td>
-                                                         <td> 
-                                                            <span class="ui-float-label">
-                                                               <input id="float-input" formControlName="Responsibilities" type="text" pInputText>
-                                                               <label for="float-input"> Responsibilities </label>
-                                                            </span>
-                                                         </td>
-                                                         <td> 
-                                                            <span class="ui-float-label">
-                                                               <input id="float-input" formControlName="Salary" type="text" pInputText>
-                                                               <label for="float-input"> Salary </label>
-                                                            </span>
-                                                         </td>
-                                                         <td style="display:inline-flex">
-                                                            <div style="flex:30%;margin-right:1.3%">
-                                                               <span class="ui-float-label">
-                                                                  <input id="float-input" formControlName="Working_Duration_From" type="text" (ngModelChange)="Calculate_Industry_Duration('From', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
-                                                                  <label for="float-input"> From </label>
-                                                               </span>
-                                                            </div>
-                                                            <div style="flex:30%; margin-left:1.3%">
-                                                               <span class="ui-float-label">
-                                                                  <input id="float-input" formControlName="Working_Duration_To" type="text" (ngModelChange)="Calculate_Industry_Duration('To', $event, i)" pInputText [bsConfig]="bsConfig" placement="left" bsDatepicker (keypress)="_keyPress($event)">
-                                                                  <label for="float-input"> To </label>
-                                                               </span>
-                                                            </div>
-                                                            <div style="flex:36%; margin-left:1.3%">
-                                                               <span class="ui-float-label">
-                                                                  <input id="float-input" formControlName="Working_Duration" type="text" pInputText readonly (keypress)="_keyPress($event)">
-                                                                  <label for="float-input"> Experience Duration </label>
-                                                               </span>
-                                                            </div>
-                                                         </td>
-                                                         <td>
-                                                            <ng-container *ngIf="i === 0">
-                                                               <i (click)="IndustryExperience_Add()" style="cursor: pointer;" class="material-icons"> add_circle_outline </i>
-                                                            </ng-container>
-                                                            <ng-container *ngIf="i > 0">
-                                                               <i (click)="IndustryExperience_Remove(i)" style="cursor: pointer;" class="material-icons"> remove_circle_outline </i>
-                                                            </ng-container>
-                                                         </td>
-                                                      </tr>
-                                                   </ng-container>
-                                                   <tr>
-                                                      <td colspan="7" style="height:20px"></td>
-                                                   </tr>
-                                                </tbody>
-                                          </table>
                                  </ng-container>
                               <!-- Co-curricular Activities Header-->
                                  <div class="row"style="margin-top:20px;">
@@ -1609,7 +1532,7 @@
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
                                              <input id="float-input" formControlName="Research_Found_Amount" type="text" pInputText>
-                                             <label for="float-input"> Amount in Lakes </label>
+                                             <label for="float-input"> Amount in Lakhs </label>
                                           </span>
                                        </div>
                                     </div>
@@ -1704,7 +1627,7 @@
                                     <div class="col-sm-6">
                                        <div class="row">
                                           <div class="col-sm-12">
-                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Expected Salary </p>
+                                             <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Expected Salary per Month</p>
                                           </div>
                                           <div class="col-sm-11" style="margin-left: 15px">
                                              <span class="ui-float-label">
@@ -1785,113 +1708,100 @@
                                  </ng-container>
                               <!-- Reference Header -->
                                  <br>
-                                 <div class="row" style="margin-left:0px;">
+                                 <div class="row" >
                                     <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Reference : </p>
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;margin: 0px"> Reference : </p>
                                     </div>
                                  </div>
                               <!-- Reference Details -->
                                  <ng-container>
-                                 <!-- Reference Details Table Header -->
-                                    <div class="row">
-                                       <div class="col-sm-2"></div>
-                                       <div class="col-sm-4">
-                                          <p style="text-align:center;width:100%"> Reference 1 </p>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <p style="text-align:center;width:100%"> Reference 2 </p>
-                                       </div>
-                                    </div>
-                                 <!-- Reference Details Table Name -->
-                                    <div class="row" style="margin-bottom:15px;">
-                                       <div class="col-sm-2">
-                                          <p style="text-align:right;width:100%"> Name </p>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Name" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Name" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                    </div>
-                                 <!-- Reference Details Table Designation -->
-                                    <div class="row" style="margin-bottom:15px;">
-                                       <div class="col-sm-2">
-                                          <p style="text-align:right;width:100%"> Designation </p>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Designation" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Designation" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                    </div>
-                                 <!-- Reference Details Table Organization -->
-                                    <div class="row" style="margin-bottom:15px;">
-                                       <div class="col-sm-2">
-                                          <p style="text-align:right;width:100%"> Organization </p>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Organization" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Organization" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                    </div>
-                                 <!-- Reference Details Table Contact -->
-                                    <div class="row" style="margin-bottom:15px;">
-                                       <div class="col-sm-2">
-                                          <p style="text-align:right;width:100%"> Contact Number </p>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Contact_Number" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Contact_Number" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                    </div>
-                                    <!-- Reference Details Table Email -->
-                                    <div class="row" style="margin-bottom:15px;">
-                                       <div class="col-sm-2">
-                                          <p style="text-align:right;width:100%"> Email Id </p>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference1_Email_Id" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                       <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                             <input id="float-input" formControlName="Reference2_Email_Id" type="text" pInputText>
-                                             <label for="float-input"> </label>
-                                          </span>
-                                       </div>
-                                    </div>
+                                    <table class="edu_table">
+                                       <!--   Table Headings  -->
+                                          <thead>
+                                             <tr class="edu_table_heading">
+                                                <td> </td>
+                                                <td> Name *</td>
+                                                <td> Designation </td>
+                                                <td> Organization </td>
+                                                <td> Contact Number </td>
+                                                <td> Mail Id  </td>
+                                             </tr>
+                                          </thead>
+                                       <!--   Table Body  -->
+                                          <tbody>
+                                             <tr class="edu_table_body">
+                                                <td style="padding-top:15px">
+                                                   <h5 class="Family_Person"> Reference 1 </h5>
+                                                </td>
+                                                <td style="padding-top:15px">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference1_Name" type="text" pInputText>
+                                                      <label for="float-input">  </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding-top:15px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference1_Designation" type="text" pInputText>
+                                                      <label for="float-input">  </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding-top:15px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference1_Organization" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding-top:15px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference1_Contact_Number" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding-top:15px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference1_Email_Id" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                             <tr class="edu_table_body">
+                                                <td style="padding:15px 5px">
+                                                   <h5 class="Family_Person"> Reference 2 </h5>
+                                                </td>
+                                                <td style="padding:15px 5px">
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference2_Name" type="text" pInputText>
+                                                      <label for="float-input">  </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding:15px 5px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference2_Designation" type="text" pInputText>
+                                                      <label for="float-input">  </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding:15px 5px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference2_Organization" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding:15px 5px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference2_Contact_Number" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td>
+                                                <td style="padding:15px 5px"> 
+                                                   <span class="ui-float-label">
+                                                      <input id="float-input" formControlName="Reference2_Email_Id" type="text" pInputText>
+                                                      <label for="float-input"> </label>
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                          </tbody>
+                                    </table>
+                                    <br>
                                  <!-- Declaration -->
                                     <div class="row">
                                        <div class="col-sm-12">
@@ -1900,7 +1810,7 @@
                                        <div class="col-sm-12">
                                           <p style="text-align: justify;font-size: 15px;font-weight: 500;color: #999;padding-left: 30px;">
                                              &emsp; &emsp; I hereby certify that information provided above is true to the best of my knowledge and belief.
-                                              If, at any time, any information is found to be false / incorrect, it wil disqualify me from working in SNS Institution,
+                                              If, at any time, any information is found to be false / incorrect, it will disqualify me from working in SNS Institution,
                                              and my services may be terminated without any notice.
                                           </p>
                                        </div>
