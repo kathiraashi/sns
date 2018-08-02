@@ -125,7 +125,7 @@
                            </form>
                         </mat-step>
                      <!-- ***********************************************   Personal Info  ******************************************* -->
-                        <mat-step > <!-- [stepControl]="firstFormGroup" -->
+                        <mat-step [stepControl]="firstFormGroup"> <!-- [stepControl]="firstFormGroup" -->
                            <form [formGroup]="firstFormGroup">
                               <ng-template matStepLabel>personal Info</ng-template>
                               <!--  Personal Info Row One   -->
@@ -198,19 +198,28 @@
                                           <input id="float-input" formControlName="Aadhar_No" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Aadhar_No.status === 'INVALID' && firstFormGroup_Clicked}">
                                           <label for="float-input"> Aadhar card number <span>* </span> </label>
                                        </span>
+                                       <ng-container *ngIf="firstFormGroup['controls'].Aadhar_No.errors">
+                                          <small style="color: red" *ngIf="firstFormGroup['controls'].Aadhar_No.errors.Available "> Aadhar Number Already Exist</small>
+                                       </ng-container>
                                     </div>
                                     <div class="col-sm-4">
 													<span class="ui-float-label">
 															<input id="float-input" formControlName="Email" type="email" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Email.status === 'INVALID' && firstFormGroup_Clicked}">
 															<label for="float-input"> Email Id <span>* </span> </label>
-													</span>
-													<small style="color: red" *ngIf="firstFormGroup['controls'].Email.errors && firstFormGroup_Clicked"> Enter Valid Email </small>
+                                       </span>
+                                       <ng-container *ngIf="firstFormGroup['controls'].Email.errors">
+                                          <small style="color: red" *ngIf="firstFormGroup['controls'].Email.errors && firstFormGroup_Clicked"> Enter Valid Email </small>
+                                          <small style="color: red" *ngIf="firstFormGroup['controls'].Email.errors.Available "> Email Already Exist</small>
+                                       </ng-container>
                                     </div>
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
                                           <input id="float-input" formControlName="Contact_No" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Contact_No.status === 'INVALID' && firstFormGroup_Clicked}">
                                           <label for="float-input"> Contact Number <span>* </span> </label>
                                        </span>
+                                       <ng-container *ngIf="firstFormGroup['controls'].Contact_No.errors">
+                                          <small style="color: red" *ngIf="firstFormGroup['controls'].Contact_No.errors.Available "> Contact Number Already Exist</small>
+                                       </ng-container>
                                     </div>
                                  </div>
                               <!--  Personal Info Row Five   -->
@@ -942,10 +951,10 @@
                                        <div class="col-sm-12">
                                           <div class="radio_group">
                                              <ng-container *ngIf="Institute_Type === 'Arts'">
-                                                <span> If Completed PhD, do you have Bharathiar University, Coimbatore Guide ship? </span>
+                                                <span> If Completed Phd, do you have Bharathiar University, Coimbatore Guide ship? </span>
                                              </ng-container>
                                              <ng-container *ngIf="Institute_Type !== 'Arts'">
-                                                <span> If Completed PhD, do you have Anna University, Chennai Guide ship? </span>
+                                                <span> If Completed Phd, do you have Anna University, Chennai Guide ship? </span>
                                              </ng-container>
                                              <p-radioButton class="radio_button" formControlName="Guide_ship" name="group_3" value="Yes" label="Yes" ></p-radioButton>
                                              <p-radioButton class="radio_button" formControlName="Guide_ship" name="group_3" value="No" label="No" ></p-radioButton>
@@ -978,8 +987,8 @@
                                     <div class="row" style="margin-top:15px;margin-left: 0px">
                                        <div class="col-sm-4">
                                           <span class="ui-float-label">
-                                             <input id="float-input" formControlName="SET_Marks" type="text" pInputText (keypress)="_keyPress($event)">
-                                             <label for="float-input"> Marks </label>
+                                             <input id="float-input" formControlName="SET_QualifiedYear" type="text" pInputText (keypress)="_keyPress($event)">
+                                             <label for="float-input"> Year of Qualified </label>
                                           </span>
                                        </div>
                                     </div>
@@ -996,24 +1005,24 @@
                                  <div class="row" style="margin-bottom:15px;margin-left: 0px">
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Hsl_School" type="text" pInputText>
+                                          <input id="float-input" formControlName="Hsc_School" type="text" pInputText>
                                           <label for="float-input"> Name of the School </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <p-dropdown [options]="Medium" formControlName="Hsl_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
+                                          <p-dropdown [options]="Medium" formControlName="Hsc_Medium" placeholder="Medium" optionLabel="name"></p-dropdown>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Hsl_Year_Of_Passing" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <input id="float-input" formControlName="Hsc_Year_Of_Passing" (keypress)="_keyPress($event)" type="text" pInputText>
                                           <label for="float-input"> Year of passing </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Hsl_Percentage" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <input id="float-input" formControlName="Hsc_Percentage" (keypress)="_keyPress($event)" type="text" pInputText>
                                           <label for="float-input"> Percentage (%) of Mark </label>
                                        </span>
                                     </div>
@@ -1054,7 +1063,7 @@
                                  <br><hr>
                                  <div>
                                     <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
-                                    <button style="float: right;" (click)="Submit_3()" mat-raised-button color="primary" matStepperNext>Next</button>
+                                    <button style="float: right;" mat-raised-button color="primary" matStepperNext>Next</button>
                                  </div>
                            </form>
                         </mat-step>
@@ -1274,7 +1283,7 @@
                               <!-- Programmes Attended Header-->
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Programmes Attended </p>
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Program Attended </p>
                                     </div>
                                  </div>
                               <!-- Programmes Attended Input-->
@@ -1288,7 +1297,7 @@
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
                                           <input id="float-input" formControlName="No_Of_Workshop_Attended" (keypress)="_keyPress($event)" type="number" pInputText>
-                                          <label for="float-input"> No.of Workshop </label>
+                                          <label for="float-input"> No.of Workshop/Seminar </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
@@ -1308,7 +1317,7 @@
                                  <br>
                                  <div class="row" style="margin-left:0px;">
                                     <div class="col-sm-12">
-                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Programmes Organized </p>
+                                       <p style="font-weight:600;background-color:#fff;padding-right: 10px;"> Program Organized </p>
                                     </div>
                                  </div>
                               <!-- Programmes Organized Input-->
@@ -1322,7 +1331,7 @@
                                     <div class="col-sm-3">
                                        <span class="ui-float-label">
                                           <input id="float-input"  formControlName="No_Of_Workshop_Organized" (keypress)="_keyPress($event)" type="number" pInputText>
-                                          <label for="float-input"> No.of Workshop </label>
+                                          <label for="float-input"> No.of Workshop/Seminar </label>
                                        </span>
                                     </div>
                                     <div class="col-sm-3">
@@ -1642,7 +1651,7 @@
                                  <br><hr>
                                  <div>
                                     <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
-                                    <button (click)="Submit_4()" style="float: right;" mat-raised-button color="primary" matStepperNext>Next</button>
+                                    <button style="float: right;" mat-raised-button color="primary" matStepperNext>Next</button>
                                  </div>
                            </form>
                         </mat-step>
@@ -1844,7 +1853,7 @@
                                           <div class="row">
                                              <div class="col-sm-6">
                                                 <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Place" type="text" pInputText>
+                                                   <input id="float-input" formControlName="Place" type="text" pInputText [ngClass]="{'Required_Field':fourthFormGroup['controls'].Place.status === 'INVALID' && fourthFormGroup['controls'].Place.touched}">
                                                    <label for="float-input"> Place </label>
                                                 </span>
                                              </div>
@@ -1852,7 +1861,7 @@
                                           <div class="row" style="margin-top:10px">
                                              <div class="col-sm-6">
                                                 <span class="ui-float-label">
-                                                   <input id="float-input" formControlName="Date" placement="top" [bsConfig]="bsConfig" bsDatepicker type="text"
+                                                   <input id="float-input" formControlName="Date" placement="top" [bsConfig]="bsConfig" bsDatepicker type="text" [ngClass]="{'Required_Field':fourthFormGroup['controls'].Date.status === 'INVALID' && fourthFormGroup['controls'].Date.touched}"
                                                       pInputText>
                                                    <label for="float-input"> Date </label>
                                                 </span>
@@ -1879,7 +1888,8 @@
                               <hr>
                                  <div>
                                     <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
-                                    <button (click)="Submit()" style="float: right;" mat-raised-button color="primary" matStepperNext> Submit </button>
+                                    <button [disabled]="!FormGroup.valid || !firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || !fourthFormGroup.valid || Uploaded_File === '' || Uploaded_Photo === '' || Uploaded_Sign === ''" 
+                                             (click)="Submit()" style="float: right;" mat-raised-button color="primary" matStepperNext> Submit </button>
                                  </div>
                            </form>
                         </mat-step>

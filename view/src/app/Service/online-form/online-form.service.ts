@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
-const API_URL = 'http://localhost:3000/API/Form_Submit/';
+const API_URL = 'http://139.59.20.129:5000/API/Candidate/';
 
 @Injectable()
 export class OnlineFormService {
@@ -18,9 +18,24 @@ export class OnlineFormService {
         return Observable.throw(error);
     }
 
-    public Online_Form_Submit(data: any): Observable<any[]>  {
-        return this.http .post(API_URL + 'Online_Form_Submit', data)
-        .map(response => { const datas = response.json(); return datas; }) .catch(this.handleError);
+    public Candidate_Submit(data: any): Observable<any[]>  {
+        return this.http .post(API_URL + 'Candidate_Submit', data)
+        .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
+    }
+
+    public Aadhar_AsyncValidate(data: any): Observable<any[]>  {
+        return this.http .post(API_URL + 'Aadhar_AsyncValidate', data)
+        .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
+    }
+
+    public Contact_AsyncValidate(data: any): Observable<any[]>  {
+        return this.http .post(API_URL + 'Contact_AsyncValidate', data)
+        .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
+    }
+
+    public Email_AsyncValidate(data: any): Observable<any[]>  {
+        return this.http .post(API_URL + 'Email_AsyncValidate', data)
+        .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
     }
 
 

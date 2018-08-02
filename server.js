@@ -5,7 +5,7 @@ var cors = require('cors');
 var ErrorManagement = require('./app/config/ErrorHandling.js');
 var parser = require('ua-parser-js');
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 var app = express();
 
 
@@ -23,7 +23,8 @@ var app = express();
 
 // DB Connection
 //
-    mongoose.connect('mongodb://localhost/SNS');
+    mongoose.connect('mongodb://kathiraashi:kathir143@ds263161.mlab.com:63161/sns');
+    // mongoose.connect('mongodb://localhost/SNS');
     mongoose.connection.on('error', function(err) {
         ErrorManagement.ErrorHandling.ErrorLogCreation('', 'Mongodb Connection Error', 'Server.js - 31', err);
     });
@@ -40,8 +41,13 @@ app.use('/API/Uploads', express.static('Uploads'));
 
 
 // Require routes
-    require('./app/routes/Form_Submit.routes.js')(app);
+    require('./app/routes/Candidate.routes.js')(app);
 
+app.use(express.static(__dirname + '/view/dist/'));
+
+app.use(function(req, res) {
+     res.sendFile(path.join(__dirname, '/view/dist', 'index.html'));
+});
 
 
 app.get('*', function(req, res, next){

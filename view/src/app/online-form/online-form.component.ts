@@ -1,5 +1,5 @@
 import {  Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormArray, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators, AbstractControl} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { MatSnackBar } from '@angular/material';
@@ -7,6 +7,9 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 import { OnlineFormService } from './../Service/online-form/online-form.service';
 import { Dropdown } from 'primeng/primeng';
+
+import * as moment from 'moment';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-online-form',
@@ -165,7 +168,7 @@ export class OnlineFormComponent implements OnInit {
 
   PgCourses = [
     {name: 'MA'},
-    {name: 'MSC'},
+    {name: 'MSc'},
     {name: 'MBA'},
     {name: 'MCom'},
     {name: 'MCA'},
@@ -259,6 +262,7 @@ export class OnlineFormComponent implements OnInit {
    ngOnInit() {
 
     this.FormGroup = this._formBuilder.group({
+      FormType: new FormControl({ value: this.Institute_Type} , Validators.required),
       Post_Applied: new FormControl('', Validators.required),
       Department: new FormControl('', Validators.required),
       Preferred_Subject_1: new FormControl(''),
@@ -276,10 +280,16 @@ export class OnlineFormComponent implements OnInit {
       Religion: new FormControl('', Validators.required),
       Community: new FormControl('', Validators.required),
       Caste: new FormControl('', Validators.required),
-      Aadhar_No: new FormControl('', Validators.required),
+      Aadhar_No: new FormControl('', {  validators: Validators.required,
+                                        asyncValidators: [this.Aadhar_AsyncValidate.bind(this)],
+                                        updateOn: 'blur' }),
       PAN_No: new FormControl(''),
-      Contact_No: new FormControl('', Validators.required),
-      Email: new FormControl('', [ Validators.required, Validators.email]),
+      Contact_No: new FormControl('', {  validators: Validators.required,
+                                          asyncValidators: [this.Contact_AsyncValidate.bind(this)],
+                                          updateOn: 'blur' }),
+      Email: new FormControl('', {  validators: [ Validators.required, Validators.email],
+                                    asyncValidators: [this.Email_AsyncValidate.bind(this)],
+                                    updateOn: 'blur' }),
       Permanent_Door_No: new FormControl('', Validators.required),
       Permanent_Street: new FormControl('', Validators.required),
       Permanent_City: new FormControl('', Validators.required),
@@ -384,10 +394,10 @@ export class OnlineFormComponent implements OnInit {
       Other2_Percentage: new FormControl(''),
       Other2_Medium: new FormControl(''),
 
-      Hsl_School: new FormControl(''),
-      Hsl_Medium: new FormControl(''),
-      Hsl_Year_Of_Passing: new FormControl(''),
-      Hsl_Percentage: new FormControl(''),
+      Hsc_School: new FormControl(''),
+      Hsc_Medium: new FormControl(''),
+      Hsc_Year_Of_Passing: new FormControl(''),
+      Hsc_Percentage: new FormControl(''),
 
       Sslc_School: new FormControl(''),
       Sslc_Medium: new FormControl(''),
@@ -398,7 +408,7 @@ export class OnlineFormComponent implements OnInit {
       Guide_ship_No: new FormControl(''),
 
       SET_Qualified: new FormControl(''),
-      SET_Marks: new FormControl(''),
+      SET_QualifiedYear: new FormControl(''),
     });
 
     this.thirdFormGroup = this._formBuilder.group({
@@ -461,8 +471,8 @@ export class OnlineFormComponent implements OnInit {
       Reference2_Contact_Number: new FormControl(''),
       Reference1_Email_Id: new FormControl(''),
       Reference2_Email_Id: new FormControl(''),
-      Place: new FormControl(''),
-      Date: new FormControl(''),
+      Place: new FormControl('', Validators.required),
+      Date: new FormControl('', Validators.required),
     });
 
     if (this.Institute_Type === 'School') {
@@ -470,6 +480,37 @@ export class OnlineFormComponent implements OnInit {
     }
 
   }
+
+
+  Aadhar_AsyncValidate( control: AbstractControl ) {
+      return this.Service.Aadhar_AsyncValidate({Aadhar: control.value}).pipe(map( response => {
+         if ( response['Status'] && response['Available']) {
+            return null;
+         } else {
+            return { Available: true};
+         }
+      }));
+   }
+
+   Contact_AsyncValidate( control: AbstractControl ) {
+      return this.Service.Contact_AsyncValidate({Contact: control.value}).pipe(map( response => {
+         if ( response['Status'] && response['Available']) {
+            return null;
+         } else {
+            return { Available: true};
+         }
+      }));
+   }
+
+   Email_AsyncValidate( control: AbstractControl ) {
+      return this.Service.Email_AsyncValidate({Email: control.value}).pipe(map( response => {
+         if ( response['Status'] && response['Available']) {
+            return null;
+         } else {
+            return { Available: true};
+         }
+      }));
+   }
 
 
   Marital_Status_Change() {
@@ -604,24 +645,35 @@ export class OnlineFormComponent implements OnInit {
       } else {
         to_time = new Date(To_Data.value).getTime();
       }
-        if (from_time > 0  && to_time > 0 ) {
-          const diff: number = Math.floor(to_time - from_time);
-          const day: number = 1000 * 60 * 60 * 24;
-          const days: number = Math.floor(diff / day);
-          const months: number = Math.floor(days / 30);
-          const years: number = Math.floor(months / 12);
-          let Duration = '';
-          if (years <= 0) {
-            if (months > 0) { Duration = months + 'months';
-            } else if (days > 0) { Duration = days + 'days';
-            } else { Duration = '0'; }
-          } else {
-            const if_month = months - (years * 12);
-            if (if_month > 0) { Duration = years + 'years ' + if_month + 'months';
-            } else { Duration = years + 'years'; }
-          }
-          const form_Control = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duration);
-        }
+
+      function difference(d1, d2) {
+         const m = moment(d1);
+         const years = m.diff(d2, 'years');
+         m.add(-years, 'years');
+         const months = m.diff(d2, 'months');
+         m.add(-months, 'months');
+         const days = m.diff(d2, 'days');
+         let ReturnValue = '';
+         if (years > 0) {
+            if (years > 1) { ReturnValue = years + ' Years, ';
+            } else { ReturnValue = years + ' Year, '; }
+         }
+         if (months > 0) {
+            if (months > 1) { ReturnValue = ReturnValue + months + ' Months, ';
+            } else { ReturnValue = ReturnValue + months + ' Month, '; }
+         }
+         if (days > 0) {
+            if (days > 1) { ReturnValue = ReturnValue + days + ' Days ';
+            } else { ReturnValue = ReturnValue + days + ' Day '; }
+         }
+         return ReturnValue;
+       }
+      if (from_time > 0  && to_time > 0 && from_time < to_time) {
+         const Duration = difference(new Date(to_time), new Date(from_time));
+         const form_Control = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duration);
+      } else {
+         const form_Control = <FormArray>this.thirdFormGroup.controls['Teaching_Experience']['controls'][_index]['controls']['Working_Duration'].setValue('');
+      }
   }
 
   IndustryExperience_FormArray(): FormGroup {
@@ -659,24 +711,35 @@ export class OnlineFormComponent implements OnInit {
       } else {
         to_time = new Date(To_Data.value).getTime();
       }
-        if (from_time > 0  && to_time > 0 ) {
-          const diff: number = Math.floor(to_time - from_time);
-          const day: number = 1000 * 60 * 60 * 24;
-          const days: number = Math.floor(diff / day);
-          const months: number = Math.floor(days / 30);
-          const years: number = Math.floor(months / 12);
-          let Duration = '';
-          if (years <= 0) {
-            if (months > 0) { Duration = months + 'months';
-            } else if (days > 0) { Duration = days + 'days';
-            } else { Duration = '0'; }
-          } else {
-            const if_month = months - (years * 12);
-            if (if_month > 0) { Duration = years + 'years ' + if_month + 'months';
-            } else { Duration = years + 'years'; }
-          }
-          const form_Control = <FormArray>this.thirdFormGroup.controls['Industry_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duration);
-        }
+
+      function difference(d1, d2) {
+         const m = moment(d1);
+         const years = m.diff(d2, 'years');
+         m.add(-years, 'years');
+         const months = m.diff(d2, 'months');
+         m.add(-months, 'months');
+         const days = m.diff(d2, 'days');
+         let ReturnValue = '';
+         if (years > 0) {
+            if (years > 1) { ReturnValue = years + ' Years, ';
+            } else { ReturnValue = years + ' Year, '; }
+         }
+         if (months > 0) {
+            if (months > 1) { ReturnValue = ReturnValue + months + ' Months, ';
+            } else { ReturnValue = ReturnValue + months + ' Month, '; }
+         }
+         if (days > 0) {
+            if (days > 1) { ReturnValue = ReturnValue + days + ' Days ';
+            } else { ReturnValue = ReturnValue + days + ' Day '; }
+         }
+         return ReturnValue;
+       }
+      if (from_time > 0  && to_time > 0 && from_time < to_time) {
+         const Duration = difference(new Date(to_time), new Date(from_time));
+         const form_Control = <FormArray>this.thirdFormGroup.controls['Industry_Experience']['controls'][_index]['controls']['Working_Duration'].setValue(Duration);
+      } else {
+         const form_Control = <FormArray>this.thirdFormGroup.controls['Industry_Experience']['controls'][_index]['controls']['Working_Duration'].setValue('');
+      }
   }
 
 
@@ -812,37 +875,45 @@ export class OnlineFormComponent implements OnInit {
   Submit_2() {
     this.firstFormGroup_Clicked = true;
   }
-  Submit_3() {
-    console.log(this.secondFormGroup);
-  }
-  Submit_4() {
-    console.log(this.thirdFormGroup.value);
-  }
 
 
-  Submit() {
-    if (this.Uploaded_File && this.Uploaded_File !== '') {
-      this.FormData.append('Uploaded_File', this.Uploaded_File, this.Uploaded_File.name);
-    }
-    if (this.Uploaded_Sign && this.Uploaded_Sign !== '') {
-      this.FormData.append('Uploaded_File', this.Uploaded_Sign, this.Uploaded_Sign.name);
-    }
-    this.FormData.set('Basic_Info', JSON.stringify(this.FormGroup.value));
-    this.FormData.set('Personal_Info', JSON.stringify(this.firstFormGroup.value));
-    this.FormData.set('Education_Info', JSON.stringify(this.secondFormGroup.value));
-    this.FormData.set('Activity_Info', JSON.stringify(this.thirdFormGroup.value));
-    this.FormData.set('Reference_Info', JSON.stringify(this.fourthFormGroup.value));
+   Submit() {
+      console.log(this.fourthFormGroup);
+      if (  this.FormGroup.valid &&
+            this.firstFormGroup.valid &&
+            this.secondFormGroup.valid &&
+            this.thirdFormGroup.valid &&
+            this.fourthFormGroup.valid &&
+            (this.Uploaded_File && this.Uploaded_File !== '') &&
+            (this.Uploaded_Photo && this.Uploaded_Photo !== '') &&
+            (this.Uploaded_Photo && this.Uploaded_Sign !== '')
+      ) {
+            if (this.Uploaded_File && this.Uploaded_File !== '') {
+               this.FormData.set('Cover_Later', this.Uploaded_File, this.Uploaded_File.name);
+            }
+            if (this.Uploaded_Photo && this.Uploaded_Photo !== '') {
+               this.FormData.set('Photo', this.Uploaded_Photo, this.Uploaded_Photo.name);
+            }
+            if (this.Uploaded_Sign && this.Uploaded_Sign !== '') {
+               this.FormData.set('Sign', this.Uploaded_Sign, this.Uploaded_Sign.name);
+            }
+            this.FormData.set('Basic_Info', JSON.stringify(this.FormGroup.value));
+            this.FormData.set('Personal_Info', JSON.stringify(this.firstFormGroup.value));
+            this.FormData.set('Education_Info', JSON.stringify(this.secondFormGroup.value));
+            this.FormData.set('Activity_Info', JSON.stringify(this.thirdFormGroup.value));
+            this.FormData.set('Reference_Info', JSON.stringify(this.fourthFormGroup.value));
 
-    // this.Service.Online_Form_Submit(this.FormData).subscribe( datas => {
-    //     if (datas['Status'] === 'True') {
-          this.snackBar.open( 'You Application Successfully Submitted', ' ', {
-            horizontalPosition: 'center',
-            duration: 3000,
-            verticalPosition: 'top',
-          });
-          this.router.navigate(['/']);
-    //     }
-    // });
-  }
+            this.Service.Candidate_Submit(this.FormData).subscribe( response => {
+               if (response['Status']) {
+                 this.snackBar.open( 'You Application Successfully Submitted', ' ', {
+                   horizontalPosition: 'center',
+                   duration: 4000,
+                   verticalPosition: 'top',
+                 });
+                 this.router.navigate(['/']);
+               }
+            });
+         }
+   }
 
 }
