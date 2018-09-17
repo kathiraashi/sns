@@ -23,3 +23,14 @@
 .wm-fancy-title h2:before{
     background-image: none
 }
+.wm-box-service ul {
+   margin: 0px -9px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+}
+.wm-box-service ul li{
+   margin: 2%;
+   width: 29%;
+   padding: 0px;
+}

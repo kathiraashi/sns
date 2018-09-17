@@ -1,0 +1,139 @@
+<div class="Main_Section">
+   <div class="BgFix"></div>
+   <div class="container-fluid" style="min-width:1140px">
+      <div class="row header-section">
+         <div class="col-md-2">
+            <div class="Logo">
+               <img src="assets/images/logos/SNS-TECH.png" alt="">
+            </div>
+         </div>
+         <div class="col-sm-8">
+            <div class="Title" >
+               <h4 > SNS Technical Institutions </h4>
+               <h5 > Online Examination </h5>
+            </div>
+         </div>
+         <div class="col-md-2">
+            <div class="Logo">
+               <img src="assets/images/logos/SNS.png" alt="">
+            </div>
+         </div>
+      </div>
+      <ng-container *ngIf="!LoggedIn">
+         <div class="row">
+            <div class="col-sm-8">
+               <div class="Question-Section">
+                  <div class="InstructionHeader">
+                     <h5> Examination Details </h5>
+                  </div>
+                  <div class="Points">
+                     <ul>
+                        <li> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit harum animi dolores natus sunt cupiditate architecto aperiam eveniet error. Esse voluptatibus commodi recusandae non! Culpa vel iure quaerat soluta assumenda.</li>
+                        <li> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit harum animi dolores natus sunt cupiditate architecto aperiam eveniet error. Esse voluptatibus commodi recusandae non! Culpa vel iure quaerat soluta assumenda.</li>
+                        <li> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit harum animi dolores natus sunt cupiditate architecto aperiam eveniet error. Esse voluptatibus commodi recusandae non! Culpa vel iure quaerat soluta assumenda.</li>
+                        <li> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit harum animi dolores natus sunt cupiditate architecto aperiam eveniet error. Esse voluptatibus commodi recusandae non! Culpa vel iure quaerat soluta assumenda.</li>
+                        <li> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit harum animi dolores natus sunt cupiditate architecto aperiam eveniet error. Esse voluptatibus commodi recusandae non! Culpa vel iure quaerat soluta assumenda.</li>
+                        <li> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit harum animi dolores natus sunt cupiditate architecto aperiam eveniet error. Esse voluptatibus commodi recusandae non! Culpa vel iure quaerat soluta assumenda.</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-4">
+               <div class="FormBox">
+                  <div class="Identity_Box">
+                     <h5> Examination Login </h5>
+                  </div>
+                  <div class="Form_Area">
+                     <form [formGroup]="FormGroup">
+                        <p class="error" *ngIf="FormGroup.controls['Ref_Id'].errors && !FormGroup.controls['Ref_Id'].pristine">
+                           <span *ngIf="FormGroup.controls['Ref_Id'].errors.required">Reference Id is required</span>
+                        </p>
+                        <div class="Form_Field" [ngClass]="{'Form_Err': FormGroup.controls['Ref_Id'].errors && !FormGroup.controls['Ref_Id'].pristine, 'Form_Success': FormGroup.controls['Ref_Id'].valid && !FormGroup.controls['Ref_Id'].pristine }">
+                           <input type="text" formControlName="Ref_Id" placeholder="Reference Id">
+                        </div>
+                        <p class="error" *ngIf="FormGroup.controls['OTP'].errors && !FormGroup.controls['OTP'].pristine">
+                           <span *ngIf="FormGroup.controls['OTP'].errors.required">One Time is required</span>
+                        </p>
+                        <div class="Form_Field" [ngClass]="{'Form_Err': FormGroup.controls['OTP'].errors && !FormGroup.controls['OTP'].pristine, 'Form_Success': FormGroup.controls['OTP'].valid && !FormGroup.controls['OTP'].pristine }">
+                           <input type="password" formControlName="OTP" placeholder="One Time Password">
+                        </div>
+                        <div class="Submit_Btn">
+                           <p class="error" *ngIf="ValidationAlert">
+                              <span> {{AlertMessage}}</span>
+                           </p>
+                           <button type="submit" (click)="UserValidate()" [disabled]="FormGroup.invalid" mat-raised-button color="primary"> Submit </button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </ng-container>
+      <ng-container *ngIf="LoggedIn">
+         <div class="row">
+            <div class="col-sm-8">
+               <ng-container *ngFor="let Question of _Questions; let i=index">
+                  <div *ngIf="Question['IfShow']" class="Question-Section">
+                     <div class="Question">
+                        <span> {{i + 1}} ) </span>
+                        {{Question['Question']}}
+                     </div>
+                     <div class="Options">
+                        <mat-radio-group [(ngModel)]="Question['SetAns']">
+                           <mat-radio-button value="A"> {{Question['Option_A']}} </mat-radio-button>
+                           <mat-radio-button value="B"> {{Question['Option_B']}} </mat-radio-button>
+                           <mat-radio-button value="C"> {{Question['Option_C']}} </mat-radio-button>
+                           <mat-radio-button value="D"> {{Question['Option_D']}} </mat-radio-button>
+                           <mat-radio-button value="E"> {{Question['Option_E']}} </mat-radio-button>
+                           <mat-radio-button value="F"> {{Question['Option_F']}} </mat-radio-button>
+                        </mat-radio-group>
+                     </div>
+                     <hr>
+                     <div class="Btn-Section">
+                        <div class="row">
+                           <div class="col-sm-12 text-right">
+                              <button [disabled]="Question['SetAns'] !== ''" mat-raised-button color="accent" (click)="Later(i)"> Answer Later </button>
+                              <button [disabled]="Question['SetAns'] === ''" mat-raised-button color="primary" (click)="Submit(i)"> Submit <span *ngIf="!FinalQuestion"> & Next </span>  </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </ng-container>
+            </div>
+            <div class="col-sm-4">
+               <div class="Profile-Section">
+                  <div class="row">
+                     <div class="col-sm-3">
+                        <img class="UserImg" src="assets/images/logos/SNS-TECH.png">
+                     </div>
+                     <div class="col-sm-8">
+                        <p class="UserName"> Candidate Name </p>
+                        <p class="Timer">  Time Left : <b> {{ Min }} </b>  Min  <b> {{ Sec }} </b> Sec </p>
+                        <div class="row">
+                           <div class="col-sm-12 text-right">
+                              <button style="margin-right: -35px;" mat-raised-button color="primary"> Submit </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="ShortQus-Section">
+                  <div class="InfoShortQus">
+                     <div class="Info"> <div class="Normal"></div> Not Answered  </div>
+                     <div class="Info"> <div class="Skip"></div> Answered Later </div>
+                     <div class="Info"> <div class="Ans"></div> Answered </div>
+                  </div>
+                  <div class="ShortQus">
+                     <ng-container *ngFor="let Question of _Questions; let i=index">
+                        <div class="Normal" [ngClass]="{'Ans': Question['Status'] === 'Answered', 'Skip': Question['Status'] === 'Skipped', 'BorderHighlight': Question['IfShow'] }">
+                           <span *ngIf="Question['Status'] === 'Skipped'" (click)="JumpToLater(i)" style="display:block"> {{i + 1}} </span>
+                           <span *ngIf="Question['Status'] !== 'Skipped'">  {{i +1}} </span>
+                        </div>
+                     </ng-container>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </ng-container>
+   </div>
+</div>

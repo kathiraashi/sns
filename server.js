@@ -2,8 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
+var path = require('path');
 var ErrorManagement = require('./app/config/ErrorHandling.js');
-var parser = require('ua-parser-js');
 
 var port = process.env.PORT || 5000;
 var app = express();
@@ -22,15 +22,14 @@ var app = express();
 
 
 // DB Connection
-//
-    mongoose.connect('mongodb://kathiraashi:kathir143@ds263161.mlab.com:63161/sns');
-    // mongoose.connect('mongodb://localhost/SNS');
-    mongoose.connection.on('error', function(err) {
-        ErrorManagement.ErrorHandling.ErrorLogCreation('', 'Mongodb Connection Error', 'Server.js - 31', err);
-    });
-    mongoose.connection.once('open', function() {
-        console.log('SNS Database Successfully Connected');
-    });
+   // mongoose.connect('mongodb://kathiraashi:kathir143@ds263161.mlab.com:63161/sns');
+   mongoose.connect('mongodb://kathiraashi:kathir143@ds245532.mlab.com:45532/sns-local');
+   mongoose.connection.on('error', function(err) {
+      ErrorManagement.ErrorHandling.ErrorLogCreation('', 'Mongodb Connection Error', 'Server.js - 31', err);
+   });
+   mongoose.connection.once('open', function() {
+      console.log('SNS Database Successfully Connected');
+   });
 
 
 app.use(cors());
@@ -42,16 +41,19 @@ app.use('/API/Uploads', express.static('Uploads'));
 
 // Require routes
     require('./app/routes/Candidate.routes.js')(app);
+    require('./app/routes/Settings/Institution.routes.js')(app);
+    require('./app/routes/Settings/Department.routes.js')(app);
+    require('./app/routes/Settings/ExamConfig.routes.js')(app);
 
-app.use(express.static(__dirname + '/view/dist/'));
+// app.use(express.static(__dirname + '/view/dist/'));
 
-app.use(function(req, res) {
-     res.sendFile(path.join(__dirname, '/view/dist', 'index.html'));
-});
+// app.use(function(req, res) {
+//      res.sendFile(path.join(__dirname, '/view/dist', 'index.html'));
+// });
 
 
 app.get('*', function(req, res, next){
-    res.send('This is Server Side Page');
+   res.send('This is Server Side Page');
 });
 
 

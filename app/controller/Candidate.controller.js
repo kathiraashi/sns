@@ -1,9 +1,22 @@
 var CandidateModel = require('../models/Candidate.model.js');
 var ErrorManagement = require('./../../app/config/ErrorHandling.js');
-var parser = require('ua-parser-js');
-var get_ip = require('ipware')().get_ip;
 var multer = require('multer');
+var mongoose = require('mongoose');
+var CryptoJS = require("crypto-js");
 
+var api_key = 'key-1018902c1f72fc21e3dc109706b593e3';
+var domain = 'www.inscube.com';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
+
+function Template(User, Applied, Department, Ref_Id) {
+   var Img = 'http://www.snsct.org/sites/snsct.org/themes/Montreal/img/sns_group_logo.png';
+
+   return '<div style="background-color:#f6f6f6;font-size:14px;height:100%;line-height:1.6;margin:0;padding:0;width:100%" bgcolor="#f6f6f6" height="100%" width="100%"><table style="background-color:#f6f6f6;border-collapse:separate;border-spacing:0;box-sizing:border-box;width:100%"width="100%" bgcolor="#f6f6f6"><tbody><tr> <td style="box-sizing:border-box;display:block;font-size:14px;font-weight:normal;margin:0 auto;max-width:600px;padding:10px;text-align:center;width:auto" valign="top" align="center" width="auto"> <div style="background-color:#dedede; box-sizing:border-box;display:block;margin:0 auto;max-width:600px;padding:10px;text-align:left" align="left"><table style="background:#fff;border:1px solid #e9e9e9;border-collapse:separate;border-radius:3px;border-spacing:0;box-sizing:border-box;width:100%"><tbody><tr><td style="box-sizing:border-box;font-size:14px;font-weight:normal;margin:0;padding:30px;vertical-align:top" valign="top"><table style="border-collapse:separate;border-spacing:0;box-sizing:border-box;width:100%" width="100%"><tbody><tr style="font-family: sans-serif; line-height:20px"><td style="box-sizing:border-box;font-size:14px;font-weight:normal;margin:0;vertical-align:top" valign="top"><img src="'+ Img +'" style="width:40%; margin-left:30%" alt="SNS Logo"> <p style="font-size:18px;font-weight:700;color:#717171;font-family: inherit;"> Dear <b> <i style="color: #f4962f; text-decoration: underline;"> ' +  User +' </i> </b> </p> <p style="font-size:14px;color:#717171;font-family: inherit;"> Greetings from SNS Group of Institutions! </p> <p style="font-size:14px;color:#717171;font-family: inherit;"> This is in response to your application for vacancy position at  <b> SNS Institutions  </b> </p> <p style="font-size:14px;color:#717171;font-family: inherit;">  <b> Your online application for the post of <b> <i style="color: #f4962f; text-decoration: underline;"> ' + Applied + ' </i> </b> in the department of <b> <i style="color: #f4962f; text-decoration: underline;"> ' + Department + ' </i> </b> is received.  </b> </p><p style="font-size:14px;color:#717171;font-family: inherit;">  <b> Your Reference Number : <b> <i style="color: #f4962f; text-decoration: underline;"> ' + Ref_Id + ' </i> </b>  </b> </p> <p style="font-size:14px;color:#717171;font-family: inherit;">  <b> You will be informed the status of your application after the scrutiny process. </b> </p><p style="font-size:14px;color:#717171;font-family: inherit;">  <b> Thanks for your interest in SNS Institutions. </b> </p><br><br><p style="font-size:14px;font-weight:normal;margin:0;margin-bottom:15px;padding:0;color: #717171;font-family: inherit;text-align: right;">With Regards, <br> HR Team </p></td></tr></tbody></table></td></tr></tbody></table></div></td></tr></tbody></table></div>';
+
+// var btn = '<table style="border-collapse:separate;border-spacing:0;box-sizing:border-box;margin-bottom:15px;width:auto" width="auto"><tbody><tr><td style="background-color:#e9472c;box-shadow: 0 1px 8px 0 hsla(0,0%,40%,.47);" valign="top" bgcolor="#ffda00" align="center"><a style="background-color:#e9472c ;box-sizing:border-box;color:#ffffff;display:inline-block;font-size:14px;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;cursor:pointer;letter-spacing: 0.5px" bgcolor="#ffda00" target="_blank"> ' + btn + ' </a> </td></tr></tbody></table>
+   
+}
 
 // file Upload Disk Storage and Validate Functions ----------------------------------------------------------------------------------------
 var User_Image_Storage = multer.diskStorage({
@@ -164,10 +177,12 @@ exports.Candidate_Submit = function(req, res) {
          if (typeof Education_Info.Hsc_Medium === 'object' && Object.keys(Education_Info.Hsc_Medium).length > 0) { Education_Info.Hsc_Medium = Education_Info.Hsc_Medium.name;}
          if (typeof Education_Info.Sslc_Medium === 'object' && Object.keys(Education_Info.Sslc_Medium).length > 0) { Education_Info.Sslc_Medium = Education_Info.Sslc_Medium.name;}
          
+         
          var VarCandidatesSchema = new CandidateModel.CandidatesSchema({
 
+            'Basic_Info.Institution': mongoose.Types.ObjectId(Basic_Info.Institution_Id.value),
             'Basic_Info.Post_Applied': Basic_Info.Post_Applied.name,
-            'Basic_Info.Department': Basic_Info.Department.name,
+            'Basic_Info.Department': mongoose.Types.ObjectId(Basic_Info.Department._id),
             'Basic_Info.Preferred_Subject_1': Basic_Info.Preferred_Subject_1,
             'Basic_Info.Preferred_Subject_2': Basic_Info.Preferred_Subject_2,
             'Basic_Info.Preferred_Subject_3': Basic_Info.Preferred_Subject_3,
@@ -347,22 +362,172 @@ exports.Candidate_Submit = function(req, res) {
             'Files.Cover_Later': Cover_Later[0],
             'Files.Photo': Photo[0],
             'Files.Signature': Sign[0],
-
-            Status: 'Active',
-            Stage: 1,
-            FormType: Basic_Info.FormType.value
-
+            Ref_ID: Math.floor(Date.now()).toString(),
+            FormType: Basic_Info.FormType.value,
+            Current_Status: 'Applied',
+            Current_Stage: 'Stage_1',
+            Status: 'Active'
          });
          VarCandidatesSchema.save(function(err, result) {
             if(err) {
-               console.log(err);
-               
                ErrorManagement.ErrorHandling.ErrorLogCreation(req, 'Candidate Form Submit Query Error', 'Candidate.controller.js', err);
                res.status(417).send({Status: false, Error:err, Message: "Some error occurred while Submit The Form"});           
             } else {
-               res.status(200).send({Status: true, Message: 'Your Resume Successfully Applied' });
+               var SendData = {
+                  from: 'SNS Institutions <sns.info@gmail.com>',
+                  to: Personal_Info.Email,
+                  subject: 'Acknowledgement for Submission of Online application – reg;',
+                  html: Template(Personal_Info.Name, Basic_Info.Post_Applied.name, Basic_Info.Department.Department, result.Ref_ID )
+              };
+              mailgun.messages().send(SendData, function (error, body) {
+                  if (error) {
+                      res.status(500).send({ Status: false, Error:error, Message: "Some error occurred while send The E-mail " });
+                  } else {
+                     res.status(200).send({Status: true, Message: 'Your Resume Successfully Applied' });
+                  }
+               });
             }
          });
       }
    });
 };
+
+
+exports.Online_Exam = function(req, res) {
+
+   var CryptoBytes  = CryptoJS.AES.decrypt(req.body.Info, 'SecretKeyIn@123');
+   var ReceivingData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+
+   if(!ReceivingData.Exam_Id || ReceivingData.Exam_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Examination Details can not be empty" });
+   }else if(!ReceivingData.Ref_Id || ReceivingData.Ref_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Candidate Details can not be empty" });
+   }else if(!ReceivingData.OTP || ReceivingData.OTP === '' ) {
+      res.status(200).send({Status: false, Message: "One Time Password can not be empty" });
+   }else {
+      CandidateModel.OnlineExamSchema.findOne({ Ref_ID: ReceivingData.Ref_Id, OTP: ReceivingData.OTP, '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id)}, {}, {}, function(err, result) {
+         if(err) {
+            res.status(417).send({status: false, Message: "Some error occurred while Validate the Examination Details!."});
+         } else {
+            if (result !== null) {
+               if (!result.If_Completed && !result.If_Attended) {
+                  CandidateModel.OnlineExamSchema.update(
+                     { _id: result._id },
+                     { $set: { If_Attended: true } }).exec();
+                  StartInterval( result._id, result.Candidate, result.ExamDuration);
+                  var ReturnData = CryptoJS.AES.encrypt(JSON.stringify(result), 'SecretKeyOut@123');
+                  ReturnData = ReturnData.toString();
+                  res.status(200).send({Status: true, Response: ReturnData });
+               } else {
+                  res.status(200).send({Status: false, Message: "Your Exam Already Finished!" });
+               }
+            } else {
+               res.status(200).send({Status: false, Message: "Invalid Login Details!" });
+            }
+         }
+      });
+   }
+}; 
+
+
+
+exports.Online_Exam_Qus_Submit = function(req, res) {
+
+   var CryptoBytes  = CryptoJS.AES.decrypt(req.body.Info, 'SecretKeyIn@123');
+   var ReceivingData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+   
+   if(!ReceivingData.Exam_Id || ReceivingData.Exam_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Examination Details can not be empty" });
+   }else if(!ReceivingData.Qus_Id || ReceivingData.Qus_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Question Details can not be empty" });
+   }else if(!ReceivingData.Ans || ReceivingData.Ans === '' ) {
+      res.status(200).send({Status: false, Message: "Answer Details can not be empty" });
+   }else {
+      CandidateModel.OnlineExamSchema.update(
+         { '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id), "Questions._id": mongoose.Types.ObjectId(ReceivingData.Qus_Id), If_Completed: false },
+         { $set: { "Questions.$.CandidateAnswer": ReceivingData.Ans, "Questions.$.DateTime": new Date(), "Questions.$.Status": 'Answered' },
+            $inc: { AnsweredQuestions: 1, CorrectAnsweredQuestions: parseInt(ReceivingData.Status) } }
+         ).exec(function(err, result) {
+         if(err) {
+            res.status(417).send({status: false, Message: "Some error occurred while Update the Examination Details!."});
+         } else {
+            res.status(200).send({Status: true, Message: "Successfully Updated!" });
+         }
+      });
+   }
+};  
+
+
+exports.Online_Exam_Qus_Later = function(req, res) {
+
+   var CryptoBytes  = CryptoJS.AES.decrypt(req.body.Info, 'SecretKeyIn@123');
+   var ReceivingData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+
+   if(!ReceivingData.Exam_Id || ReceivingData.Exam_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Examination Details can not be empty" });
+   }else if(!ReceivingData.Qus_Id || ReceivingData.Qus_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Question Details can not be empty" });
+   }else {
+      CandidateModel.OnlineExamSchema.update(
+         { '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id), "Questions._id": mongoose.Types.ObjectId(ReceivingData.Qus_Id), If_Completed: false },
+         { $set: { "Questions.$.DateTime": new Date(), "Questions.$.Status": 'Latter' }}
+         ).exec(function(err, result) {
+         if(err) {
+            res.status(417).send({status: false, Message: "Some error occurred while Update the Examination Details!."});
+         } else {
+            res.status(200).send({Status: true, Message: "Successfully Updated!" });
+         }
+      });
+   }
+};  
+
+
+exports.Online_Exam_Submit = function(req, res) {
+
+   var CryptoBytes  = CryptoJS.AES.decrypt(req.body.Info, 'SecretKeyIn@123');
+   var ReceivingData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+
+   if(!ReceivingData.Exam_Id || ReceivingData.Exam_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Examination Details can not be empty" });
+   }else if(!ReceivingData.Candidate_Id || ReceivingData.Candidate_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Candidate Details can not be empty" });
+   }else {
+      CandidateModel.OnlineExamSchema.update(
+         { '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id) },
+         { $set: { If_Completed: true, SubmittedDate: new Date() }}
+         ).exec(function(err, result) {
+         if(err) {
+            res.status(417).send({status: false, Message: "Some error occurred while Update the Examination Details!."});
+         } else {
+            CandidateModel.CandidatesSchema.update( 
+               {_id: mongoose.Types.ObjectId(ReceivingData.Candidate_Id)},
+               { $set: { Current_Status: 'Exam Completed', Current_Stage: 'Stage_4'} }
+            ).exec();
+            res.status(200).send({Status: true, Message: "Successfully Updated!" });
+         }
+      });
+   }
+}; 
+
+
+function StartInterval(Exam_Id, Candidate_Id, Minute) {
+   const Time =  parseInt(Minute * 60000);
+   var Interval = setInterval(int => {
+                     CandidateModel.OnlineExamSchema.update(
+                        { '_id': mongoose.Types.ObjectId(Exam_Id), If_Completed: false },
+                        { $set: { If_Completed: true, SubmittedDate: new Date() }}
+                        ).exec(function(err, result) {
+                        if(err) {
+                           res.status(417).send({status: false, Message: "Some error occurred while Update the Examination Details!."});
+                        } else {
+                           if (result.n === 1) {
+                              CandidateModel.CandidatesSchema.update( 
+                                 {_id: mongoose.Types.ObjectId(Candidate_Id)},
+                                 { $set: { Current_Status: 'Exam Completed', Current_Stage: 'Stage_4'} }
+                              ).exec();
+                           }
+                        }
+                     });
+                     clearInterval(Interval);
+                  }, Time);
+}

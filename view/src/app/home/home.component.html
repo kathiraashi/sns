@@ -68,38 +68,42 @@
   <div class="container">
           <div class="wm-service wm-box-service" style="padding-bottom: 50px;">
               <ul>
-                  <li style="width:33%">
+                 <li *ngFor="let item of _List; let i=index">
+                     <div class="wm-box-service-wrap wbgcolor" [routerLink]="[ '/Online_Form', item._id]" style="padding:20px">
+                        <img style="height: 200px;" src="http://localhost:4000/API/Uploads/Institutions/{{item.Image?.filename}}" alt="">
+                        <h6 style="margin: 20px 0 0 0;"><a href="#" style="color:#d20d2d"> {{item.Institution}} </a></h6>
+                     </div>
+                 </li>
+                  <!-- <li>
                       <div class="wm-box-service-wrap wbgcolor" [routerLink]="[ '/Online_Form', 'Technology']" style="padding:20px">
                           <img style="height: 200px;" src="assets/images/logos/SNS-TECH.png" alt="">
                           <h6 style="margin: 20px 0 0 0;"><a href="#" style="color:#d20d2d"> SNS College of Technology </a></h6>
                       </div>
                   </li>
-                  <li style="width:33%">
+                  <li>
                       <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'Engineering']" style="padding:20px">
                           <img style="height: 200px;" src="assets/images/logos/SNS-ENG.png" alt="">
                           <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d">SNS College of Engineering  </a></h6>
                       </div>
                   </li>
-                  <li style="width:33%">
+                  <li>
                       <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'Arts']" style="padding:20px">
                               <img style="height: 200px;" src="assets/images/logos/SNS-ARTS.png" alt="">
                           <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d"> SNS College of Arts & Science  </a></h6>
                       </div>
                   </li>
-                  <li style="width:16.5%">
-                  </li>
-                  <li style="width:33%">
+                  <li>
                       <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'Education']" style="padding:20px">
                               <img style="height: 200px;" src="assets/images/logos/SNS-EDU.png" alt="">
                           <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d"> SNS College of Education </a></h6>
                       </div>
                   </li>
-                  <li style="width:33%">
+                  <li>
                       <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'School']" style="padding:20px">
                               <img style="height: 200px;" src="assets/images/logos/SNS-ACADEMY.png" alt="">
                           <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d">SNS Academy </a></h6>
                       </div>
-                  </li>
+                  </li> -->
               </ul>
           </div>
   </div>

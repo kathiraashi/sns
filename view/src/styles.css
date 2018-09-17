@@ -14,6 +14,10 @@
 @import './../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
 
+
+*{
+   outline: none;
+}
 .bs-datepicker-container{
     padding: 10px
 }

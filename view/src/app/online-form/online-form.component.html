@@ -1,4 +1,4 @@
-<div class="wm-main-wrapper" style="min-width:1200px">
+<div *ngIf="Institute_Type" class="wm-main-wrapper" style="min-width:1200px">
    <!-- ***********************************************   Header   ******************************************* -->
    <header id="wm-header" class="wm-header-one">
       <div class="wm-main-header">
@@ -6,38 +6,13 @@
             <div class="row">
                <div class="col-md-2">
                   <a class="wm-logo" style="margin: 10px 0px 10px 0px;">
-							<ng-container *ngIf="Institute_Type === 'Technology'">
-								<img style="height: 110px;" src="assets/images/logos/SNS-TECH.png" alt="">
-							</ng-container>
-							<ng-container *ngIf="Institute_Type === 'Engineering'">
-								<img style="height: 110px;" src="assets/images/logos/SNS-ENG.png" alt="">
-							</ng-container>
-							<ng-container *ngIf="Institute_Type === 'Arts'">
-								<img style="height: 110px;" src="assets/images/logos/SNS-ARTS.png" alt="">
-							</ng-container>
-							<ng-container *ngIf="Institute_Type === 'Education'">
-								<img style="height: 110px;" src="assets/images/logos/SNS-EDU.png" alt="">
-							</ng-container>
-							<ng-container *ngIf="Institute_Type === 'School'">
-								<img style="height: 110px;" src="assets/images/logos/SNS-ACADEMY.png" alt="">
-							</ng-container>
+							<img style="height: 110px;" src="http://localhost:4000/API/Uploads/Institutions/{{_Data.Image?.filename}}" alt="">
                   </a>
                </div>
                <div class="col-sm-8">
 						<div class="wm-fancy-title" style="margin-bottom:0px;height:150px;line-height:200px;">
-							<h2 style="font-size:28px">
-								<ng-container *ngIf="Institute_Type === 'Technology' || Institute_Type === 'Engineering'">
-									SNS Technical Institutions 
-								</ng-container>
-								<ng-container *ngIf="Institute_Type === 'Arts'">
-									SNS College of Arts & Science
-								</ng-container>
-								<ng-container *ngIf="Institute_Type === 'Education'">
-									SNS College of Education 
-								</ng-container>
-								<ng-container *ngIf="Institute_Type === 'School'">
-									SNS Academy
-								</ng-container>
+                     <h2 style="font-size:28px">
+                        {{_Data.Institution}}
                         <br>
                         <span style="font-size:19px"> Online Application </span>
                         <br>
@@ -75,17 +50,11 @@
                                     <div class="col-sm-6"></div>
                                     <div class="col-sm-6" style="margin-top:30px;">
                                        <span class="ui-float-label">
-                                          <ng-container *ngIf="Institute_Type === 'Technology' || Institute_Type === 'Engineering'">
-                                             <p-dropdown [options]="Applied_Departments" scrollHeight="130px" formControlName="Department" placeholder="Department *" optionLabel="name" [ngClass]="{'Required_Field':FormGroup['controls'].Department.status === 'INVALID' && FormGroup_Clicked}"></p-dropdown>
-                                          </ng-container>
-                                          <ng-container *ngIf="Institute_Type !== 'Technology' && Institute_Type !== 'Engineering'">
-                                             <input id="float-input" formControlName="Department" type="text" pInputText [ngClass]="{'Required_Field':FormGroup['controls'].Department.status === 'INVALID' && FormGroup_Clicked}">
-                                             <label for="float-input"> Department <span>* </span> </label>
-                                          </ng-container>
+                                          <p-dropdown [options]="Applied_Departments" scrollHeight="130px" formControlName="Department" placeholder="Department *" optionLabel="Department" [ngClass]="{'Required_Field':FormGroup['controls'].Department.status === 'INVALID' && FormGroup_Clicked}"></p-dropdown>
                                        </span>
                                     </div>
 											</div>
-										<ng-container *ngIf="Institute_Type === 'School'">
+										<ng-container *ngIf="Online_Form_Type === 'Type_4'">
 											<!--  Preferred Subject Header   -->
 												<br><br>
 												<div class="row">
@@ -589,7 +558,7 @@
                                                 </td>
                                              </tr>
                                           <!-- Table Bed Input row -->
-                                             <ng-container *ngIf="Institute_Type === 'Education' || Institute_Type === 'School'">
+                                             <ng-container *ngIf="Online_Form_Type === 'Type_3' || Online_Form_Type === 'Type_4'">
                                                 <tr class="edu_table_body">
                                                    <td>
                                                       <span class="ui-float-label">
@@ -692,7 +661,7 @@
                                                 </td>
                                              </tr>
                                           <!--  Table MPhil Input row  -->
-                                             <ng-container *ngIf="Institute_Type !== 'Education' && Institute_Type !== 'School'">
+                                             <ng-container *ngIf="Online_Form_Type !== 'Type_3' && Online_Form_Type !== 'Type_4'">
                                                 <tr class="edu_table_body">
                                                    <td>
                                                       <span class="ui-float-label">
@@ -744,7 +713,7 @@
                                                 </tr>
                                              </ng-container>
                                           <!--  Table PHD Input row  -->
-                                             <ng-container *ngIf="Institute_Type !== 'Education' && Institute_Type !== 'School'">
+                                             <ng-container *ngIf="Online_Form_Type !== 'Type_3' && Online_Form_Type !== 'Type_4'">
                                                 <tr class="edu_table_body">
                                                    <td>
                                                       <span class="ui-float-label">
@@ -782,7 +751,7 @@
                                                 </tr>
                                              </ng-container>
                                           <!-- Table Med Input row -->
-                                             <ng-container *ngIf="Institute_Type === 'Education' || Institute_Type === 'School'">
+                                             <ng-container *ngIf="Online_Form_Type === 'Type_3' || Online_Form_Type === 'Type_4'">
                                                 <tr class="edu_table_body">
                                                    <td>
                                                       <span class="ui-float-label">
@@ -945,15 +914,15 @@
                                  </table>
                               </div>
                               <!-- Guide ship -->
-                                 <ng-container *ngIf="Institute_Type !== 'Education' && Institute_Type !== 'School'">
+                                 <ng-container *ngIf="Online_Form_Type !== 'Type_3' && Online_Form_Type !== 'Type_4'">
                                     <br>
                                     <div class="row">
                                        <div class="col-sm-12">
                                           <div class="radio_group">
-                                             <ng-container *ngIf="Institute_Type === 'Arts'">
+                                             <ng-container *ngIf="Online_Form_Type === 'Type_2'">
                                                 <span> If Completed Phd, do you have Bharathiar University, Coimbatore Guide ship? </span>
                                              </ng-container>
-                                             <ng-container *ngIf="Institute_Type !== 'Arts'">
+                                             <ng-container *ngIf="Online_Form_Type !== 'Type_2'">
                                                 <span> If Completed Phd, do you have Anna University, Chennai Guide ship? </span>
                                              </ng-container>
                                              <p-radioButton class="radio_button" formControlName="Guide_ship" name="group_3" value="Yes" label="Yes" ></p-radioButton>

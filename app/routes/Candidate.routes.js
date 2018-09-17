@@ -8,4 +8,9 @@ module.exports = function(app) {
 
     app.post('/API/Candidate/Candidate_Submit', Controller.Candidate_Submit);
 
+    app.post('/API/Candidate/Online_Exam', Controller.Online_Exam);
+    app.post('/API/Candidate/Online_Exam_Qus_Submit', Controller.Online_Exam_Qus_Submit);
+    app.post('/API/Candidate/Online_Exam_Qus_Later', Controller.Online_Exam_Qus_Later);
+    app.post('/API/Candidate/Online_Exam_Submit', Controller.Online_Exam_Submit);
+
 };

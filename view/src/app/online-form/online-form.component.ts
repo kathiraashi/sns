@@ -8,6 +8,9 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { OnlineFormService } from './../Service/online-form/online-form.service';
 import { Dropdown } from 'primeng/primeng';
 
+import * as CryptoJS from 'crypto-js';
+import { HomeService } from './../Service/home/home.service';
+
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
 
@@ -25,7 +28,9 @@ export class OnlineFormComponent implements OnInit {
   @ViewChild('fileInputSign') fileInputSign: ElementRef;
 
   Institute_Type;
-  Online_Form_Type = 0;
+  Institution_Id;
+  Online_Form_Type;
+  _Data;
 
   FormData: FormData = new FormData;
   Uploaded_File;
@@ -139,26 +144,7 @@ export class OnlineFormComponent implements OnInit {
     { name: 'Principal'}
   ];
 
-  Applied_Departments = [
-    { name: 'Aeronautical Engineering'},
-    { name: 'Agriculture Engineering'},
-    { name: 'Automobile Engineering'},
-    { name: 'Biomedical Engineering'},
-    { name: 'Civil Engineering'},
-    { name: 'Civil Engineering and Planning'},
-    { name: 'Computer Science Engineering'},
-    { name: 'Electrical and Electronics Engineering'},
-    { name: 'Electronics and Communication Engineering'},
-    { name: 'Electronics and Instrumentation Engineering'},
-    { name: 'Information Technology'},
-    { name: 'Mechanical Engineering'},
-    { name: 'Mechanical and Automation Engineering'},
-    { name: 'Mechatronics Engineering'},
-    { name: 'Master of Business Administration'},
-    { name: 'Master of Computer Application'},
-    { name: 'Science & Humanities'},
-    { name: 'Department of Physical Education'},
-  ];
+  Applied_Departments: any[] = [];
 
   Grade_Class = [
     {name: 'FWD*'},
@@ -241,28 +227,36 @@ export class OnlineFormComponent implements OnInit {
               public snackBar: MatSnackBar,
               private router: Router,
               private Active_route: ActivatedRoute,
-              private Service: OnlineFormService) {
+              private Service: OnlineFormService,
+              private Home_Service: HomeService) {
     this.bsConfig = Object.assign({}, { containerClass: 'theme-red', dateInputFormat: 'DD/MM/YYYY' });
     this.Active_route.params.subscribe(res => {
-      this.Institute_Type = res.Type;
-      if (res.Type === 'Technology' || res.Type === 'Engineering' ) {
-        this.Online_Form_Type = 1;
-      } else if (res.Type === 'Arts') {
-        this.Online_Form_Type = 2;
-      } else if (res.Type === 'Education') {
-        this.Online_Form_Type = 3;
-      } else  if (res.Type === 'School') {
-        this.Online_Form_Type = 4;
-      } else {
-        this.Online_Form_Type = 0;
-      }
+      this.Institution_Id = res.Institution_Id;
+      const Data = {Institution_Id : this.Institution_Id };
+      let Info = CryptoJS.AES.encrypt(JSON.stringify(Data), 'SecretKeyIn@123');
+      Info = Info.toString();
+      this.Home_Service.Institution_View({'Info': Info}).subscribe( response => {
+         if (response['Status'] ) {
+            const CryptoBytes  = CryptoJS.AES.decrypt(response['Response'], 'SecretKeyOut@123');
+            const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+            this._Data = DecryptedData;
+            this.Applied_Departments = this._Data.Departments;
+            console.log(DecryptedData);
+            this.Institute_Type = this._Data.Institution_Category.Category;
+            this.Online_Form_Type = this._Data.Institution_Category.Type;
+            this.GoToNext();
+         }
+      });
     });
    }
 
-   ngOnInit() {
+   ngOnInit() { }
+
+   GoToNext() {
 
     this.FormGroup = this._formBuilder.group({
-      FormType: new FormControl({ value: this.Institute_Type} , Validators.required),
+      Institution_Id: new FormControl({ value: this._Data._id} , Validators.required),
+      FormType: new FormControl({ value: this.Online_Form_Type} , Validators.required),
       Post_Applied: new FormControl('', Validators.required),
       Department: new FormControl('', Validators.required),
       Preferred_Subject_1: new FormControl(''),
@@ -475,7 +469,7 @@ export class OnlineFormComponent implements OnInit {
       Date: new FormControl('', Validators.required),
     });
 
-    if (this.Institute_Type === 'School') {
+    if (this.Online_Form_Type === 'Type_4') {
       this.FormGroup.controls['Preferred_Subject_1'].setValidators(Validators.required);
     }
 

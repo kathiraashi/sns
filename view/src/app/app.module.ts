@@ -21,13 +21,17 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { OnlineFormComponent } from './online-form/online-form.component';
 import { OnlineFormService } from './Service/online-form/online-form.service';
+import { HomeService } from './Service/home/home.service';
+import { OnlineExamService } from './Service/online-exam/online-exam.service';
+import { OnlineExamMainComponent } from './online-exam/online-exam-main/online-exam-main.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    OnlineFormComponent
+    OnlineFormComponent,
+    OnlineExamMainComponent
   ],
   imports: [
       // Default Modules
@@ -45,7 +49,7 @@ import { OnlineFormService } from './Service/online-form/online-form.service';
       BsDatepickerModule.forRoot(),
       KeyFilterModule
   ],
-  providers: [OnlineFormService],
+  providers: [OnlineFormService, HomeService, OnlineExamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
