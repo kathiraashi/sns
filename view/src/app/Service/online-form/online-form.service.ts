@@ -23,8 +23,8 @@ export class OnlineFormService {
         .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
     }
 
-    public Aadhar_AsyncValidate(data: any): Observable<any[]>  {
-        return this.http .post(API_URL + 'Aadhar_AsyncValidate', data)
+    public Pan_AsyncValidate(data: any): Observable<any[]>  {
+        return this.http .post(API_URL + 'Pan_AsyncValidate', data)
         .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
     }
 

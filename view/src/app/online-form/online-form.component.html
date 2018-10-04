@@ -164,12 +164,9 @@
                                  <div class="row" style="padding: 15px 10px 10px 10px;">
                                     <div class="col-sm-4">
                                        <span class="ui-float-label">
-                                          <input id="float-input" formControlName="Aadhar_No" (keypress)="_keyPress($event)" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].Aadhar_No.status === 'INVALID' && firstFormGroup_Clicked}">
-                                          <label for="float-input"> Aadhar card number <span>* </span> </label>
+                                          <input id="float-input" formControlName="Aadhar_No" (keypress)="_keyPress($event)" type="text" pInputText>
+                                          <label for="float-input"> Aadhar card number </label>
                                        </span>
-                                       <ng-container *ngIf="firstFormGroup['controls'].Aadhar_No.errors">
-                                          <small style="color: red" *ngIf="firstFormGroup['controls'].Aadhar_No.errors.Available "> Aadhar Number Already Exist</small>
-                                       </ng-container>
                                     </div>
                                     <div class="col-sm-4">
 													<span class="ui-float-label">
@@ -194,10 +191,13 @@
                               <!--  Personal Info Row Five   -->
                                  <div class="row" style="padding: 15px 10px 10px 10px;">
                                     <div class="col-sm-4">
-                                          <span class="ui-float-label">
-                                                <input id="float-input" formControlName="PAN_No" type="text" pInputText>
-                                                <label for="float-input"> PAN Number </label>
-                                          </span>
+                                       <span class="ui-float-label">
+                                             <input id="float-input" formControlName="PAN_No" type="text" pInputText [ngClass]="{'Required_Field':firstFormGroup['controls'].PAN_No.status === 'INVALID' && firstFormGroup_Clicked}">
+                                             <label for="float-input"> PAN Number <span>* </span> </label>
+                                       </span>
+                                       <ng-container *ngIf="firstFormGroup['controls'].PAN_No.errors">
+                                          <small style="color: red" *ngIf="firstFormGroup['controls'].PAN_No.errors.Available "> PAN Number Already Exist</small>
+                                       </ng-container>
                                     </div>
                                  </div>
                               <!--  Permanent Address Header   -->

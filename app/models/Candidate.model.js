@@ -20,8 +20,8 @@ var CandidatesSchema = mongoose.Schema({
       Religion: { type : String, required : true },
       Community: { type : String, required : true },
       Caste: { type : String, required : true },
-      Aadhar_No: { type : String, required : true },
-      PAN_No: { type : String },
+      Aadhar_No: { type : String},
+      PAN_No: { type : String, required : true  },
       Contact_No: { type : String, required : true},
       Email: { type : String, required : true },
 
@@ -226,7 +226,6 @@ var varCandidates_Data = mongoose.model('Candidates_Data', CandidatesSchema, 'Ca
 
 
 
-
 var OnlineExamSchema = mongoose.Schema({
    Candidate: { type: Schema.Types.ObjectId, ref: 'Candidates_Data', required : true, uniq: true },
    Ref_ID: { type: String, required : true },
@@ -240,14 +239,16 @@ var OnlineExamSchema = mongoose.Schema({
    Questions: [{
          Question_Id: { type: Schema.Types.ObjectId, ref: 'Question_Answer', required : true },
          Category: { type: Schema.Types.ObjectId, ref: 'Category', required : true },
-         Question: { type : String, required : true },
-         Option_A: { type : String, required : true },
-         Option_B: { type : String, required : true },
-         Option_C: { type : String, required : true },
-         Option_D: { type : String, required : true },
-         Option_E: { type : String, required : true },
-         Option_F: { type : String, required : true },
-         Answer: { type : String, required : true },
+         Question: { type : String },
+         Option_A: { type : String },
+         Option_B: { type : String },
+         Option_C: { type : String },
+         Option_D: { type : String },
+         Option_E: { type : String },
+         Option_F: { type : String },
+         Answer: { type : String },
+         Type: { type : String, required : true },
+         Image: { type : Object },
          CandidateAnswer: { type : String },
          Status: { type : String , required : true },
          DateTime: { type : Date },
@@ -263,7 +264,6 @@ var OnlineExamSchema = mongoose.Schema({
    InterviewResult_UpdateUser: { type: Schema.Types.ObjectId, ref: 'User_Management'},
    Joining_Date: { type: Date },
    Status: { type: String, required : true },
-   ExamStatus: { type: String },
    If_Attended: { type : Boolean , required : true },
    If_Completed: { type : Boolean , required : true },
    If_Deleted: { type : Boolean , required : true },

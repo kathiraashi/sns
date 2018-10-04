@@ -241,7 +241,6 @@ export class OnlineFormComponent implements OnInit {
             const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
             this._Data = DecryptedData;
             this.Applied_Departments = this._Data.Departments;
-            console.log(DecryptedData);
             this.Institute_Type = this._Data.Institution_Category.Category;
             this.Online_Form_Type = this._Data.Institution_Category.Type;
             this.GoToNext();
@@ -274,10 +273,10 @@ export class OnlineFormComponent implements OnInit {
       Religion: new FormControl('', Validators.required),
       Community: new FormControl('', Validators.required),
       Caste: new FormControl('', Validators.required),
-      Aadhar_No: new FormControl('', {  validators: Validators.required,
-                                        asyncValidators: [this.Aadhar_AsyncValidate.bind(this)],
-                                        updateOn: 'blur' }),
-      PAN_No: new FormControl(''),
+      Aadhar_No: new FormControl(''),
+      PAN_No: new FormControl('', {  validators: Validators.required,
+                                    asyncValidators: [this.Pan_AsyncValidate.bind(this)],
+                                    updateOn: 'blur' }),
       Contact_No: new FormControl('', {  validators: Validators.required,
                                           asyncValidators: [this.Contact_AsyncValidate.bind(this)],
                                           updateOn: 'blur' }),
@@ -476,8 +475,8 @@ export class OnlineFormComponent implements OnInit {
   }
 
 
-  Aadhar_AsyncValidate( control: AbstractControl ) {
-      return this.Service.Aadhar_AsyncValidate({Aadhar: control.value}).pipe(map( response => {
+  Pan_AsyncValidate( control: AbstractControl ) {
+      return this.Service.Pan_AsyncValidate({Pan: control.value}).pipe(map( response => {
          if ( response['Status'] && response['Available']) {
             return null;
          } else {

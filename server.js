@@ -22,8 +22,8 @@ var app = express();
 
 
 // DB Connection
-   // mongoose.connect('mongodb://kathiraashi:kathir143@ds263161.mlab.com:63161/sns');
-   mongoose.connect('mongodb://kathiraashi:kathir143@ds245532.mlab.com:45532/sns-local');
+   mongoose.connect('mongodb://kathiraashi:kathir143@ds263161.mlab.com:63161/sns');
+   // mongoose.connect('mongodb://kathiraashi:kathir143@ds245532.mlab.com:45532/sns-local');
    mongoose.connection.on('error', function(err) {
       ErrorManagement.ErrorHandling.ErrorLogCreation('', 'Mongodb Connection Error', 'Server.js - 31', err);
    });
@@ -45,11 +45,11 @@ app.use('/API/Uploads', express.static('Uploads'));
     require('./app/routes/Settings/Department.routes.js')(app);
     require('./app/routes/Settings/ExamConfig.routes.js')(app);
 
-// app.use(express.static(__dirname + '/view/dist/'));
+app.use(express.static(__dirname + '/view/dist/'));
 
-// app.use(function(req, res) {
-//      res.sendFile(path.join(__dirname, '/view/dist', 'index.html'));
-// });
+app.use(function(req, res) {
+     res.sendFile(path.join(__dirname, '/view/dist', 'index.html'));
+});
 
 
 app.get('*', function(req, res, next){
