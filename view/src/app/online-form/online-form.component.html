@@ -1805,7 +1805,7 @@
                                                 </label>
                                                 <p *ngIf="Uploaded_File && Uploaded_File !== ''" style="width:100%;font-size: 14px; color: green; margin: 0px;"> {{Uploaded_File.name}} </p>
                                                 <p *ngIf="Uploaded_File_alert !== ''" style="width:100%;font-size: 14px; color: red; margin: 0px;"> {{Uploaded_File_alert}} </p>
-                                                <p style="margin: 0px; font-size: 14px;"> [ Upload a hand written document specifying the works you handle in our college ] </p>
+                                                <p style="margin: 0px; font-size: 14px;width: 100%;"> [ Please upload hand written cover letter ] </p> 
                                                 <p style="font-size: 12px; color: #999; margin-top: -8px;"> (Only accepted for 'pdf' files, Size should not more then 500KB ) </p>
                                              </div>
                                              <div class="col-sm-12">
@@ -1815,7 +1815,7 @@
                                                 </label>
                                                 <p *ngIf="Uploaded_Photo && Uploaded_Photo !== ''" style="width:100%;font-size: 14px; color: green; margin: 0px;"> {{Uploaded_Photo.name}} </p>
                                                 <p *ngIf="Uploaded_Photo_alert !== ''" style="width:100%;font-size: 14px; color: red; margin: 0px;"> {{Uploaded_Photo_alert}} </p>
-                                                <p style="margin: 0px; font-size: 14px;"> [ Photograph must be a recent (within 6 months) passport size colour picture ] </p>
+                                                <p style="margin: 0px; font-size: 14px; width: 100%;"> [ Photograph must be a recent (within 6 months) passport size colour picture ] </p>
                                                 <p style="font-size: 12px; color: #999; margin-top: -8px;"> (Only accepted for 'jpeg, jpg and png' files, Size should not more then 200KB) </p>
                                              </div>
                                           </div>
@@ -1857,7 +1857,7 @@
                               <hr>
                                  <div>
                                     <button style="float: left;" mat-raised-button color="accent" matStepperPrevious>Back</button>
-                                    <button [disabled]="!FormGroup.valid || !firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || !fourthFormGroup.valid || Uploaded_File === '' || Uploaded_Photo === '' || Uploaded_Sign === ''" 
+                                    <button [disabled]="!FormGroup.valid || !firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid || !fourthFormGroup.valid || Uploaded_File === '' || Uploaded_Photo === '' || Uploaded_Sign === '' || IfHideSubmit" 
                                              (click)="Submit()" style="float: right;" mat-raised-button color="primary" matStepperNext> Submit </button>
                                  </div>
                            </form>

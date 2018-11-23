@@ -25,7 +25,7 @@ var mongoose = require('mongoose');
       }else {
          InstitutionModel.InstitutionSchema
             .findOne({ _id: ReceivingData.Institution_Id }, {}, {})
-            .populate({ path: 'Departments', select: ['Department'] })
+            .populate({ path: 'Departments', select: ['Department', 'Department_Code'] })
             .exec(function(err, result) { // Institution FindOne Query
             if(err) {
                res.status(417).send({status: false, Error:err, Message: "Some error occurred while Find The Institutions!."});

@@ -57,6 +57,8 @@ export class OnlineFormComponent implements OnInit {
   mar_status: String = 'Single';
   Experience_status: String = 'Fresher';
 
+  IfHideSubmit: Boolean = false;
+
 
   selectedCity;
 
@@ -255,6 +257,7 @@ export class OnlineFormComponent implements OnInit {
 
     this.FormGroup = this._formBuilder.group({
       Institution_Id: new FormControl({ value: this._Data._id} , Validators.required),
+      Institution_Code: new FormControl({ value: this._Data.Institution_Code} , Validators.required),
       FormType: new FormControl({ value: this.Online_Form_Type} , Validators.required),
       Post_Applied: new FormControl('', Validators.required),
       Department: new FormControl('', Validators.required),
@@ -864,14 +867,14 @@ export class OnlineFormComponent implements OnInit {
 
   Submit_1() {
     this.FormGroup_Clicked = true;
+    console.log(this.FormGroup.value);
+    
   }
   Submit_2() {
     this.firstFormGroup_Clicked = true;
   }
 
-
    Submit() {
-      console.log(this.fourthFormGroup);
       if (  this.FormGroup.valid &&
             this.firstFormGroup.valid &&
             this.secondFormGroup.valid &&
@@ -879,8 +882,10 @@ export class OnlineFormComponent implements OnInit {
             this.fourthFormGroup.valid &&
             (this.Uploaded_File && this.Uploaded_File !== '') &&
             (this.Uploaded_Photo && this.Uploaded_Photo !== '') &&
-            (this.Uploaded_Photo && this.Uploaded_Sign !== '')
+            (this.Uploaded_Photo && this.Uploaded_Sign !== '') &&
+            !this.IfHideSubmit
       ) {
+            this.IfHideSubmit = true;
             if (this.Uploaded_File && this.Uploaded_File !== '') {
                this.FormData.set('Cover_Later', this.Uploaded_File, this.Uploaded_File.name);
             }
@@ -904,6 +909,8 @@ export class OnlineFormComponent implements OnInit {
                    verticalPosition: 'top',
                  });
                  this.router.navigate(['/']);
+               } else {
+                  this.IfHideSubmit = false;
                }
             });
          }

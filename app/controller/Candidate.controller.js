@@ -361,7 +361,7 @@ exports.Candidate_Submit = function(req, res) {
             'Files.Photo': Photo[0],
             'Files.Signature': Sign[0],
             Accepted_Date: null,
-            Ref_ID: Math.floor(Date.now()).toString(),
+            Ref_ID:  Basic_Info.Institution_Code.value + '/' + Basic_Info.Department.Department_Code + '/' + Math.floor(Date.now()).toString(),
             FormType: Basic_Info.FormType.value,
             Current_Status: 'Applied',
             Current_Stage: 'Stage_1',

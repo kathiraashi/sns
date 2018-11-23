@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
             const CryptoBytes  = CryptoJS.AES.decrypt(response['Response'], 'SecretKeyOut@123');
             const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
             this._List = DecryptedData;
-            console.log(DecryptedData);
          }
       });
    }
