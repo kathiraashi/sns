@@ -24,12 +24,25 @@ export class OnlineExamMainComponent implements OnInit {
    LoggedInfo: Object = {};
    ValidationAlert: Boolean = false;
    AlertMessage;
+   Exam_Details: any[] = [];
 
    FinalQuestion: Boolean = false;
 
    constructor( private Service: OnlineExamService, private Active_route: ActivatedRoute) {
       this.Active_route.params.subscribe(res => {
          this.Exam_Id = res.Exam_Id;
+         let Info = CryptoJS.AES.encrypt(JSON.stringify(this.Exam_Id), 'SecretKeyIn@123');
+         Info = Info.toString();
+         this.Service.Exam_Details({Info: Info}).subscribe(response => {
+            if (response['Status']) {
+               const CryptoBytes  = CryptoJS.AES.decrypt(response['Response'], 'SecretKeyOut@123');
+               const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+               this.Exam_Details = DecryptedData;
+            } else {
+               this.ValidationAlert = true;
+               this.AlertMessage = response['Message'];
+            }
+         });
        });
    }
 
