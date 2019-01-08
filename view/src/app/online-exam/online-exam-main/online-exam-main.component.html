@@ -72,7 +72,7 @@
                      <ng-container *ngIf="Question['Type'] === 'Image'">
                         <div style="position: relative; display: flex">
                            <span style="margin-right: 20px"> {{i + 1}} ) </span>
-                           <img style=" max-width: calc(100% - 45px);max-height: 400px;" src="http://localhost:4000/API/Uploads/Questions/{{Question['Image']?.filename}}" alt="">
+                           <img style=" max-width: calc(100% - 45px);max-height: 400px;" src="http://139.59.59.41:4000/API/Uploads/Questions/{{Question['Image']?.filename}}" alt="">
                         </div>
                         <div class="Options">
                            <mat-radio-group [(ngModel)]="Question['SetAns']" style="flex-direction: row; width: 100%;justify-content: space-around;">

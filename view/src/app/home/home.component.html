@@ -1,175 +1,83 @@
 
-<!--// Main Wrapper \\-->
-<div class="wm-main-wrapper">
-        
-  <!--// Header \\-->
-<header id="wm-header" class="wm-header-one">
-
-      <!--// MainHeader \\-->
-      <div class="wm-main-header">
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-2">
-                      <a href="#" class="wm-logo" style="margin: 10px 0px 10px 0px;">
-                          <img style="height: 200px;" src="assets/images/logos/CLT.png" alt="">
-                      </a>
-                  </div>
-                  <div class="col-sm-8">
-                      <div class="wm-fancy-title" style="margin-bottom:0px;height:220px;line-height:300px;"> 
-                          <h2 style="font-size:30px"> SNS GROUP OF INSTITUTIONS <br>
-                              <span style="font-size:22px"> Coimbatore - 641 029 </span> <br>
-                            <p style="margin:0px;font-size:24px"> Center for Learning & Teaching  </p>
-                          </h2> 
-                      </div>
-                  </div>
-                  <div class="col-md-2">
-                      <a href="#" class="wm-logo" style="line-height: 200px; margin: 10px 0px;">
-                          <img src="assets/images/logos/SNS.png" alt="">
-                      </a>
-                  </div>
-              </div>
-          </div>
+<div class="image_section">
+   <img src="../../assets/images/logos/background.jpg" class="bg">
+   <div class="container">
+      <div class="header">
+         <div class="Img">
+            <img src="../../assets/images/logos/SNS.png" class="img-responsive">
+         </div>
+         <div class="heading">
+            <h1> SNS GROUP OF <span class="heading_1">INSTITUTIONS</span> </h1>
+            <h3> Center For Learning & Teaching </h3>
+            <h4> Coimbatore - 641 029 </h4>
+         </div>
+         <div class="Img">
+            <img src="../../assets/images/logos/CLT.png" class="img-responsive">
+         </div>
       </div>
-      <!--// MainHeader \\-->
-
-</header>
-<!--// Header \\-->
-
-<!--// Main Banner \\-->
-<div class="wm-main-banner">
-      <div class="container">
-          <marquee style="background: #ee1e24;height: 50px;font-size: 18px;line-height: 50px;color: #fff;">
-              Scrolling Display About Current Offers 
-          </marquee>
+      <div class="ContantSection" style="display: grid; margin-top: 150px; text-align: center;justify-content: center;">
+         <h2>Welcome to Staff <span>Recruitment portal!</span></h2>
+         <p>This is where you as a Qualified Professional can find attractive openings at SNS Group of Institutions,  If your still Studying and are  Interested in a work placement, you have come to the right place.
+         we look for good, motivated employees on a regular basis.</p>
       </div>
-      <div class="wm-banner-one">
-          <div class="container">
-              <div class="wm-box-service-wrap wm-bgcolor">
-                  <h1 style="color:#fff">  Welcome to SNS Group of Institutions - <small style="color:#480909"> Recruitment Portal </small></h1>
-                  <p style="font-size: 16px; color: #e0cece;text-align: justify; margin-top: 30px; padding: 0% 5%;"> Welcome to Staff Recruitment portal!
-                  This is where you as a Qualified Professional can find attractive openings at SNS Group of Institutions,  If your still Studying and are  Interested in a work placement, you have come to the right place.
-              we look for good, motivated employees on a regular basis.  </p>
-              </div>
-          </div>
+   </div>
+</div>
+<div style="background-color: #efefef;">
+   <br>
+   <br>
+   <div class="container">
+      <div class="Main_Section">
+         <h2 style="padding-bottom: 0px;color:#f58220;margin-left: 40%;">Our <span style="color: #7d7d7d">Institutions</span></h2>
+         <p style="margin:0px;margin: 0px;color: #888888;font-size: 16px;font-weight: 600;margin-left: 35%;"> Select the Institution to apply the Online</p>
+         <br>  
+         <ul>
+            <li *ngFor="let item of _List; let i=index">
+               <div [routerLink]="[ '/Online_Form', item._id]" style="padding:20px">
+                  <img src="http://139.59.59.41:4000/API/Uploads/Institutions/{{item.Image?.filename}}" alt="">
+                  <h6> {{item.Institution}} </h6>
+               </div>
+            </li>
+         </ul>
       </div>
-
+   </div>
+   <br>
+   <br>
+   <br> 
 </div>
-<!--// Main Banner \\-->
-
-<!--// Main Content \\-->
-<div class="wm-main-content" style="PADDING:0px; padding-top:60px">
-
-<!--// Main Section \\-->
-<div class="wm-main-section">
-              <div class="wm-fancy-title"> 
-                  <h2 style="border-bottom: 3px solid; padding-bottom: 0px;"> Our  <span> Institutions </span></h2>
-                  <p style="margin:0px;"> Select the Institution to apply the Online </p> 
-              </div>
-  <div class="container">
-          <div class="wm-service wm-box-service" style="padding-bottom: 50px;">
-              <ul>
-                 <li *ngFor="let item of _List; let i=index">
-                     <div class="wm-box-service-wrap wbgcolor" [routerLink]="[ '/Online_Form', item._id]" style="padding:20px">
-                        <img style="height: 200px;" src="http://localhost:4000/API/Uploads/Institutions/{{item.Image?.filename}}" alt="">
-                        <h6 style="margin: 20px 0 0 0;"><a href="#" style="color:#d20d2d"> {{item.Institution}} </a></h6>
-                     </div>
-                 </li>
-                  <!-- <li>
-                      <div class="wm-box-service-wrap wbgcolor" [routerLink]="[ '/Online_Form', 'Technology']" style="padding:20px">
-                          <img style="height: 200px;" src="assets/images/logos/SNS-TECH.png" alt="">
-                          <h6 style="margin: 20px 0 0 0;"><a href="#" style="color:#d20d2d"> SNS College of Technology </a></h6>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'Engineering']" style="padding:20px">
-                          <img style="height: 200px;" src="assets/images/logos/SNS-ENG.png" alt="">
-                          <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d">SNS College of Engineering  </a></h6>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'Arts']" style="padding:20px">
-                              <img style="height: 200px;" src="assets/images/logos/SNS-ARTS.png" alt="">
-                          <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d"> SNS College of Arts & Science  </a></h6>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'Education']" style="padding:20px">
-                              <img style="height: 200px;" src="assets/images/logos/SNS-EDU.png" alt="">
-                          <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d"> SNS College of Education </a></h6>
-                      </div>
-                  </li>
-                  <li>
-                      <div class="wm-box-service-wrap bgcolor" [routerLink]="[ '/Online_Form', 'School']" style="padding:20px">
-                              <img style="height: 200px;" src="assets/images/logos/SNS-ACADEMY.png" alt="">
-                          <h6 style="margin: 20px 0 0 0;"><a href="#"style="color:#d20d2d">SNS Academy </a></h6>
-                      </div>
-                  </li> -->
-              </ul>
-          </div>
-  </div>
-</div>
-<!--// Main Section \\-->
-
-
-      <!--// Main Section \\-->
-      <div class="wm-main-section wm-contact-full" style="padding:30px 0px 30px 0px;background:'';background-color:#4E4F4F">
-          <div class="container">
-              <div class="row">
-                  
-                  <div class="col-md-12">
-                      
-                      <div class="wm-contact-tab">
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="profile">
-                                  <div class="wm-fancy-title"> 
-                                          <h2 style="border-bottom: 3px solid; padding-bottom: 0px;"> Contact  <span> Info </span></h2>
-                                      </div>
-                              <div class="wm-contact-service" >
-                                  <ul class="row">
-                                      <li class="col-md-4" style="border-right: 1px solid #ffffff2b;min-height:345px">
-                                          <span class="wm-service-icon"><i class="wmicon-pin"></i></span>
-                                          <h5 class="wm-color">Address</h5>
-                                          <p style="width:100%;color: #fff;text-align: left;padding-left: 20px;"> The Director, <br> 
-                                              Center for Learning and Teaching, <br>
-                                              SNS Group of Institutions, <br>
-                                              536, Thudiyalur - Saravanampatti Road,
-                                              Chinnavedampatti(Post), Coimbatore - 641 029.
-                                          </p>
-                                      </li>
-                                      <li class="col-md-4" style="border-right: 1px solid #ffffff2b;min-height:345px">
-                                          <span class="wm-service-icon" ><i class="wmicon-phone"></i></span>
-                                          <h5 class="wm-color">Phone & Mobile </h5>
-                                          <p style="width:100%;color: #fff;text-align: left;padding-left: 20px;" >+91-0422-2666264 <br> +91-0422-6465201 <br> +91-9789441919 </p>
-                                      </li>
-                                      <li class="col-md-4">
-                                          <span class="wm-service-icon"><i class="wmicon-letter"></i></span>
-                                          <h5 class="wm-color"> E-mail </h5>
-                                          <p style="width:100%;color: #fff;text-align: left;padding-left: 20px;" >
-                                              <a style="color:#fff" href="mailto:director.clt.sns@gmail.com"> director.clt.sns@gmail.com </a> 
-                                              <br>
-                                              <a style="color:#fff" href="mailto:job.atsns@gmail.com"> job.atsns@gmail.com </a>
-                                          </p>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                  </div>
-
-              </div>
-          </div>
+ 
+<div class="Footer_Section">
+   <div class="container">
+      <h2 style="padding-bottom: 0px; color: #ffffff;text-align: center; margin-bottom: 25px; text-decoration: underline;">Contact <span style="color:#e88220">Info</span></h2>
+         <div class="row">
+         <div class="col-sm-2">
+            <img src="../../assets/images/logos/SNS.png">
+         </div>
+         <div class="col-sm-4">
+            <h5>Address</h5>
+            <p>The Director,<br>
+               Center for Learning and Teaching, <br> 
+               SNS Group of Institutions, <br>
+               536, Thudiyalur - Saravanampatti Road,<br>
+               Chinnavedampatti(Post), Coimbatore - 641 029.
+            </p>
+         </div>
+         <div class="col-sm-3">
+            <h5>Phone & Mobile</h5>
+            <p>+91-0422-2666264 <br> 
+               +91-0422-6465201 <br> 
+               +91-9789441919
+            </p>
+         </div>
+         <div class="col-sm-3">
+            <h5>E-mail</h5>
+            <p><a href="mailto:director.clt.sns@gmail.com" style="font-size: 15px;font-weight: 500;color: #fff;line-height: 1.66;"> director.clt.sns@gmail.com </a> 
+               <br>
+               <a href="mailto:job.atsns@gmail.com" style="font-size: 15px;font-weight: 500;color: #fff;line-height: 1.66;"> job.atsns@gmail.com </a>
+            </p>
+         </div>
       </div>
-      <!--// Main Section \\-->
-
+   </div>
 </div>
-<!--// Main Content \\-->
-
-
-<div class="clearfix"></div>
+<div class="footer_1">
+   <p>©2018 - Sns Group Of <span style="text-align: center;color: #F58220;font-size: 13px;font-weight: 400;">Institutions</span></p>
 </div>
-<!--// Main Wrapper \\-->

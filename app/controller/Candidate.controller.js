@@ -365,7 +365,10 @@ exports.Candidate_Submit = function(req, res) {
             FormType: Basic_Info.FormType.value,
             Current_Status: 'Applied',
             Current_Stage: 'Stage_1',
-            Status: 'Active'
+            Status: 'Active',
+            If_Referred_Accepted: false,
+            If_Referred_From: false,
+            If_Referred_To: false,
          });
          VarCandidatesSchema.save(function(err, result) {
             if(err) {
