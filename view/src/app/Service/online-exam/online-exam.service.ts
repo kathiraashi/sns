@@ -44,6 +44,10 @@ export class OnlineExamService {
       return this.http .post(API_URL + 'Settings/ExamDetails/ExamDetails_List', data)
       .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
    }
+   public InstitutionFor_ExamId(data: any): Observable<any[]>  {
+      return this.http .post(API_URL + 'Candidate/InstitutionFor_ExamId', data)
+      .map(response => { const ReturnResponse = response.json(); return ReturnResponse; }) .catch(this.handleError);
+   }
 
 
 }

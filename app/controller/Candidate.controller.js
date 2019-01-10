@@ -179,7 +179,7 @@ exports.Candidate_Submit = function(req, res) {
          var VarCandidatesSchema = new CandidateModel.CandidatesSchema({
 
             'Basic_Info.Institution': mongoose.Types.ObjectId(Basic_Info.Institution_Id.value),
-            'Basic_Info.Post_Applied': Basic_Info.Post_Applied.name,
+            'Basic_Info.Post_Applied': mongoose.Types.ObjectId(Basic_Info.Post_Applied._id),
             'Basic_Info.Department': mongoose.Types.ObjectId(Basic_Info.Department._id),
             'Basic_Info.Preferred_Subject_1': Basic_Info.Preferred_Subject_1,
             'Basic_Info.Preferred_Subject_2': Basic_Info.Preferred_Subject_2,
@@ -379,7 +379,7 @@ exports.Candidate_Submit = function(req, res) {
                   from: 'SNS Institutions <sns.info@gmail.com>',
                   to: Personal_Info.Email,
                   subject: 'Acknowledgement for Submission of Online application – reg;',
-                  html: Template(Personal_Info.Name, Basic_Info.Post_Applied.name, Basic_Info.Department.Department, result.Ref_ID )
+                  html: Template(Personal_Info.Name, Basic_Info.Post_Applied.Designation, Basic_Info.Department.Department, result.Ref_ID )
               };
               mailgun.messages().send(SendData, function (error, body) {
                   if (error) {
@@ -407,7 +407,10 @@ exports.Online_Exam = function(req, res) {
    }else if(!ReceivingData.OTP || ReceivingData.OTP === '' ) {
       res.status(200).send({Status: false, Message: "One Time Password can not be empty" });
    }else {
-      CandidateModel.OnlineExamSchema.findOne({ Ref_ID: ReceivingData.Ref_Id, OTP: ReceivingData.OTP, '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id)}, {}, {}, function(err, result) {
+      CandidateModel.OnlineExamSchema
+      .findOne({ Ref_ID: ReceivingData.Ref_Id, OTP: ReceivingData.OTP, '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id)}, {}, {})
+      .populate({ path: 'Institution', select: ['Institution', 'Image'] })
+      .exe(function(err, result) {
          if(err) {
             res.status(417).send({status: false, Message: "Some error occurred while Validate the Examination Details!."});
          } else {
@@ -423,6 +426,33 @@ exports.Online_Exam = function(req, res) {
                } else {
                   res.status(200).send({Status: false, Message: "Your Exam Already Finished!" });
                }
+            } else {
+               res.status(200).send({Status: false, Message: "Invalid Login Details!" });
+            }
+         }
+      });
+   }
+}; 
+
+exports.InstitutionFor_ExamId = function(req, res) {
+
+   var CryptoBytes  = CryptoJS.AES.decrypt(req.body.Info, 'SecretKeyIn@123');
+   var ReceivingData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+
+   if(!ReceivingData.Exam_Id || ReceivingData.Exam_Id === '' ) {
+      res.status(200).send({Status: false, Message: "Examination Details can not be empty" });
+   }else {
+      CandidateModel.OnlineExamSchema
+      .findOne({'_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id)}, { Institution: 1}, {})
+      .populate({ path: 'Institution', select: ['Institution', 'Image'] })
+      .exec(function(err, result) {
+         if(err) {
+            res.status(417).send({status: false, Message: "Some error occurred while Validate the Examination Details!."});
+         } else {
+            if (result !== null) {
+               var ReturnData = CryptoJS.AES.encrypt(JSON.stringify(result), 'SecretKeyOut@123');
+               ReturnData = ReturnData.toString();
+               res.status(200).send({Status: true, Response: ReturnData });
             } else {
                res.status(200).send({Status: false, Message: "Invalid Login Details!" });
             }

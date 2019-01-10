@@ -68,16 +68,15 @@ img {
     height: auto;
     max-width: 100%;
 }
-strong {
+/* strong {
     color: #424242;
-}
+} */
 iframe {
     border: none;
     float: left;
     width: 100%;
 }
-.wp-caption, .wp-caption-text, .gallery-caption, .bypostauthor {
-}
+
 .wp-caption.alignleft, .wp-caption.alignnone {
     width: 100%;
 }

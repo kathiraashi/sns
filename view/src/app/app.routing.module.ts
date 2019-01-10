@@ -5,13 +5,19 @@ import { OnlineExamMainComponent } from './online-exam/online-exam-main/online-e
 // Default
     import { HomeComponent } from './home/home.component';
     import { OnlineFormComponent } from './online-form/online-form.component';
+    import { VacanciesComponent } from './vacancies/vacancies.component';
+
 
 const appRoutes: Routes = [
    { path: '',
       component: HomeComponent,
       data: { animation: { value: 'Home', } }
    },
-   { path: 'Online_Form/:Institution_Id',
+   { path: 'Vacancies/:Institution_Id',
+      component: VacanciesComponent,
+      data: { animation: { value: 'Vacancies', } }
+   },
+   { path: 'Online_Form/:Vacancy_Id',
       component: OnlineFormComponent,
       data: { animation: { value: 'Online_Form', } }
    },

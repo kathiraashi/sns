@@ -44,7 +44,10 @@ app.use('/API/Uploads', express.static('Uploads'));
     require('./app/routes/Settings/Institution.routes.js')(app);
     require('./app/routes/Settings/Department.routes.js')(app);
     require('./app/routes/Settings/ExamConfig.routes.js')(app);
+    require('./app/routes/Settings/VacanciesConfig.routes.js')(app);
+    require('./app/routes/Settings/Designation.routes.js')(app);
     require('./app/routes/Settings/ExamDetails.routes.js')(app);
+
 
 app.use(express.static(__dirname + '/view/dist/'));
 

@@ -28,7 +28,7 @@ export class OnlineFormComponent implements OnInit {
   @ViewChild('fileInputSign') fileInputSign: ElementRef;
 
   Institute_Type;
-  Institution_Id;
+  Vacancy_Id;
   Online_Form_Type;
   _Data;
 
@@ -147,6 +147,7 @@ export class OnlineFormComponent implements OnInit {
   ];
 
   Applied_Departments: any[] = [];
+  Applied_Designations: any[] = [];
 
   Grade_Class = [
     {name: 'FWD*'},
@@ -233,16 +234,17 @@ export class OnlineFormComponent implements OnInit {
               private Home_Service: HomeService) {
     this.bsConfig = Object.assign({}, { containerClass: 'theme-red', dateInputFormat: 'DD/MM/YYYY' });
     this.Active_route.params.subscribe(res => {
-      this.Institution_Id = res.Institution_Id;
-      const Data = {Institution_Id : this.Institution_Id };
+      this.Vacancy_Id = res.Vacancy_Id;
+      const Data = {Vacancy_Id : this.Vacancy_Id };
       let Info = CryptoJS.AES.encrypt(JSON.stringify(Data), 'SecretKeyIn@123');
       Info = Info.toString();
-      this.Home_Service.Institution_View({'Info': Info}).subscribe( response => {
+      this.Home_Service.VacancyComplete_Details({'Info': Info}).subscribe( response => {
          if (response['Status'] ) {
             const CryptoBytes  = CryptoJS.AES.decrypt(response['Response'], 'SecretKeyOut@123');
             const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
-            this._Data = DecryptedData;
-            this.Applied_Departments = this._Data.Departments;
+            this._Data = DecryptedData.Institution;
+            this.Applied_Departments = [DecryptedData.Department];
+            this.Applied_Designations = [DecryptedData.Designation];
             this.Institute_Type = this._Data.Institution_Category.Category;
             this.Online_Form_Type = this._Data.Institution_Category.Type;
             this.GoToNext();
@@ -259,12 +261,13 @@ export class OnlineFormComponent implements OnInit {
       Institution_Id: new FormControl({ value: this._Data._id} , Validators.required),
       Institution_Code: new FormControl({ value: this._Data.Institution_Code} , Validators.required),
       FormType: new FormControl({ value: this.Online_Form_Type} , Validators.required),
-      Post_Applied: new FormControl('', Validators.required),
-      Department: new FormControl('', Validators.required),
+      Post_Applied: new FormControl( this.Applied_Designations[0], Validators.required),
+      Department: new FormControl( this.Applied_Departments[0], Validators.required),
       Preferred_Subject_1: new FormControl(''),
       Preferred_Subject_2: new FormControl(''),
       Preferred_Subject_3: new FormControl(''),
     });
+
 
     this.firstFormGroup = this._formBuilder.group({
       Name: new FormControl('', Validators.required),
@@ -867,8 +870,6 @@ export class OnlineFormComponent implements OnInit {
 
   Submit_1() {
     this.FormGroup_Clicked = true;
-    console.log(this.FormGroup.value);
-    
   }
   Submit_2() {
     this.firstFormGroup_Clicked = true;

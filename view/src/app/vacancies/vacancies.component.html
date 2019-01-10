@@ -1,0 +1,66 @@
+<div class="Main_Section">
+   <div class="BgFix"></div>
+   <div class="container-fluid" style="min-width:1140px">
+      <div class="row header-section">
+         <div class="col-md-2">
+            <div class="Logo">
+               <img src="http://139.59.59.41:4000/API/Uploads/Institutions/{{_Data?.Image?.filename}}" alt="">
+            </div>
+         </div>
+         <div class="col-sm-8">
+            <div class="Title" >
+               <h4> {{_Data?.Institution}} </h4>
+               <h5> Available Vacancies </h5>
+            </div>
+         </div>
+         <div class="col-md-2">
+            <div class="Logo">
+               <img [routerLink]="['/']" style="cursor: pointer" src="assets/images/logos/SNS.png" alt="">
+            </div>
+         </div>
+      </div>
+      <br>
+      <div class="row">
+         <div class="col-sm-12">
+            <div class="Boxes" *ngFor="let Vacancy of _Vacancies; let i=index">
+               <div class="Box-Header">
+                  <div class="box-header-left">
+                     <h5> <span> Designation : </span> {{Vacancy?.Designation?.Designation}}  </h5>
+                  </div>
+                  <div class="box-header-center">
+                     <h5> <span> Department : </span> {{Vacancy?.Department?.Department}} </h5>
+                  </div>
+                  <div class="box-header-right">
+                     <span *ngIf="Vacancy.Expand"><i class="material-icons" (click)="Vacancy.Expand = !Vacancy.Expand"> keyboard_arrow_down </i></span>
+                     <span *ngIf="!Vacancy.Expand"><i class="material-icons" (click)="Vacancy.Expand = !Vacancy.Expand"> keyboard_arrow_up </i></span>
+                  </div>
+               </div>
+               <div class="Box-Body" *ngIf="Vacancy.Expand">
+                  <div class="Box-Body-Header">
+                     <h5> Job Description : </h5>
+                  </div>
+                  <div class="Box-Body-Content">
+                     <div [innerHtml]="Vacancy?.JobDescription | innerHtml"> </div>
+                  </div>
+                  <div class="Box-Body-Header">
+                     <h5> Job Responsibility : </h5>
+                  </div>
+                  <div class="Box-Body-Content" >
+                     <div [innerHtml]="Vacancy?.JobResponsibility | innerHtml"> </div>
+                  </div>
+                  <div class="Box-Footer" *ngIf="Vacancy.Expand">
+                     <button mat-raised-button color="primary" [routerLink]="[ '/Online_Form', Vacancy._id]"> Apply Now </button>
+                  </div>
+               </div>
+            </div>
+            <div class="Boxes" *ngIf="_Vacancies.length <= 0">
+               <div class="Box-Body">
+                  <div class="Box-Body-Header" style="padding: 30px; text-align: center;">
+                     <h5> Vacancies Not Available </h5>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

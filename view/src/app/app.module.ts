@@ -24,32 +24,42 @@ import { OnlineFormService } from './Service/online-form/online-form.service';
 import { HomeService } from './Service/home/home.service';
 import { OnlineExamService } from './Service/online-exam/online-exam.service';
 import { OnlineExamMainComponent } from './online-exam/online-exam-main/online-exam-main.component';
+import { VacanciesComponent, InnerHtmlPipe } from './vacancies/vacancies.component';
+
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    OnlineFormComponent,
-    OnlineExamMainComponent
-  ],
-  imports: [
-      // Default Modules
-         BrowserModule,
-         CommonModule,
-         BrowserAnimationsModule,
-         HttpModule,
-         HttpClientModule,
-         FormsModule,
-         ReactiveFormsModule,
-         RouterModule,
+   declarations: [
+      AppComponent,
+      HomeComponent,
+      OnlineFormComponent,
+      OnlineExamMainComponent,
+      VacanciesComponent,
+      InnerHtmlPipe
+   ],
+   imports: [
+      // DefaultModules
+      BrowserModule,
+      CommonModule,
+      BrowserAnimationsModule,
+      HttpModule,
+      HttpClientModule,
+      FormsModule,
+      ReactiveFormsModule,
+      RouterModule,
       AppRoutingModule,
       MaterialModule,
       PrimengModule,
       BsDatepickerModule.forRoot(),
       KeyFilterModule
-  ],
-  providers: [OnlineFormService, HomeService, OnlineExamService],
-  bootstrap: [AppComponent]
+   ],
+   providers: [
+      OnlineFormService,
+      HomeService,
+      OnlineExamService
+   ],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule { }

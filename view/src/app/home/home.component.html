@@ -32,7 +32,7 @@
          <br>  
          <ul>
             <li *ngFor="let item of _List; let i=index">
-               <div [routerLink]="[ '/Online_Form', item._id]" style="padding:20px">
+               <div [routerLink]="[ '/Vacancies', item._id]" style="padding:20px">
                   <img src="http://139.59.59.41:4000/API/Uploads/Institutions/{{item.Image?.filename}}" alt="">
                   <h6> {{item.Institution}} </h6>
                </div>
