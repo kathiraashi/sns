@@ -29,6 +29,7 @@ export class OnlineFormComponent implements OnInit {
 
   Institute_Type;
   Vacancy_Id;
+  Institution_Id;
   Online_Form_Type;
   _Data;
 
@@ -233,24 +234,52 @@ export class OnlineFormComponent implements OnInit {
               private Service: OnlineFormService,
               private Home_Service: HomeService) {
     this.bsConfig = Object.assign({}, { containerClass: 'theme-red', dateInputFormat: 'DD/MM/YYYY' });
-    this.Active_route.params.subscribe(res => {
-      this.Vacancy_Id = res.Vacancy_Id;
-      const Data = {Vacancy_Id : this.Vacancy_Id };
-      let Info = CryptoJS.AES.encrypt(JSON.stringify(Data), 'SecretKeyIn@123');
-      Info = Info.toString();
-      this.Home_Service.VacancyComplete_Details({'Info': Info}).subscribe( response => {
-         if (response['Status'] ) {
-            const CryptoBytes  = CryptoJS.AES.decrypt(response['Response'], 'SecretKeyOut@123');
-            const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
-            this._Data = DecryptedData.Institution;
-            this.Applied_Departments = [DecryptedData.Department];
-            this.Applied_Designations = [DecryptedData.Designation];
-            this.Institute_Type = this._Data.Institution_Category.Category;
-            this.Online_Form_Type = this._Data.Institution_Category.Type;
-            this.GoToNext();
-         }
-      });
-    });
+    const url = router.url.toString();
+    const type = url.split('/');
+    if (type[1] === 'Vacancy_Apply') {
+      this.Active_route.params.subscribe(res => {
+         this.Vacancy_Id = res.Vacancy_Id;
+         const Data = {Vacancy_Id : this.Vacancy_Id };
+         let Info = CryptoJS.AES.encrypt(JSON.stringify(Data), 'SecretKeyIn@123');
+         Info = Info.toString();
+         this.Home_Service.VacancyComplete_Details({'Info': Info}).subscribe( response => {
+            if (response['Status'] ) {
+               const CryptoBytes  = CryptoJS.AES.decrypt(response['Response'], 'SecretKeyOut@123');
+               const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+               this._Data = DecryptedData.Institution;
+               this.Applied_Departments = [DecryptedData.Department];
+               this.Applied_Designations = [DecryptedData.Designation];
+               this.Institute_Type = this._Data.Institution_Category.Category;
+               this.Online_Form_Type = this._Data.Institution_Category.Type;
+               this.GoToNext();
+               setTimeout(() => {
+                  this.FormGroup.controls['Post_Applied'].setValue(this.Applied_Designations[0]);
+                  this.FormGroup.controls['Department'].setValue(this.Applied_Departments[0]);
+               }, 500);
+            }
+         });
+       });
+    } else if (type[1] === 'Online_Form') {
+      this.Active_route.params.subscribe(res => {
+         this.Institution_Id = res.Institution_Id;
+         const Data = {Institution_Id : this.Institution_Id };
+         let Info = CryptoJS.AES.encrypt(JSON.stringify(Data), 'SecretKeyIn@123');
+         Info = Info.toString();
+         this.Home_Service.Institution_View({'Info': Info}).subscribe( response => {
+            if (response['Status'] ) {
+               const CryptoBytes  = CryptoJS.AES.decrypt(response['Response'], 'SecretKeyOut@123');
+               const DecryptedData = JSON.parse(CryptoBytes.toString(CryptoJS.enc.Utf8));
+               this._Data = DecryptedData;
+               this.Applied_Departments = this._Data.Departments;
+               this.Applied_Designations = this._Data.Designation;
+               this.Institute_Type = this._Data.Institution_Category.Category;
+               this.Online_Form_Type = this._Data.Institution_Category.Type;
+               this.GoToNext();
+            }
+         });
+       });
+    }
+
    }
 
    ngOnInit() { }
@@ -261,8 +290,8 @@ export class OnlineFormComponent implements OnInit {
       Institution_Id: new FormControl({ value: this._Data._id} , Validators.required),
       Institution_Code: new FormControl({ value: this._Data.Institution_Code} , Validators.required),
       FormType: new FormControl({ value: this.Online_Form_Type} , Validators.required),
-      Post_Applied: new FormControl( this.Applied_Designations[0], Validators.required),
-      Department: new FormControl( this.Applied_Departments[0], Validators.required),
+      Post_Applied: new FormControl(null, Validators.required),
+      Department: new FormControl(null, Validators.required),
       Preferred_Subject_1: new FormControl(''),
       Preferred_Subject_2: new FormControl(''),
       Preferred_Subject_3: new FormControl(''),

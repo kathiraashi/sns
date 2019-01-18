@@ -49,7 +49,7 @@
                      <div [innerHtml]="Vacancy?.JobResponsibility | innerHtml"> </div>
                   </div>
                   <div class="Box-Footer" *ngIf="Vacancy.Expand">
-                     <button mat-raised-button color="primary" [routerLink]="[ '/Online_Form', Vacancy._id]"> Apply Now </button>
+                     <button mat-raised-button color="primary" [routerLink]="[ '/Vacancy_Apply', Vacancy._id]"> Apply Now </button>
                   </div>
                </div>
             </div>

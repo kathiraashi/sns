@@ -17,7 +17,11 @@ const appRoutes: Routes = [
       component: VacanciesComponent,
       data: { animation: { value: 'Vacancies', } }
    },
-   { path: 'Online_Form/:Vacancy_Id',
+   { path: 'Vacancy_Apply/:Vacancy_Id',
+      component: OnlineFormComponent,
+      data: { animation: { value: 'Vacancy_Apply', } }
+   },
+   { path: 'Online_Form/:Institution_Id',
       component: OnlineFormComponent,
       data: { animation: { value: 'Online_Form', } }
    },

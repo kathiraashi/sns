@@ -1,0 +1,2 @@
+[2019-01-18T20:26:07.657] [ERROR] Error - {"Error_Name":"Mongodb Connection Error","Error_Address":"Server.js - 31","Error_Message":{"name":"MongoError","message":"Authentication failed.","ok":0,"errmsg":"Authentication failed.","code":18,"codeName":"AuthenticationFailed"}}
+[2019-01-18T20:26:07.659] [ERROR] Error - {"Error_Name":"","Error_Address":"","Error_Message":{"name":"MongoError","message":"Authentication failed.","ok":0,"errmsg":"Authentication failed.","code":18,"codeName":"AuthenticationFailed"}}

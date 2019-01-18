@@ -32,9 +32,13 @@
          <br>  
          <ul>
             <li *ngFor="let item of _List; let i=index">
-               <div [routerLink]="[ '/Vacancies', item._id]" style="padding:20px">
+               <div style="padding:20px;">
                   <img src="http://139.59.59.41:4000/API/Uploads/Institutions/{{item.Image?.filename}}" alt="">
                   <h6> {{item.Institution}} </h6>
+                  <div class="btn-group" style="justify-content: space-between; margin-top: 10px;">
+                     <button mat-raised-button color="primary" [routerLink]="[ '/Online_Form', item._id]"> Job Apply </button>
+                     <button mat-raised-button color="accent" [routerLink]="[ '/Vacancies', item._id]"> Vacancies </button>
+                  </div>
                </div>
             </li>
          </ul>

@@ -84,7 +84,7 @@
    align-items: center;
    display: grid;
    border: 1px solid #ebebeb;
-   height: 250px;
+   min-height: 250px;
    width: 30%;
    box-shadow: 1px 1px 10px #d4d4d4;
    background-color: #ffffff;

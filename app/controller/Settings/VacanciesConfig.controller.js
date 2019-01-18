@@ -16,7 +16,7 @@ var mongoose = require('mongoose');
                      { Institution: 1, Department: 1, Designation: 1, JobDescription: 1,JobResponsibility: 1 },
                      { sort: { updatedAt: -1 }} )
             .populate({ path: 'Institution', select: 'Institution' })
-            .populate({ path: 'Department', select: 'Department' })
+            .populate({ path: 'Department', select: ['Department', 'Department_Code'] })
             .populate({ path: 'Designation', select: 'Designation' })
             .exec(function(err, result) {
             if(err) {
@@ -41,7 +41,7 @@ var mongoose = require('mongoose');
          VacanciesConfigModel.VacanciesConfigSchema
             .findOne( { _id: mongoose.Types.ObjectId(ReceivingData.Vacancy_Id)  }, { Institution: 1, Department: 1, Designation: 1}, {} )
             .populate({ path: 'Institution', select: ['Institution', 'Image', 'Institution_Category', 'Institution_Code'] })
-            .populate({ path: 'Department', select: 'Department' })
+            .populate({ path: 'Department', select: ['Department', 'Department_Code'] })
             .populate({ path: 'Designation', select: 'Designation' })
             .exec(function(err, result) {
             if(err) {
