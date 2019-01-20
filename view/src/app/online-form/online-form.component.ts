@@ -933,7 +933,7 @@ export class OnlineFormComponent implements OnInit {
 
             this.Service.Candidate_Submit(this.FormData).subscribe( response => {
                if (response['Status']) {
-                 this.snackBar.open( 'You Application Successfully Submitted', ' ', {
+                 this.snackBar.open( 'Your Application Successfully Submitted', ' ', {
                    horizontalPosition: 'center',
                    duration: 4000,
                    verticalPosition: 'top',

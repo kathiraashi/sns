@@ -1802,6 +1802,7 @@
                                                 <label class="custom-file-upload" [ngClass]="{'Required_Field': Uploaded_File_alert !== '', 'success': Uploaded_File && Uploaded_File !== '' }">
                                                    <input type="file" (change)="onUploadFileChange($event)" #fileInputFile/>
                                                     Upload Cover Letter
+                                                    <span style="color: orange"> *</span>
                                                 </label>
                                                 <p *ngIf="Uploaded_File && Uploaded_File !== ''" style="width:100%;font-size: 14px; color: green; margin: 0px;"> {{Uploaded_File.name}} </p>
                                                 <p *ngIf="Uploaded_File_alert !== ''" style="width:100%;font-size: 14px; color: red; margin: 0px;"> {{Uploaded_File_alert}} </p>
@@ -1812,6 +1813,7 @@
                                                 <label class="custom-file-upload" [ngClass]="{'Required_Field': Uploaded_Photo_alert !== '', 'success': Uploaded_Photo && Uploaded_Photo !== '' }">
                                                    <input type="file" (change)="onUploadPhotoChange($event)" #fileInputPhoto/>
                                                     Upload Profile Photo
+                                                    <span style="color: orange"> *</span>
                                                 </label>
                                                 <p *ngIf="Uploaded_Photo && Uploaded_Photo !== ''" style="width:100%;font-size: 14px; color: green; margin: 0px;"> {{Uploaded_Photo.name}} </p>
                                                 <p *ngIf="Uploaded_Photo_alert !== ''" style="width:100%;font-size: 14px; color: red; margin: 0px;"> {{Uploaded_Photo_alert}} </p>
@@ -1842,6 +1844,7 @@
                                              <label class="custom-file-upload" [ngClass]="{'Required_Field': Uploaded_Sign_alert !== '', 'success': Uploaded_Sign && Uploaded_Sign !== '' }">
                                                 <input type="file" (change)="onUploadSignChange($event)" #fileInputSign/>
                                                  Upload Signature
+                                                <span style="color: orange"> *</span>
                                              </label>
                                              <p *ngIf="Uploaded_Sign_alert !== ''" style="width:100%;font-size: 14px; color: red; margin: 0px;"> {{Uploaded_Sign_alert}} </p>
                                              <p *ngIf="Uploaded_Sign && Uploaded_Sign !== ''" style="width:100%;font-size: 14px; color: green; margin: 0px;"> {{Uploaded_Sign.name}} </p>
