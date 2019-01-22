@@ -18,6 +18,11 @@
                <img [routerLink]="['/']" style="cursor: pointer" src="assets/images/logos/SNS.png" alt="">
             </div>
          </div>
+         <div class="col-md-12">
+            <div class="SubmitButton">
+               <button mat-raised-button color="primary" [routerLink]="[ '/Online_Form', Institution_Id]"> Submit Resume </button>
+            </div>
+         </div>
       </div>
       <br>
       <div class="row">
@@ -57,7 +62,7 @@
                <div class="Box-Body">
                   <div class="Box-Body-Header" style="padding: 30px; text-align: center;">
                      <h5> Vacancies Not Available </h5>
-                     <button mat-raised-button color="primary" [routerLink]="[ '/Online_Form', Institution_Id]"> Submit Resume </button>
+                     <!-- <button mat-raised-button color="primary" [routerLink]="[ '/Online_Form', Institution_Id]"> Submit Resume </button> -->
                   </div>
                </div>
             </div>

@@ -27,5 +27,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
+//   OnClick(value) {
+//    this.
+//   }
 
 }

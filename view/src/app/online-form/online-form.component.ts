@@ -506,6 +506,13 @@ export class OnlineFormComponent implements OnInit {
     if (this.Online_Form_Type === 'Type_4') {
       this.FormGroup.controls['Preferred_Subject_1'].setValidators(Validators.required);
     }
+    if (this.Online_Form_Type === 'Type_3' || this.Online_Form_Type === 'Type_4') {
+       setTimeout(() => {
+         this.secondFormGroup.controls['Bed_Course'].setValue('B.Ed');
+         this.secondFormGroup.controls['Med_Course'].setValue('M.Ed');
+         this.secondFormGroup.updateValueAndValidity();
+       }, 1000);
+    }
 
   }
 
