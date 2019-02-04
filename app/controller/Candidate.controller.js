@@ -366,6 +366,7 @@ exports.Candidate_Submit = function(req, res) {
             Current_Status: 'Applied',
             Current_Stage: 'Stage_1',
             Status: 'Active',
+            ApplicationFromAdmin: false,
             If_Referred_Accepted: false,
             If_Referred_From: false,
             If_Referred_To: false,
@@ -410,7 +411,7 @@ exports.Online_Exam = function(req, res) {
       CandidateModel.OnlineExamSchema
       .findOne({ Ref_ID: ReceivingData.Ref_Id, OTP: ReceivingData.OTP, '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id)}, {}, {})
       .populate({ path: 'Institution', select: ['Institution', 'Image'] })
-      .exe(function(err, result) {
+      .exec(function(err, result) {
          if(err) {
             res.status(417).send({status: false, Message: "Some error occurred while Validate the Examination Details!."});
          } else {
