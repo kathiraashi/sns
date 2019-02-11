@@ -409,7 +409,7 @@ exports.Online_Exam = function(req, res) {
       res.status(200).send({Status: false, Message: "One Time Password can not be empty" });
    }else {
       CandidateModel.OnlineExamSchema
-      .findOne({ Ref_ID: ReceivingData.Ref_Id, OTP: ReceivingData.OTP, '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id)}, {}, {})
+      .findOne({ Ref_ID: ReceivingData.Ref_Id, OTP: ReceivingData.OTP, '_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id), Status: 'Active'}, {}, {})
       .populate({ path: 'Institution', select: ['Institution', 'Image'] })
       .exec(function(err, result) {
          if(err) {
@@ -444,7 +444,7 @@ exports.InstitutionFor_ExamId = function(req, res) {
       res.status(200).send({Status: false, Message: "Examination Details can not be empty" });
    }else {
       CandidateModel.OnlineExamSchema
-      .findOne({'_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id)}, { Institution: 1}, {})
+      .findOne({'_id': mongoose.Types.ObjectId(ReceivingData.Exam_Id), Status: 'Active'}, { Institution: 1}, {})
       .populate({ path: 'Institution', select: ['Institution', 'Image'] })
       .exec(function(err, result) {
          if(err) {
