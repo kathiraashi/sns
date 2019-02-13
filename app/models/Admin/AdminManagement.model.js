@@ -2,16 +2,29 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
+
 var UserManagementSchema = mongoose.Schema({
    User_Name: { type : String , unique: true, required : true },
    User_Password: { type : String, required : true,  },
    Name: { type : String , required : true },
    Phone : { type : String},
    Email: { type : String , required : true },
-   User_Type: { type : String , required : true } ,
-   College: { type : String } ,
-   Department: { type : String } ,
-   Reports_To: { type: Schema.Types.ObjectId, ref: 'User_Management' },
+   User_Type: { type : String },
+   Designation: { type: Schema.Types.ObjectId, ref: 'Designation' },
+   ApplicationCreate_Permission: { type : Boolean },
+   ApplicationManagement_Permission: { type : Boolean },
+   Q_A_Permission: { type : Boolean },
+   OnlineExamUpdate_Permission: { type : Boolean },
+   GD_Permission: { type : Boolean },
+   Technical_Permission: { type : Boolean },
+   Hr_Permission: { type : Boolean },
+   BasicConfig_Permission: { type : Boolean },
+   AdvancedConfig_Permission: { type : Boolean },
+   UserManagement_Permission: { type : Boolean },
+   Institution_Restricted: { type : Boolean },
+   Department_Restricted: { type : Boolean },
+   Institution: { type: Schema.Types.ObjectId, ref: 'Institution' },
+   Department: { type: Schema.Types.ObjectId, ref: 'Department' },
    Created_By: { type: Schema.Types.ObjectId, ref: 'User_Management' },
    Last_ModifiedBy: { type: Schema.Types.ObjectId, ref: 'User_Management' },
    Active_Status: { type : Boolean, required : true },
